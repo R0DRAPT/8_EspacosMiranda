@@ -58,17 +58,25 @@ export default {
   },
 
   mounted() {
+    // Use o username da rota para identificar o usuário
     const usernameToLoad = this.$route.params.username;
 
-    const userData = JSON.parse(localStorage.getItem("Register-Info"));
-    if (userData && userData.username === usernameToLoad) {
-      this.userId = userData.id;
-      this.email = userData.email;
-      this.username = userData.username;
-      this.password = userData.password;
-    } else {
-      console.error("Username não corresponde aos dados no localStorage");
-    }
+    // Faça uma chamada à sua API para buscar os dados do usuário com base no username
+    axios.get(`http://localhost:3000/users?username=${usernameToLoad}`)
+      .then(response => {
+        if (response.data.length > 0) {
+          const userData = response.data[0];
+          this.userId = userData.id;
+          this.email = userData.email;
+          this.username = userData.username;
+          this.password = userData.password;
+        } else {
+          console.error("Usuário não encontrado na API");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao buscar dados do usuário na API", error);
+      });
   },
 
   methods: {
@@ -92,7 +100,7 @@ export default {
               localStorage.removeItem("Register-Info");
 
               // Toastr de sucesso
-              toastr.success("Conta excluída com sucesso.", "Sucesso", {
+              toastr.success("Conta eliminada com sucesso.", "Sucesso", {
                 closeButton: true,
                 positionClass: "toast-bottom-right",
                 progressBar: true,
