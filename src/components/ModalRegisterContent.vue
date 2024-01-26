@@ -7,8 +7,6 @@
     <br>
 
     <form @submit.prevent="register" class="register-form">
-
-      
       <div class="mb-3" style="font-family:Verdana">
         <!-- Email -->
         <div :class="[emailErrorClass]" class="error-container">

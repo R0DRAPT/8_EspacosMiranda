@@ -29,6 +29,18 @@
       "username": "teste",
       "password": "teste",
       "id": 9
+    },
+    {
+      "email": "macedorodrigo63@gmail.com",
+      "username": "1",
+      "password": "1",
+      "id": 10
+    },
+    {
+      "email": "macedorodrigo63@gmail.com",
+      "username": "teste2",
+      "password": "teste2",
+      "id": 11
     }
   ]
 }
