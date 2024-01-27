@@ -129,14 +129,35 @@ export default {
         this.passwordsNotEqual = false;
       }
 
+      // ver se nome ja está a ser utilizado
+
+      let usernameCheckResult = await axios.get(`http://localhost:3000/users?username=${this.username}`);
+
+      if (usernameCheckResult.data.length > 0) {
+        // Username is already taken
+        toastr.error("Nome já utilizado, tente outro.", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+        
+        return;
+      }
+
       // Ligar a BD
-       
+      
       let result = await axios.post("http://localhost:3000/users",{
           email:this.email,
           username:this.username,
           password:this.password,
         });
-
+      
         console.warn(result);
         
         if(result.status==201)
@@ -306,7 +327,7 @@ export default {
     border: 1px solid rgba(255, 0, 0, 0.603);
   }
   to {
-    border: 1px solid rgba(255, 0, 0, 0); /* Altere a opacidade desejada no estado final */
+    border: 1px solid rgba(255, 0, 0, 0);
   }
 }
 
@@ -325,7 +346,7 @@ export default {
     border: 1px solid rgba(255, 0, 0, 0.603);
   }
   to {
-    border: 1px solid rgba(255, 0, 0, 0); /* Altere a opacidade desejada no estado final */
+    border: 1px solid rgba(255, 0, 0, 0);
   }
 }
 </style>

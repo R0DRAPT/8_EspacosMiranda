@@ -2,8 +2,8 @@
   <div>
     <div id="nav">
       <router-link id="logo-url" to="/"><img id="logo" :src="logo" :alt="alt"></router-link>
-      <router-link :to="'/HomeAposLogin/' + username" class="size-and-hover">Página Principal</router-link>
-      <router-link :to="'/ContactosAposLogin/' + username" class="size-and-hover">Contactos</router-link>
+      <router-link :to="'/HomeAposLogin/' + userId" class="size-and-hover">Página Principal</router-link>
+      <router-link :to="'/ContactosAposLogin/' + userId" class="size-and-hover">Contactos</router-link>
       <!-- Dropdown menu -->
       <div class="dropdown">
         <a class="size-and-hover" @click="toggleDropdown">
@@ -11,7 +11,7 @@
         </a>
         <div v-show="showDropdown" class="dropdown-content" @click="hideDropdown">
           <div class="router-link-wrapper">
-            <router-link :to="'/Definicoes/' + username" class="RouterLinksDropDown settings-link">Definições</router-link>
+            <router-link :to="'/Definicoes/' + userId" class="RouterLinksDropDown settings-link">Definições</router-link>
           </div>
           <p @click="logout" class="dropdown-content-item">Logout</p>
         </div>
@@ -29,6 +29,7 @@ export default {
     return {
       showDropdown: false,
       username: "",
+      userId: null,
     };
   },
   mounted() {
@@ -38,7 +39,7 @@ export default {
     }
 
     // Evento no Login
-    this.username = this.$route.params.username;
+    this.userId = this.$route.params.id;
   },
   methods: {
     resetPage() {

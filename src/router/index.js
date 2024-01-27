@@ -16,17 +16,17 @@ const routes = [
   // Apos Login
 
   {
-    path: '/HomeAposLogin/:username',
+    path: '/HomeAposLogin/:id',
     name: 'HomeAposLogin',
     component: () => import(/* webpackChunkName: "HomeAposLogin" */ '../views/AposLogin/HomeAposLogin.vue')
   },
   {
-    path: '/ContactosAposLogin/:username',
+    path: '/ContactosAposLogin/:id',
     name: 'ContactosAposLogin',
     component: () => import(/* webpackChunkName: "ContactosAposLogin" */ '../views/AposLogin/ContactosAposLogin.vue')
   },
   {
-    path: '/Definicoes/:username',
+    path: '/Definicoes/:id',
     name: 'Definicoes',
     component: () => import(/* webpackChunkName: "Definicoes" */ '../views/AposLogin/Definicoes.vue')
   }

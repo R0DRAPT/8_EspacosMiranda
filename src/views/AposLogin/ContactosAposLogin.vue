@@ -78,6 +78,14 @@
         NavbarAposLogin,
     },
 
+    data() {
+      return  {
+        logo_src: "/img/logo.png",
+        app_name: "Espaços Miranda",
+        userId: null,
+      }
+    },
+
     mounted() {
       // Recupera Dados no localStorage
       const userData = JSON.parse(localStorage.getItem("Register-Info"));
@@ -85,15 +93,11 @@
         this.username = userData.username;
       }
 
-      this.username = this.$route.params.username;
+      // Evento no Login
+      this.userId = this.$route.params.id;
     },
   
-    data() {
-      return  {
-        logo_src: "/img/logo.png",
-        app_name: "Espaços Miranda" 
-      }
-    }
+    
   }
   </script>
   

@@ -7,7 +7,7 @@
       <p class="spacebetween paragrafo-main" style="font-family: verdana" >──────</p>
       <p class="spacebetween paragrafo-main"><b style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Agora já pode ver os nossos artigos</b></p>
       <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Se ver algum artigo que goste pode adicionar ao seu carrinho.</p>
-      <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">(Mudar Isto depois)</p>
+      <!-- <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"></p> -->
     </section>
     
     <!-- Row 1 -->
@@ -72,7 +72,8 @@
 
 <script>
 import NavbarAposLogin from '../../components/ComponentsAposLogin/NavbarAposLogin.vue';
-import Banner from "../../components/Banner.vue"
+import Banner from "../../components/Banner.vue";
+import axios from 'axios';
 
 export default {
   name: "HomeAposLogin",
@@ -85,8 +86,9 @@ export default {
   data() {
     return {
       username: "",
+      userId: null,
       logo_src: "/img/logo.png",
-      app_name: "Espaços Miranda" 
+      app_name: "Espaços Miranda"
     };
   },
 
@@ -98,7 +100,10 @@ export default {
     }
 
     // Evento no Login
-    this.username = this.$route.params.username;
+    this.userId = this.$route.params.id;
+
+    // Fetch user details based on userId
+    this.fetchUserDetails();
   },
 
   methods: {
@@ -122,6 +127,20 @@ export default {
       const productNameElement = event.target.querySelector('.product-name');
       if (productNameElement) {
         productNameElement.style.opacity = 0;
+      }
+    },
+    
+    async fetchUserDetails() {
+      try {
+        const response = await axios.get(`http://localhost:3000/users/${this.userId}`);
+        const user = response.data;
+
+        if (user) {
+          // Update the username
+          this.username = user.username;
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
       }
     },
   },

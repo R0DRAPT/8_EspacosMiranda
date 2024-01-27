@@ -63,7 +63,6 @@ export default {
       password: "",
       showRegisterModal: false,
       showPassword: false,
-
       showLoginModal: false,
     };
   },
@@ -91,7 +90,7 @@ export default {
 
           this.$emit('close-modal');
           this.$emit('user-logged-in', { username: user.username });
-          this.$router.push({ name: 'HomeAposLogin', params: { username: user.username } });
+          this.$router.push({ name: 'HomeAposLogin', params: { id: user.id } });
 
         } else {
 
