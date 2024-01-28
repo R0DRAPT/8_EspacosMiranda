@@ -13,58 +13,82 @@
     <!-- Row 1 -->
     <section style="color: white; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin-top: 30px; "> 
       <!-- SOFÁS -->
-      <div class="hover-box" @mouseover="showProductName('SOFÁS', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/Sofas.png" alt="SOFÁS">
-        <p class="product-name">SOFÁS</p>
-      </div>
-      <!-- CADEIRÕES -->
-      <div class="hover-box" @mouseover="showProductName('CADEIRÕES', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/Cadeiroes.png" alt="CADEIRÕES">
-        <p class="product-name">CADEIRÕES</p>
-      </div>
-      <!-- CONSOLAS -->
-      <div class="hover-box" @mouseover="showProductName('CONSOLAS', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/Consolas.png" alt="CONSOLAS">
-        <p class="product-name">CONSOLAS</p>
-      </div>
+      <router-link :to="{ name: 'Sofas', params: { id: userId  } }">
+        <div class="hover-box" @mouseover="showProductName('SOFÁS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Sofas.png" alt="SOFÁS">
+          <p class="product-name">SOFÁS</p>
+        </div>
+      </router-link>
+
+      <!-- Cadeirões -->
+      <router-link :to="{ name: 'Cadeiroes', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('CADEIRÕES', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Cadeiroes.png" alt="CADEIRÕES">
+          <p class="product-name">CADEIRÕES</p>
+        </div>
+      </router-link>
+
+      <!-- Consolas -->
+      <router-link :to="{ name: 'Consolas', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('CONSOLAS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Consolas.png" alt="CONSOLAS">
+          <p class="product-name">CONSOLAS</p>
+        </div>
+      </router-link>
     </section>
 
     <!-- Row 2 -->
     <section style="color: white; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">  
-      <!-- PECAS DE DECORAÇÃO -->
-      <div class="hover-box" @mouseover="showProductName('PECAS DE DECORAÇÃO', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/PecasDecoracao.png" alt="PECAS DE DECORAÇÃO">
-        <p class="product-name">PECAS DE DECORAÇÃO</p>
-      </div>
-      <!-- CADEIRAS -->
-      <div class="hover-box" @mouseover="showProductName('CADEIRAS', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/Cadeiras.png" alt="CADEIRAS">
-        <p class="product-name">CADEIRAS</p>
-      </div>
+      <!-- Pecas de Decoração -->
+      <router-link :to="{ name: 'PecasDecoracao', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('PECAS DE DECORAÇÃO', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/PecasDecoracao.png" alt="PECAS DE DECORAÇÃO">
+          <p class="product-name">PECAS DE DECORAÇÃO</p>
+        </div>
+      </router-link>
+
+      <!-- Cadeiras -->
+      <router-link :to="{ name: 'Cadeiras', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('CADEIRAS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Cadeiras.png" alt="CADEIRAS">
+          <p class="product-name">CADEIRAS</p>
+        </div>
+      </router-link>
+
       <!-- BANQUETAS -->
-      <div class="hover-box" @mouseover="showProductName('BANQUETAS', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/Banquetas.png" alt="BANQUETAS">
-        <p class="product-name">BANQUETAS</p>
-      </div>
+      <router-link :to="{ name: 'Banquetas', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('BANQUETAS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Banquetas.png" alt="BANQUETAS">
+          <p class="product-name">BANQUETAS</p>
+        </div>
+      </router-link>
     </section>
 
     <!-- Row 3 -->
     <section style="color: white; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin-bottom: 30px;">
-      <!-- MESAS DE CABECEIRA -->
-      <div class="hover-box" @mouseover="showProductName('MESAS DE CABECEIRA', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/MesasCabeceira.png" alt="MESAS DE CABECEIRA">
-        <p class="product-name">MESAS DE CABECEIRA</p>
-      </div>
-      <!-- CAMAS -->
-      <div class="hover-box" @mouseover="showProductName('CAMAS', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/Camas.png" alt="CAMAS">
-        <p class="product-name">CAMAS</p>
-      </div>
-      <!-- CÓMODAS -->
-      <div class="hover-box" @mouseover="showProductName('CÓMODAS', $event)" @mouseleave="hideProductName($event)">
-        <img src="/img/Catalogo/Comodas.png" alt="CÓMODAS">
-        <p class="product-name">CÓMODAS</p>
-      </div>
+      <!-- Mesas de Cabeceira -->
+      <router-link :to="{ name: 'MesasCabeceira', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('MESAS DE CABECEIRA', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/MesasCabeceira.png" alt="MESAS DE CABECEIRA">
+          <p class="product-name">MESAS DE CABECEIRA</p>
+        </div>
+      </router-link>
+
+      <!-- Camas -->
+      <router-link :to="{ name: 'Camas', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('CAMAS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Camas.png" alt="CAMAS">
+          <p class="product-name">CAMAS</p>
+        </div>
+      </router-link>
+
+      <!-- Cómodas -->
+      <router-link :to="{ name: 'Comodas', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('CÓMODAS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Comodas.png" alt="CÓMODAS">
+          <p class="product-name">CÓMODAS</p>
+        </div>
+      </router-link>
     </section>
 
   </div>

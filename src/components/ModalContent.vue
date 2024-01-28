@@ -10,7 +10,7 @@
 
       <div class="mb-3" style="font-family:Verdana">
         <!-- Utilizador -->
-        <input type="text" class="form-control" id="username" placeholder="Nome de Utilizador" v-model="username" required>
+        <input type="text" class="form-control" id="username" placeholder="Nome de Utilizador" v-model="username" autocomplete="off" required>
       </div>
 
       <div style="margin: 2px;"></div>
@@ -18,7 +18,7 @@
       <div class="mb-3" style="font-family:Verdana">
         <!-- Password -->
         <div class="password-container">
-          <input type="password" class="form-control" id="password" placeholder="Password" v-model="password" required>
+          <input type="password" class="form-control" id="password" placeholder="Password" v-model="password" autocomplete="off" required>
           <span class="eye-icon" @click="togglePasswordVisibility">&#128065;</span>
         </div>
       </div>

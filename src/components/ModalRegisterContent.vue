@@ -10,7 +10,7 @@
       <div class="mb-3" style="font-family:Verdana">
         <!-- Email -->
         <div :class="[emailErrorClass]" class="error-container">
-          <input type="text" class="form-control" id="email" placeholder="Email" v-model="email" required>
+          <input type="text" class="form-control" id="email" placeholder="Email" v-model="email" autocomplete="off" required>
         </div>
         <!-- erro email sem "@" -->
         <div v-if="emailValidationFailed" class="error-message">O email tem que conter "@".</div>
@@ -20,7 +20,7 @@
 
       <div class="mb-3" style="font-family:Verdana">
         <!-- Utilizador -->
-        <input type="text" class="form-control" id="username" placeholder="Nome de Utilizador" v-model="username" required>
+        <input type="text" class="form-control" id="username" placeholder="Nome de Utilizador" v-model="username" autocomplete="off" required>
       </div>
 
       <div style="margin: 2px;"></div>
@@ -29,7 +29,7 @@
         <!-- Password -->
         <div :class="[passwordErrorClass]" class="error-container">
           <div class="password-container">
-            <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" placeholder="Password" v-model="password" required>
+            <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" placeholder="Password" v-model="password" autocomplete="off" required>
             <span class="eye-icon" @click="togglePasswordVisibility">&#128065;</span>
           </div>
         </div>
@@ -39,7 +39,7 @@
         <!-- Confirm Password -->
         <div :class="[passwordErrorClass]" class="error-container">
         <div class="password-container">
-          <input :type="showConfirmPassword ? 'text' : 'password'" class="form-control" id="confirm_password" placeholder="Confirmar Password" v-model="confirm_password" required>
+          <input :type="showConfirmPassword ? 'text' : 'password'" class="form-control" id="confirm_password" placeholder="Confirmar Password" v-model="confirm_password" autocomplete="off" required>
           <span class="eye-icon" @click="toggleConfirmPasswordVisibility">&#128065;</span>
         </div>
       </div>

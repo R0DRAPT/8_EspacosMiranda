@@ -17,9 +17,15 @@
     },
     {
       "email": "macedorodrigo63@gmail.com",
+      "username": "1",
+      "password": "1",
+      "id": 10
+    },
+    {
+      "email": "aaa@gmail.com",
       "username": "11",
       "password": "11",
-      "id": 10
+      "id": 11
     }
   ]
 }
