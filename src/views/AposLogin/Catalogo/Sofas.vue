@@ -7,42 +7,52 @@
     <br /><br />
     <h1 class="tituloSofas">Sofás</h1>
     <br />
-    
-    <!-- Checkbox for each column -->
-    <div style="color: white;" >
-      <label>
-        <input type="checkbox" v-model="columnVisibility.nome" />
-        Nome
-      </label>
-      <label>
-        <input type="checkbox" v-model="columnVisibility.tipo" />
-        Tipo
-      </label>
-      <label>
-        <input type="checkbox" v-model="columnVisibility.material" />
-        Material
-      </label>
-      <label>
-        <input type="checkbox" v-model="columnVisibility.extra" />
-        Extra
-      </label>
+
+    <!-- Dropdown-Filtro -->
+    <div class="dropdown">
+        <button class="btn btn-secondary btn-MostrarTudo" @click="mostrarTodosCampos">
+          Mostrar Campos
+        </button>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="checkboxDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown">
+          Filtrar Campos
+        </button>
+      <div class="dropdown-menu" aria-labelledby="checkboxDropdown">
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.nome" class="custom-checkbox" />
+          Nome
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.tipo" class="custom-checkbox" />
+          Tipo
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.material" class="custom-checkbox" />
+          Material
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.extra" class="custom-checkbox" />
+          Extra
+        </label>
+      </div>
     </div>
-    <!-- Tabela Informação Sofas -->
+        <!-- Tabela Informação Sofas -->
     <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col" id="id">#</th>
+          <th>
+            <label>#</label>
+          </th>
           <th scope="col" v-if="columnVisibility.nome">
-            <button @click="toggleFilter('nome')" class="CamposSofas">Nome</button>
+            <label class="CamposSofas">Nome</label>
           </th>
           <th scope="col" v-if="columnVisibility.tipo">
-            <button @click="toggleFilter('tipo')" class="CamposSofas">Tipo</button>
+            <label class="CamposSofas">Tipo</label>
           </th>
           <th scope="col" v-if="columnVisibility.material">
-            <button @click="toggleFilter('material')" class="CamposSofas">Material</button>
+            <label class="CamposSofas">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.extra">
-            <button @click="toggleFilter('extra')" class="CamposSofas">Extra</button>
+            <label class="CamposSofas">Extra</label>
           </th>
         </tr>
       </thead>
@@ -110,10 +120,29 @@ export default {
   },
 
   methods: {
-    toggleFilter(key) {
+    toggleDropdown() {
+      const dropdown = document.getElementById('checkboxDropdown');
+      if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+      } else {
+        dropdown.classList.add('show');
+      }
+    },
+
+    toggleFilter(key, event) {
       this.filterKey = this.filterKey === key ? null : key;
     },
-  },
+
+    handleItemClick(event) {
+      event.stopPropagation();
+    },
+
+    mostrarTodosCampos() {
+      for (const key in this.columnVisibility) {
+        this.columnVisibility[key] = true;
+      }
+    },
+  }
 }
 </script>
   
@@ -134,6 +163,39 @@ export default {
   font-family: 'Gill Sans MT', 'Trebuchet MS', sans-serif;
   font-size: 50px;
 }
+
+/* DropDown-Filtro */
+
+.btn-MostrarTudo {
+  margin-right: 8px; /* Adiciona margem à direita para separar os botões */
+  margin-left: 1285px;
+  margin-bottom: 3px;
+}
+
+.dropdown-toggle {
+  margin-bottom: 3px;
+}
+
+.custom-checkbox {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.dropdown-menu {
+  background-color: #333;
+}
+
+.dropdown-item {
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item input {
+  margin-right: 8px;
+}
+
+/* Tabela */
 
 .table {
     width: 70%;
@@ -162,13 +224,8 @@ th, td {
 .CamposSofas {
     background-color: transparent;
     border: none;
-    cursor: pointer;
+    cursor: default;
     font-weight: bold;
-    transition: color 0.3s;
     font-size: 18px;
-}
-
-.CamposSofas:hover {
-  color: #b49660;
 }
 </style>
