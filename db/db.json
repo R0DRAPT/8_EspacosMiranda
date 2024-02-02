@@ -2,6 +2,14 @@
   "routes": {
     "/users/:id": "users"
   },
+  "admin": [
+    {
+      "email": "macedorodrigo63@gmail.com",
+      "username": "admin",
+      "password": "admin",
+      "id": 999
+    }
+  ],
   "users": [
     {
       "email": "macedorodrigo63@gmail.com",
@@ -26,6 +34,36 @@
       "username": "11",
       "password": "11",
       "id": 11
+    },
+    {
+      "email": "macedorodrigo63@gmail.com",
+      "username": "Rodrigo",
+      "password": "123",
+      "id": 12
+    }
+  ],
+
+  "Items_Sofas": [
+    {
+      "id": 1,
+      "nome": "Sofá A",
+      "material": "Couro",
+      "tipo": "Confortável",
+      "extra": "extra1"
+    },
+    {
+      "id": 2,
+      "nome": "Sofá B",
+      "material": "Tecido",
+      "tipo": "Moderno",
+      "extra": "extra2"
+    },
+    {
+      "id": 3,
+      "nome": "Sofá C",
+      "material": "Veludo",
+      "tipo": "Clássico",
+      "extra": "extra3"
     }
   ]
 }

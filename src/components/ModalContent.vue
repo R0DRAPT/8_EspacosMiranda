@@ -69,7 +69,29 @@ export default {
   methods: {
     async login() {
       try {
-        // Verificar se o usuário existe na API
+        // Verificar se o utilizador é o admin
+        const isAdmin = this.username === "admin" && this.password === "admin";
+
+        if (isAdmin) {
+          // login como admin
+          toastr.success("Login como admin efetuado com sucesso.", "Sucesso!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-success",
+          });
+
+          this.$emit('close-modal');
+          this.$router.push({ name: 'Admin', params: { id: 999 } });
+          return;
+        }
+
+        // Verificar se o utilizador existe na API users
         const response = await axios.get(`http://localhost:3000/users?username=${this.username}&password=${this.password}`);
         const user = response.data[0];
 
@@ -95,7 +117,7 @@ export default {
         } else {
 
           // Credenciais inválidas
-          toastr.error("Credenciais inválidas. Usuário não encontrado.", "Erro!", {
+          toastr.error("Credenciais inválidas. Utilizador não encontrado.", "Erro!", {
             closeButton: true,
             positionClass: "toast-bottom-right",
             progressBar: true,

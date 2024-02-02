@@ -5,7 +5,7 @@
       <router-link :to="'/HomeAposLogin/' + userId" class="size-and-hover">Página Principal</router-link>
       <router-link :to="'/ContactosAposLogin/' + userId" class="size-and-hover">Contactos</router-link>
       <!-- Dropdown menu -->
-      <div class="dropdown">
+      <div class="dropdown">  
         <a class="size-and-hover" @click="toggleDropdown">
           <i class="fa fa-bars" aria-hidden="true"></i>
         </a>

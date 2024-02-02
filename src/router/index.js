@@ -31,6 +31,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "Definicoes" */ '../views/AposLogin/Definicoes.vue')
   },
 
+  // Admin
+
+  {
+    path: '/Admin/:id',
+    name: 'Admin',
+    component: () => import(/* webpackChunkName: "Admin" */ '../views/AposLogin/PastaAdmin/Admin.vue')
+  },
+
+  {
+    path: '/DefinicoesAdmin/:id',
+    name: 'DefinicoesAdmin',
+    component: () => import(/* webpackChunkName: "DefinicoesAdmin" */ '../views/AposLogin/PastaAdmin/DefinicoesAdmin.vue')
+  },
+
   // Catálogo
 
   {

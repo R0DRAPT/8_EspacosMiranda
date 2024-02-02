@@ -97,7 +97,7 @@ export default {
             // Remove a classe após a conclusão da animação (após 0.5 segundos)
             setTimeout(() => {
               this.emailValidationFailed = false;
-              this.emailErrorClass = ""; // Remover a classe de erro após a animação
+              this.emailErrorClass = "";
             }, 500);
           }, 4000);
 
@@ -120,7 +120,7 @@ export default {
           setTimeout(() => {
             this.passwordsNotEqual = false;
             this.passwordsNotEqualClass = '';
-            this.passwordErrorClass = ''; // Remover a classe de erro após a animação
+            this.passwordErrorClass = '';
           }, 500);
         }, 4000);
 
@@ -133,9 +133,25 @@ export default {
 
       let usernameCheckResult = await axios.get(`http://localhost:3000/users?username=${this.username}`);
 
+      if (this.username.toLowerCase() === "admin" && this.password === "admin") {
+        toastr.error("Erro ao criar conta", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+
+        return;
+      }
+
       if (usernameCheckResult.data.length > 0) {
-        // Username is already taken
-        toastr.error("Nome já utilizado, tente outro.", "Erro!", {
+        // Utilizador Já está a ser Utilizado
+        toastr.error("Nome de utilizador já utilizado. Tente outro.", "Erro!", {
           closeButton: true,
           positionClass: "toast-bottom-right",
           progressBar: true,
