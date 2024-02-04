@@ -250,6 +250,7 @@ export default {
 .modal-content {
   padding: 20px;
   position: relative;
+  margin: 0 auto
 }
 
 .register-form {

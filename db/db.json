@@ -40,30 +40,68 @@
       "username": "Rodrigo",
       "password": "123",
       "id": 12
+    },
+    {
+      "email": "testeteste@gmail.com",
+      "username": "123",
+      "password": "123",
+      "id": 13
     }
   ],
-
-  "Items_Sofas": [
+  "Sofas": [
     {
       "id": 1,
       "nome": "Sofá A",
       "material": "Couro",
       "tipo": "Confortável",
-      "extra": "extra1"
+      "preco": "1€",
+      "imagem": "Banner1.jpg"
     },
     {
       "id": 2,
       "nome": "Sofá B",
       "material": "Tecido",
       "tipo": "Moderno",
-      "extra": "extra2"
+      "preco": "1€",
+      "imagem": "sofacama.png"
     },
     {
       "id": 3,
       "nome": "Sofá C",
       "material": "Veludo",
       "tipo": "Clássico",
-      "extra": "extra3"
+      "preco": "1€",
+      "imagem": "imagem3"
+    },
+    {
+      "id": 3,
+      "nome": "Sofá D",
+      "material": "teste",
+      "tipo": "teste",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
+  ],
+  
+  "Cadeiroes": [
+    {
+      "id": 1,
+      "nome": "Cadeirao A",
+      "material": "Couro",
+      "tipo": "Confortável",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
+  ],
+
+  "Consolas": [
+    {
+      "id": 1,
+      "nome": "Consola A",
+      "material": "Couro",
+      "tipo": "Confortável",
+      "preco": "1€",
+      "imagem": "sofacama.png"
     }
   ]
 }

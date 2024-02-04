@@ -10,12 +10,15 @@
 
     <!-- Dropdown-Filtro -->
     <div class="dropdown">
+      
         <button class="btn btn-secondary btn-MostrarTudo" @click="mostrarTodosCampos">
           Mostrar Campos
         </button>
+
         <button class="btn btn-secondary dropdown-toggle" type="button" id="checkboxDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown">
           Filtrar Campos
         </button>
+
       <div class="dropdown-menu" aria-labelledby="checkboxDropdown">
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.nome" class="custom-checkbox" />
@@ -30,8 +33,12 @@
           Material
         </label>
         <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibility.extra" class="custom-checkbox" />
-          Extra
+          <input type="checkbox" v-model="columnVisibility.preco" class="custom-checkbox" />
+          Preço
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.imagem" class="custom-checkbox" />
+          Imagem
         </label>
       </div>
     </div>
@@ -51,8 +58,11 @@
           <th scope="col" v-if="columnVisibility.material">
             <label class="CamposSofas">Material</label>
           </th>
-          <th scope="col" v-if="columnVisibility.extra">
-            <label class="CamposSofas">Extra</label>
+          <th scope="col" v-if="columnVisibility.preco">
+            <label class="CamposSofas">Preço</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.imagem">
+            <label class="CamposSofas">Imagem</label>
           </th>
         </tr>
       </thead>
@@ -62,11 +72,31 @@
           <td v-if="columnVisibility.nome">{{ item.nome }}</td>
           <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
           <td v-if="columnVisibility.material">{{ item.material }}</td>
-          <td v-if="columnVisibility.extra">{{ item.extra }}</td>
+          <td v-if="columnVisibility.preco">{{ item.preco }}</td>
+          <td v-if="columnVisibility.imagem">
+            <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
+          </td>
         </tr>
       </tbody>
     </table>
-    <br /><br />
+
+    <!-- Modal para exibir a imagem -->
+      <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel">{{ getItemNome(imagemModalSrc) }}</h5>
+              <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <img :src="imagemModalSrc" alt="Imagem">
+            </div>
+          </div>
+        </div>
+      </div>
+    <br/><br/>
   </div>
 </template>
 
@@ -86,11 +116,13 @@ export default {
       logo_src: "/img/logo.png",
       app_name: "Espaços Miranda",
       userId: null,
+      imagemModalSrc: '',
       columnVisibility: {
         nome: true,
         tipo: true,
         material: true,
-        extra: true,
+        preco: true,
+        imagem: true,
       },
       // Imagens
       BannerSofas: "/img/Catalogo/BannersCatalogo/BannerSofas.png",
@@ -108,14 +140,14 @@ export default {
     // Evento no Login
     this.userId = this.$route.params.id;
 
-    // Fazer solicitação GET para Items_Sofas
+    // Fazer solicitação GET para Sofas
     axios
-      .get('http://localhost:3000/Items_Sofas')
+      .get('http://localhost:3000/Sofas')
       .then((response) => {
         this.items = response.data;
       })
       .catch((error) => {
-        console.error('Erro ao obter dados de Items_Sofas:', error);
+        console.error('Erro ao obter dados de Sofas:', error);
       });
   },
 
@@ -141,6 +173,20 @@ export default {
       for (const key in this.columnVisibility) {
         this.columnVisibility[key] = true;
       }
+    },
+
+    getItemNome(imagemSrc) {
+      const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
+      return item ? item.nome : 'Imagem';
+    },
+
+    verImagem(imagemSrc) {
+      this.imagemModalSrc = `/img/catalogo/ImagensArtigos/${imagemSrc}`;
+      $('#imagemModal').modal('show');
+    },
+
+    closeModal() {
+      $('#imagemModal').modal('hide');
     },
   }
 }
@@ -172,18 +218,22 @@ export default {
   margin-bottom: 3px;
 }
 
-.dropdown-toggle {
+/* Btn-FiltrarCampos */
+
+.dropdown-toggle { 
   margin-bottom: 3px;
 }
 
 .custom-checkbox {
   margin-right: 8px;
   vertical-align: middle;
+  
 }
 
 .dropdown-menu {
   background-color: #333;
 }
+
 
 .dropdown-item {
   color: white;
@@ -227,5 +277,36 @@ th, td {
     cursor: default;
     font-weight: bold;
     font-size: 18px;
+}
+
+/* Modal */
+
+.modal-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vh;
+  margin: 0 auto;
+}
+
+.modal-body img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
+}
+
+.modal-content {
+  width: auto;
+  max-width: 90%; /* Ajuste a largura máxima conforme necessário */
+  height: auto;
+  max-height: 90vh; /* Ajuste a altura máxima conforme necessário */
 }
 </style>
