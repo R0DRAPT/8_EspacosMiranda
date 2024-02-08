@@ -103,5 +103,71 @@
       "preco": "1€",
       "imagem": "sofacama.png"
     }
+  ],
+
+  "PecasDecor": [
+    {
+      "id": 1,
+      "nome": "Peca A ",
+      "material": "Gesso",
+      "tipo": "Folha",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
+  ],
+
+  "Cadeiras": [
+    {
+      "id": 1,
+      "nome": "Cadeira A ",
+      "material": "Madeira",
+      "tipo": "Pequena",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
+  ],
+
+  "Banquetas": [
+    {
+      "id": 1,
+      "nome": "Banqueta A ",
+      "material": "Pelo",
+      "tipo": "Grande",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
+  ],
+
+  "MesasCabeceira": [
+    {
+      "id": 1,
+      "nome": "Mesas de Cabeceira A ",
+      "material": "Madeira",
+      "tipo": "Escuro",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
+  ],
+
+  "Camas": [
+    {
+      "id": 1,
+      "nome": "Cama A ",
+      "material": "Madeira",
+      "tipo": "Escuro",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
+  ],
+
+  "Mesas": [
+    {
+      "id": 1,
+      "nome": "Mesas A ",
+      "material": "Madeira",
+      "tipo": "Escuro",
+      "preco": "1€",
+      "imagem": "sofacama.png"
+    }
   ]
 }

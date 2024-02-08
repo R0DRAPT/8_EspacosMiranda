@@ -125,7 +125,7 @@ export default {
         imagem: true,
       },
       // Imagens
-      BannerSofas: "/img/Catalogo/BannersCatalogo/BannerSofas.png",
+      BannerSofas: "/img/Catalogo/BannersCatalogo/BannerSofas.jpg",
       // Dados na Tabela
       items: [],
     }

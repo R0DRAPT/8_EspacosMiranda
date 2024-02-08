@@ -125,7 +125,7 @@ export default {
         imagem: true,
       },
       // Imagens
-      BannerCadeiroes: "/img/Catalogo/BannersCatalogo/BannerCadeiroes.png",
+      BannerCadeiroes: "/img/Catalogo/BannersCatalogo/BannerCadeiroes.jpg",
       // Dados na Tabela
       items: [],
     }

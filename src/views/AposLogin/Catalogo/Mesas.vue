@@ -3,9 +3,9 @@
     <NavbarAposLogin :logo="logo_src" :alt="app_name" />
     <br />
     <!-- Banner -->
-    <img class="Banner" :src="BannerMesasCabeceira" alt="Banner" />
+    <img class="Banner" :src="BannerMesas" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Mesas De Cabeceira</h1>
+    <h1 class="titulo">Mesas</h1>
     <br />
 
     <!-- Dropdown-Filtro -->
@@ -105,7 +105,7 @@ import NavbarAposLogin from '../../../components/ComponentsAposLogin/NavbarAposL
 import axios from 'axios';
 
 export default {
-  name: "MesasCabeceira",
+  name: "Mesas",
 
   components: {
     NavbarAposLogin,
@@ -125,7 +125,7 @@ export default {
         imagem: true,
       },
       // Imagens
-      BannerMesasCabeceira: "/img/Catalogo/BannersCatalogo/BannerMesasCabeceira.jpg",
+      BannerMesas: "/img/Catalogo/BannersCatalogo/BannerMesas.jpg",
       // Dados na Tabela
       items: [],
     }
@@ -142,7 +142,7 @@ export default {
 
     // Fazer solicitação GET
     axios
-      .get('http://localhost:3000/MesasCabeceira')
+      .get('http://localhost:3000/Mesas')
       .then((response) => {
         this.items = response.data;
       })

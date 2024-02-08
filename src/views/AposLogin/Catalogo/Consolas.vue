@@ -125,7 +125,7 @@ export default {
         imagem: true,
       },
       // Imagens
-      BannerConsolas: "/img/Catalogo/BannersCatalogo/BannerConsolas.png",
+      BannerConsolas: "/img/Catalogo/BannersCatalogo/BannerConsolas.jpg",
       // Dados na Tabela
       items: [],
     }
@@ -214,7 +214,7 @@ export default {
 /* DropDown-Filtro */
 
 .btn-MostrarTudo {
-  margin-right: 8px; /* Adiciona margem à direita para separar os botões */
+  margin-right: 8px;
   margin-left: 1285px;
   margin-bottom: 3px;
 }

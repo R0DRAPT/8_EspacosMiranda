@@ -82,11 +82,11 @@
         </div>
       </router-link>
 
-      <!-- Cómodas -->
-      <router-link :to="{ name: 'Comodas', params: { id: userId } }">
-        <div class="hover-box" @mouseover="showProductName('CÓMODAS', $event)" @mouseleave="hideProductName($event)">
-          <img src="/img/Catalogo/Comodas.png" alt="CÓMODAS">
-          <p class="product-name">CÓMODAS</p>
+      <!-- Mesas -->
+      <router-link :to="{ name: 'Mesas', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('MESAS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Mesas.png" alt="MESAS">
+          <p class="product-name">MESAS</p>
         </div>
       </router-link>
     </section>

@@ -96,9 +96,9 @@ const routes = [
   },
 
   {
-    path: '/Comodas/:id',
-    name: 'Comodas',
-    component: () => import(/* webpackChunkName: "Comodas" */ '../views/AposLogin/Catalogo/Comodas.vue')
+    path: '/Mesas/:id',
+    name: 'Mesas',
+    component: () => import(/* webpackChunkName: "Mesas" */ '../views/AposLogin/Catalogo/Mesas.vue')
   },
 ]
 
