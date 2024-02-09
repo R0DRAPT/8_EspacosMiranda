@@ -45,6 +45,62 @@ const routes = [
     component: () => import(/* webpackChunkName: "DefinicoesAdmin" */ '../views/AposLogin/PastaAdmin/DefinicoesAdmin.vue')
   },
 
+  // CatálogoAdmin
+
+  {
+    path: '/SofasAdmin/:id',
+    name: 'SofasAdmin',
+    component: () => import(/* webpackChunkName: "SofasAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/SofasAdmin.vue')
+  },
+
+  {
+    path: '/CadeiroesAdmin/:id',
+    name: 'CadeiroesAdmin',
+    component: () => import(/* webpackChunkName: "CadeiroesAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/CadeiroesAdmin.vue')
+  },
+
+  {
+    path: '/ConsolasAdmin/:id',
+    name: 'ConsolasAdmin',
+    component: () => import(/* webpackChunkName: "ConsolasAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/ConsolasAdmin.vue')
+  },
+
+  {
+    path: '/PecasDecoracaoAdmin/:id',
+    name: 'PecasDecoracaoAdmin',
+    component: () => import(/* webpackChunkName: "PecasDecoracaoAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/PecasDecoracaoAdmin.vue')
+  },
+
+  {
+    path: '/CadeirasAdmin/:id',
+    name: 'CadeirasAdmin',
+    component: () => import(/* webpackChunkName: "CadeirasAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/CadeirasAdmin.vue')
+  },
+
+  {
+    path: '/BanquetasAdmin/:id',
+    name: 'BanquetasAdmin',
+    component: () => import(/* webpackChunkName: "BanquetasAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/BanquetasAdmin.vue')
+  },
+
+  {
+    path: '/MesasCabeceiraAdmin/:id',
+    name: 'MesasCabeceiraAdmin',
+    component: () => import(/* webpackChunkName: "MesasCabeceiraAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/MesasCabeceiraAdmin.vue')
+  },
+
+  {
+    path: '/CamasAdmin/:id',
+    name: 'CamasAdmin',
+    component: () => import(/* webpackChunkName: "CamasAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/CamasAdmin.vue')
+  },
+
+  {
+    path: '/MesasAdmin/:id',
+    name: 'MesasAdmin',
+    component: () => import(/* webpackChunkName: "MesasAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/MesasAdmin.vue')
+  },
+
   // Catálogo
 
   {

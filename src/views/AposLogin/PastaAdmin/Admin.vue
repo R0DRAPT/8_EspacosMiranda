@@ -5,14 +5,14 @@
     <section class="main-container" style="background-color: #b49660; padding:20px; font-size: 18px; margin-right: 300px;">
       <h4 class="spacebetween" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Bem Vindo <b>{{ username }}</b></h4>
       <p class="spacebetween paragrafo-main" style="font-family: verdana" >──────</p>
-      <p class="spacebetween paragrafo-main"><b style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Admin</b></p>
-      <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Admin</p>
+      <p class="spacebetween paragrafo-main"><b style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Poderá Editar cada produto, ou componente</b></p>
+      <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Também pode ver todos os utilizadores</p>
     </section>
     
     <!-- Row 1 -->
     <section style="color: white; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin-top: 30px; "> 
       <!-- SOFÁS -->
-      <router-link :to="{ name: 'Sofas', params: { id: userId  } }">
+      <router-link :to="{ name: 'SofasAdmin', params: { id: userId  } }">
         <div class="hover-box" @mouseover="showProductName('SOFÁS', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/Sofas.png" alt="SOFÁS">
           <p class="product-name">SOFÁS</p>
@@ -20,7 +20,7 @@
       </router-link>
 
       <!-- Cadeirões -->
-      <router-link :to="{ name: 'Cadeiroes', params: { id: userId } }">
+      <router-link :to="{ name: 'CadeiroesAdmin', params: { id: userId } }">
         <div class="hover-box" @mouseover="showProductName('CADEIRÕES', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/Cadeiroes.png" alt="CADEIRÕES">
           <p class="product-name">CADEIRÕES</p>
@@ -28,7 +28,7 @@
       </router-link>
 
       <!-- Consolas -->
-      <router-link :to="{ name: 'Consolas', params: { id: userId } }">
+      <router-link :to="{ name: 'ConsolasAdmin', params: { id: userId } }">
         <div class="hover-box" @mouseover="showProductName('CONSOLAS', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/Consolas.png" alt="CONSOLAS">
           <p class="product-name">CONSOLAS</p>
@@ -39,7 +39,7 @@
     <!-- Row 2 -->
     <section style="color: white; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">  
       <!-- Pecas de Decoração -->
-      <router-link :to="{ name: 'PecasDecoracao', params: { id: userId } }">
+      <router-link :to="{ name: 'PecasDecoracaoAdmin', params: { id: userId } }">
         <div class="hover-box" @mouseover="showProductName('PECAS DE DECORAÇÃO', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/PecasDecoracao.png" alt="PECAS DE DECORAÇÃO">
           <p class="product-name">PECAS DE DECORAÇÃO</p>
@@ -47,7 +47,7 @@
       </router-link>
 
       <!-- Cadeiras -->
-      <router-link :to="{ name: 'Cadeiras', params: { id: userId } }">
+      <router-link :to="{ name: 'CadeirasAdmin', params: { id: userId } }">
         <div class="hover-box" @mouseover="showProductName('CADEIRAS', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/Cadeiras.png" alt="CADEIRAS">
           <p class="product-name">CADEIRAS</p>
@@ -55,7 +55,7 @@
       </router-link>
 
       <!-- BANQUETAS -->
-      <router-link :to="{ name: 'Banquetas', params: { id: userId } }">
+      <router-link :to="{ name: 'BanquetasAdmin', params: { id: userId } }">
         <div class="hover-box" @mouseover="showProductName('BANQUETAS', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/Banquetas.png" alt="BANQUETAS">
           <p class="product-name">BANQUETAS</p>
@@ -66,7 +66,7 @@
     <!-- Row 3 -->
     <section style="color: white; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin-bottom: 30px;">
       <!-- Mesas de Cabeceira -->
-      <router-link :to="{ name: 'MesasCabeceira', params: { id: userId } }">
+      <router-link :to="{ name: 'MesasCabeceiraAdmin', params: { id: userId } }">
         <div class="hover-box" @mouseover="showProductName('MESAS DE CABECEIRA', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/MesasCabeceira.png" alt="MESAS DE CABECEIRA">
           <p class="product-name">MESAS DE CABECEIRA</p>
@@ -74,18 +74,18 @@
       </router-link>
 
       <!-- Camas -->
-      <router-link :to="{ name: 'Camas', params: { id: userId } }">
+      <router-link :to="{ name: 'CamasAdmin', params: { id: userId } }">
         <div class="hover-box" @mouseover="showProductName('CAMAS', $event)" @mouseleave="hideProductName($event)">
           <img src="/img/Catalogo/Camas.png" alt="CAMAS">
           <p class="product-name">CAMAS</p>
         </div>
       </router-link>
 
-      <!-- Cómodas -->
-      <router-link :to="{ name: 'Comodas', params: { id: userId } }">
-        <div class="hover-box" @mouseover="showProductName('CÓMODAS', $event)" @mouseleave="hideProductName($event)">
-          <img src="/img/Catalogo/Comodas.png" alt="CÓMODAS">
-          <p class="product-name">CÓMODAS</p>
+      <!-- Mesas -->
+      <router-link :to="{ name: 'MesasAdmin', params: { id: userId } }">
+        <div class="hover-box" @mouseover="showProductName('MESAS', $event)" @mouseleave="hideProductName($event)">
+          <img src="/img/Catalogo/Mesas.png" alt="MESAS">
+          <p class="product-name">MESAS</p>
         </div>
       </router-link>
     </section>

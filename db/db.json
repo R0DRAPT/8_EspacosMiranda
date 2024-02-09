@@ -5,8 +5,8 @@
   "admin": [
     {
       "email": "macedorodrigo63@gmail.com",
-      "username": "admin",
-      "password": "admin",
+      "username": "admin1",
+      "password": "admin1",
       "id": 999
     }
   ],
@@ -82,7 +82,6 @@
       "imagem": "sofacama.png"
     }
   ],
-  
   "Cadeiroes": [
     {
       "id": 1,
@@ -93,7 +92,6 @@
       "imagem": "sofacama.png"
     }
   ],
-
   "Consolas": [
     {
       "id": 1,
@@ -104,7 +102,6 @@
       "imagem": "sofacama.png"
     }
   ],
-
   "PecasDecor": [
     {
       "id": 1,
@@ -115,7 +112,6 @@
       "imagem": "sofacama.png"
     }
   ],
-
   "Cadeiras": [
     {
       "id": 1,
@@ -126,7 +122,6 @@
       "imagem": "sofacama.png"
     }
   ],
-
   "Banquetas": [
     {
       "id": 1,
@@ -137,7 +132,6 @@
       "imagem": "sofacama.png"
     }
   ],
-
   "MesasCabeceira": [
     {
       "id": 1,
@@ -148,7 +142,6 @@
       "imagem": "sofacama.png"
     }
   ],
-
   "Camas": [
     {
       "id": 1,
@@ -159,7 +152,6 @@
       "imagem": "sofacama.png"
     }
   ],
-
   "Mesas": [
     {
       "id": 1,

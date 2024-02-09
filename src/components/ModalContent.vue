@@ -69,8 +69,11 @@ export default {
   methods: {
     async login() {
       try {
+        const adminResponse = await axios.get(`http://localhost:3000/admin`);
+        const adminData = adminResponse.data[0];
+
         // Verificar se o utilizador é o admin
-        const isAdmin = this.username === "admin" && this.password === "admin";
+        const isAdmin = adminData.username === this.username && adminData.password === this.password;
 
         if (isAdmin) {
           // login como admin
@@ -91,12 +94,11 @@ export default {
           return;
         }
 
-        // Verificar se o utilizador existe na API users
-        const response = await axios.get(`http://localhost:3000/users?username=${this.username}&password=${this.password}`);
-        const user = response.data[0];
+        // Se não for admin, verificar se é um usuário normal
+        const userResponse = await axios.get(`http://localhost:3000/users?username=${this.username}&password=${this.password}`);
+        const user = userResponse.data[0];
 
         if (user) {
-
           // Login Sucesso
           toastr.success("Login efetuado com sucesso.", "Sucesso!", {
             closeButton: true,
@@ -115,7 +117,6 @@ export default {
           this.$router.push({ name: 'HomeAposLogin', params: { id: user.id } });
 
         } else {
-
           // Credenciais inválidas
           toastr.error("Credenciais inválidas. Utilizador não encontrado.", "Erro!", {
             closeButton: true,
@@ -130,7 +131,6 @@ export default {
           });
         }
       } catch (error) {
-
         //Login Erro 
         toastr.error("Erro ao realizar Login.", "Erro!", {
           closeButton: true,
@@ -145,6 +145,7 @@ export default {
         });
       }
     },
+
 
     closeModal() {
       this.$emit('close-modal');
