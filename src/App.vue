@@ -40,7 +40,7 @@ export default {
 
   .content {
     flex: 1;
-    background-color: #222;
+    background-color: #292727;
   }
 
   * {

@@ -47,7 +47,7 @@
       <thead>
         <tr>
           <th>
-            <label>#</label>
+            <label>Id</label>
           </th>
           <th scope="col" v-if="columnVisibility.nome">
             <label class="CamposSofas">Nome</label>
@@ -305,8 +305,8 @@ th, td {
 
 .modal-content {
   width: auto;
-  max-width: 90%; /* Ajuste a largura máxima conforme necessário */
+  max-width: 90%;
   height: auto;
-  max-height: 90vh; /* Ajuste a altura máxima conforme necessário */
+  max-height: 90vh;
 }
 </style>

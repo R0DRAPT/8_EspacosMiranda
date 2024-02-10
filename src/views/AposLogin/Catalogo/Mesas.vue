@@ -47,7 +47,7 @@
       <thead>
         <tr>
           <th>
-            <label>#</label>
+            <label>Id</label>
           </th>
           <th scope="col" v-if="columnVisibility.nome">
             <label class="CamposSofas">Nome</label>

@@ -5,8 +5,8 @@
   "admin": [
     {
       "email": "macedorodrigo63@gmail.com",
-      "username": "admin1",
-      "password": "admin1",
+      "username": "admin",
+      "password": "admin",
       "id": 999
     }
   ],
@@ -46,7 +46,14 @@
       "username": "123",
       "password": "123",
       "id": 13
+    },
+    {
+      "email": "aaaa@gmail.com",
+      "username": "aaa",
+      "password": "aaa",
+      "id": 14
     }
+    
   ],
   "Sofas": [
     {
