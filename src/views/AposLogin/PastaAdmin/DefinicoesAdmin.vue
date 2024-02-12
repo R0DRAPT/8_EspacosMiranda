@@ -81,7 +81,7 @@
           <th v-if="columnVisibility.email">Email</th>
           <th v-if="columnVisibility.username">Nome de Utilizador</th>
           <th v-if="columnVisibility.password">Password</th>
-          <th class="text-center">Ações</th>
+          <th class="TextAcoes">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -90,11 +90,14 @@
           <td v-if="columnVisibility.email">{{ user.email }}</td>
           <td v-if="columnVisibility.username">{{ user.username }}</td>
           <td v-if="columnVisibility.password">{{ user.password }}</td>
-          <td class="text-center"> 
+          <td class="TextAcoes">
             <button class="btn btn-primary btn-sm" @click="openEditModal(user)">
-                <i class="fas fa-edit"></i>
+              <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
             </button>
-            <button class="btn btn-danger btn-sm" @click="confirmDeleteUser(user.id)">Eliminar</button>
+
+            <button class="btn btn-danger btn-sm" @click="confirmDeleteUser(user.id)">
+              <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
+            </button>
           </td>
         </tr>
       </tbody>
@@ -118,8 +121,9 @@
               <div class="mb-3" style="font-family: Verdana;">
                 <input type="text" class="form-control" placeholder="Novo Nome de Utilizador" v-model="editedUser.username">
               </div>
-              <div class="mb-3" style="font-family: Verdana;">
-                <input type="password" class="form-control" placeholder="Nova Password" v-model="editedUser.password">
+              <div class="mb-3" style="font-family: Verdana; position: relative;">
+                <input type="password" class="form-control" placeholder="Nova Password" id="passwordUser" v-model="editedUser.password">
+                <span class="eye-icon" @click="togglePasswordVisibilityEditarUser" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">&#128065;</span>
               </div>
             </form>
           </div>
@@ -136,12 +140,14 @@
 <script>
 import axios from 'axios';
 import NavbarAdmin from '../../../components/ComponentsAposLogin/NavbarAdmin.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
   name: "Definicoes",
 
   components: {
     NavbarAdmin,
+    FontAwesomeIcon,
   },
 
   data() {
@@ -392,6 +398,16 @@ export default {
       }
     },
 
+    togglePasswordVisibilityEditarUser() {
+      this.showPassword = !this.showPassword;
+      const passwordInput = document.getElementById('passwordUser');
+      if (this.showPassword) {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    },
+
     toggleEditMode() {
       this.isEditing = !this.isEditing;
       if (!this.isEditing) {
@@ -524,7 +540,7 @@ export default {
 /* Table */
 
 .table {
-    width: 70%;
+    width: 60%;
     margin: 0px auto; 
     font-size: 18px;
     border-collapse: collapse;
@@ -558,7 +574,7 @@ th, td {
 
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1014px;
+  margin-left: 826px;
   margin-bottom: 3px;
 }
 
@@ -588,10 +604,15 @@ th, td {
 .dropdown-item input {
   margin-right: 8px;
 }
-/* botão Açoes */
 
-.text-center {
-  text-align: center;
+/* botão Açoes */
+.TextAcoes {
+  text-align: left; /* Alinha o texto para a esquerda */
+}
+
+/* Adiciona espaçamento entre os botões na coluna "Ações" */
+.table .TextAcoes button {
+  margin-right: 5px; /* Adiciona espaçamento entre os botões */
 }
 </style>
 
