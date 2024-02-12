@@ -19,41 +19,16 @@
     },
     {
       "email": "macedorodrigo63@gmail.com",
-      "username": "teste",
-      "password": "teste",
-      "id": 9
-    },
-    {
-      "email": "macedorodrigo63@gmail.com",
       "username": "1",
       "password": "1",
       "id": 10
-    },
-    {
-      "email": "aaa@gmail.com",
-      "username": "11",
-      "password": "11",
-      "id": 11
     },
     {
       "email": "macedorodrigo63@gmail.com",
       "username": "Rodrigo",
       "password": "123",
       "id": 12
-    },
-    {
-      "email": "testeteste@gmail.com",
-      "username": "123",
-      "password": "123",
-      "id": 13
-    },
-    {
-      "email": "aaaa@gmail.com",
-      "username": "aaa",
-      "password": "aaa",
-      "id": 14
     }
-    
   ],
   "Sofas": [
     {

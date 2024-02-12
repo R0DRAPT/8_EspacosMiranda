@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <!-- Tabela de Usuários -->
+    <!-- Tabela de utilizador -->
     <table class="table table-striped">
       <thead>
         <tr>
@@ -81,6 +81,7 @@
           <th v-if="columnVisibility.email">Email</th>
           <th v-if="columnVisibility.username">Nome de Utilizador</th>
           <th v-if="columnVisibility.password">Password</th>
+          <th class="text-center">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -89,9 +90,46 @@
           <td v-if="columnVisibility.email">{{ user.email }}</td>
           <td v-if="columnVisibility.username">{{ user.username }}</td>
           <td v-if="columnVisibility.password">{{ user.password }}</td>
+          <td class="text-center"> 
+            <button class="btn btn-primary btn-sm" @click="openEditModal(user)">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" @click="confirmDeleteUser(user.id)">Eliminar</button>
+          </td>
         </tr>
       </tbody>
     </table>
+
+    <!-- Modal para editar Utilizador -->
+    <div class="modal" :class="{ 'show': showEditModal }" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><b>Editar Utilizador</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="user-form" style="text-align: center; margin: 0 auto; max-width: 500px;">
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Novo Email" v-model="editedUser.email">
+              </div>
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Novo Nome de Utilizador" v-model="editedUser.username">
+              </div>
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="password" class="form-control" placeholder="Nova Password" v-model="editedUser.password">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-lg btn-info" @click="saveUserChanges">Salvar Modificações</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -115,9 +153,12 @@ export default {
       password: "",
       userId: null,
       isEditing: false,
+      showEditModal: false,
       originalData: {},
       editedData: {},
+      editedUser: {},
       showModal: false,
+      showPassword: false,
       users: [],
       columnVisibility: {
         email: true,
@@ -160,7 +201,7 @@ export default {
           this.users = response.data;
         })
         .catch(error => {
-          console.error("Erro ao buscar dados dos usuários na API", error);
+          console.error("Erro ao buscar dados dos utilizador na API", error);
         });
     },
 
@@ -176,6 +217,98 @@ export default {
       }
     },
 
+    openEditModal(user) {
+      this.showEditModal = true;
+      this.editedUser = { ...user };
+    },
+
+    closeEditModal() {
+      this.showEditModal = false;
+    },
+
+    saveUserChanges() {
+      const userIdToUpdate = this.editedUser.id; // Supondo que o objeto editedUser tenha um campo id para identificar o utilizador
+      const updatedData = {
+        email: this.editedUser.email,
+        username: this.editedUser.username,
+        password: this.editedUser.password,
+        // ... outros campos
+      };
+
+      axios.put(`http://localhost:3000/users/${userIdToUpdate}`, updatedData)
+        .then(response => {
+          console.log("Dados do utilizador atualizados com sucesso:", response.data);
+          // Toastr de sucesso
+          toastr.success("Conta Editada com sucesso.", "Sucesso", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-success",
+          });
+          // Feche o modal de edição
+          this.closeEditModal();
+        })
+        .catch(error => {
+          console.error("Erro ao atualizar dados do utilizador:", error);
+          // Toastr de erro
+          toastr.error("Erro ao editar a conta.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+        });
+    },
+
+    confirmDeleteUser(userId) {
+      const confirmDelete = window.confirm("Quer mesmo eliminar este utilizador?");
+      if (confirmDelete) {
+        axios.delete(`http://localhost:3000/users/${userId}`)
+          .then(response => {
+            console.log("Utilizador eliminado com sucesso:", response.data);
+            // Toastr de sucesso
+            toastr.success("Conta eliminada com sucesso.", "Sucesso", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-success",
+              });
+              // f5 na pagina
+              
+          })
+          .catch(error => {
+            console.error("Erro ao eliminar o utilizador:", error);
+            // Toastr Erro
+            toastr.error("Erro ao excluir a conta.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+          });
+      }
+    },
+
     async fetchUserData() {
       try {
         const response = await axios.get(`http://localhost:3000/users/${this.userId}`);
@@ -185,10 +318,10 @@ export default {
           this.username = userData.username;
           this.password = userData.password;
         } else {
-          console.error("Dados do usuário não encontrados");
+          console.error("Dados do utilizador não encontrados");
         }
       } catch (error) {
-        console.error("Erro ao buscar dados do usuário:", error);
+        console.error("Erro ao buscar dados do utilizador:", error);
       }
     },
 
@@ -196,15 +329,15 @@ export default {
       const confirmDelete = window.confirm("Quer mesmo eliminar a sua conta?");
       if (confirmDelete) {
         try {
-          // Use o id da rota para identificar o usuário
+          // Use o id da rota para identificar o Utilizador
           const idToDelete = this.$route.params.id;
 
-          // Encontre o usuário com base no id
+          // Encontre o Utilizador com base no id
           const response = await axios.get(`http://localhost:3000/admin?id=${idToDelete}`);
           if (response.data.length > 0) {
             const userIdToDelete = response.data[0].id;
 
-            // Faça a solicitação DELETE usando o ID do usuário
+            // Faça a solicitação DELETE usando o ID do Utilizador
             const deleteResponse = await axios.delete(`http://localhost:3000/admin/${userIdToDelete}`);
 
             if (deleteResponse.status === 200) {
@@ -228,8 +361,8 @@ export default {
               this.$router.push('/');
             }
           } else {
-            // Usuário não encontrado
-            console.error("Usuário não encontrado");
+            // Utilizador não encontrado
+            console.error("Utilizador não encontrado");
           }
         } catch (error) {
           console.error("Erro ao excluir a conta", error);
@@ -285,7 +418,7 @@ export default {
 
       axios.put(`http://localhost:3000/admin/${userIdToUpdate}`, updatedData)
         .then(response => {
-          console.log("Dados do usuário atualizados com sucesso:", response.data);
+          console.log("Dados do utilizador atualizados com sucesso:", response.data);
           // Toastr de sucesso
           toastr.success("Conta Editada com sucesso.", "Sucesso", {
                 closeButton: true,
@@ -300,7 +433,7 @@ export default {
               });
         })
         .catch(error => {
-          console.error("Erro ao atualizar dados do usuário:", error);
+          console.error("Erro ao atualizar dados do utilizador:", error);
           // Toastr de erro
           toastr.error("Erro ao editar a conta.", "Erro!", {
             closeButton: true,
@@ -454,6 +587,11 @@ th, td {
 
 .dropdown-item input {
   margin-right: 8px;
+}
+/* botão Açoes */
+
+.text-center {
+  text-align: center;
 }
 </style>
 
