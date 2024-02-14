@@ -37,7 +37,7 @@
       "material": "Couro",
       "tipo": "Confortável",
       "preco": "1€",
-      "imagem": "Banner1.jpg"
+      "imagem": "Banner1.png"
     },
     {
       "id": 2,
@@ -56,12 +56,12 @@
       "imagem": "imagem3"
     },
     {
-      "id": 3,
+      "id": 4,
       "nome": "Sofá D",
-      "material": "teste",
-      "tipo": "teste",
+      "material": "Veludo",
+      "tipo": "Clássico",
       "preco": "1€",
-      "imagem": "sofacama.png"
+      "imagem": "imagem3"
     }
   ],
   "Cadeiroes": [

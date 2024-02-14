@@ -17,15 +17,15 @@
           <div class="modal-body">
             <form class="user-form" style="text-align: center; margin: 0 auto; max-width: 500px;">
               <div class="mb-3" style="font-family:Verdana">
-                <!-- Email -->
-                <input type="text" class="form-control" id="email" placeholder="Seu Email" v-model="editedData.email" autocomplete="off" :readonly="!isEditing">
+                <!-- Utilizador -->
+                <input type="text" class="form-control" id="username" placeholder="Seu Nome de Utilizador" v-model="editedData.username" autocomplete="off" :readonly="!isEditing">
               </div>
 
               <div style="margin: 2px;"></div>
 
               <div class="mb-3" style="font-family:Verdana">
-                <!-- Utilizador -->
-                <input type="text" class="form-control" id="username" placeholder="Seu Nome de Utilizador" v-model="editedData.username" autocomplete="off" :readonly="!isEditing">
+                <!-- Email -->
+                <input type="text" class="form-control" id="email" placeholder="Seu Email" v-model="editedData.email" autocomplete="off" :readonly="!isEditing">
               </div>
 
               <div style="margin: 2px;"></div>
@@ -116,10 +116,10 @@
           <div class="modal-body">
             <form class="user-form" style="text-align: center; margin: 0 auto; max-width: 500px;">
               <div class="mb-3" style="font-family: Verdana;">
-                <input type="text" class="form-control" placeholder="Novo Email" v-model="editedUser.email">
+                <input type="text" class="form-control" placeholder="Novo Nome de Utilizador" v-model="editedUser.username">
               </div>
               <div class="mb-3" style="font-family: Verdana;">
-                <input type="text" class="form-control" placeholder="Novo Nome de Utilizador" v-model="editedUser.username">
+                <input type="text" class="form-control" placeholder="Novo Email" v-model="editedUser.email">
               </div>
               <div class="mb-3" style="font-family: Verdana; position: relative;">
                 <input type="password" class="form-control" placeholder="Nova Password" id="passwordUser" v-model="editedUser.password">
@@ -233,12 +233,11 @@ export default {
     },
 
     saveUserChanges() {
-      const userIdToUpdate = this.editedUser.id; // Supondo que o objeto editedUser tenha um campo id para identificar o utilizador
+      const userIdToUpdate = this.editedUser.id;
       const updatedData = {
         email: this.editedUser.email,
         username: this.editedUser.username,
         password: this.editedUser.password,
-        // ... outros campos
       };
 
       axios.put(`http://localhost:3000/users/${userIdToUpdate}`, updatedData)

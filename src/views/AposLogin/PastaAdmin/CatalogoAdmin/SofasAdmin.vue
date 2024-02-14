@@ -5,7 +5,7 @@
     <!-- BannerSofas -->
     <img class="BannerSofas" :src="BannerSofas" alt="Banner Sofás" />
     <br /><br />
-    <h1 class="tituloSofas">Sofás - Admin</h1>
+    <h1 class="tituloSofas">Sofás</h1>
     <br />
 
     <!-- Dropdown-Filtro -->
@@ -42,45 +42,93 @@
         </label>
       </div>
     </div>
-        <!-- Tabela Informação Sofas -->
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>
-            <label>#</label>
-          </th>
-          <th scope="col" v-if="columnVisibility.nome">
-            <label class="CamposSofas">Nome</label>
-          </th>
-          <th scope="col" v-if="columnVisibility.tipo">
-            <label class="CamposSofas">Tipo</label>
-          </th>
-          <th scope="col" v-if="columnVisibility.material">
-            <label class="CamposSofas">Material</label>
-          </th>
-          <th scope="col" v-if="columnVisibility.preco">
-            <label class="CamposSofas">Preço</label>
-          </th>
-          <th scope="col" v-if="columnVisibility.imagem">
-            <label class="CamposSofas">Imagem</label>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in items" :key="index">
-          <th scope="row">{{ item.id }}</th>
-          <td v-if="columnVisibility.nome">{{ item.nome }}</td>
-          <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
-          <td v-if="columnVisibility.material">{{ item.material }}</td>
-          <td v-if="columnVisibility.preco">{{ item.preco }}</td>
-          <td v-if="columnVisibility.imagem">
-            <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
-    <!-- Modal para exibir a imagem -->
+    <!-- Tabela Informação Sofas -->
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        <label>#</label>
+      </th>
+      <th scope="col" v-if="columnVisibility.nome">
+        <label class="CamposSofas">Nome</label>
+      </th>
+      <th scope="col" v-if="columnVisibility.tipo">
+        <label class="CamposSofas">Tipo</label>
+      </th>
+      <th scope="col" v-if="columnVisibility.material">
+        <label class="CamposSofas">Material</label>
+      </th>
+      <th scope="col" v-if="columnVisibility.preco">
+        <label class="CamposSofas">Preço</label>
+      </th>
+      <th scope="col" v-if="columnVisibility.imagem">
+        <label class="CamposSofas">Imagem</label>
+      </th>
+      <th class="TextAcoes">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(item, index) in items" :key="index">
+      <th scope="row">{{ item.id }}</th>
+      <td v-if="columnVisibility.nome">{{ item.nome }}</td>
+      <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
+      <td v-if="columnVisibility.material">{{ item.material }}</td>
+      <td v-if="columnVisibility.preco">{{ item.preco }}</td>
+      <td v-if="columnVisibility.imagem">
+        <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
+      </td>
+      <!-- Botões de edição e eliminar -->
+      <td class="TextAcoes">
+        <button class="btn btn-primary btn-sm" @click="openEditModal(item)">
+          <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
+        </button>
+
+        <button class="btn btn-danger btn-sm" @click="confirmDeleteUser(item.id)">
+          <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+      <!-- Modal para editar Sofá -->
+      <div class="modal" :class="{ 'show': showEditModal }" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 100%; border-radius: 10px;">
+            <div class="modal-header">
+              <h5 class="modal-title"><b>Editar Sofá</b></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" >
+              <form class="user-form">
+                <div class="mb-3" style="font-family: Verdana;">
+                  <input type="text" class="form-control" placeholder="Novo Nome" v-model="editedSofa.nome">
+                </div>
+                <div class="mb-3" style="font-family: Verdana;">
+                  <input type="text" class="form-control" placeholder="Novo Tipo" v-model="editedSofa.tipo">
+                </div>
+                <div class="mb-3" style="font-family: Verdana;">
+                  <input type="text" class="form-control" placeholder="Novo Material" v-model="editedSofa.material">
+                </div>
+                <div class="mb-3" style="font-family: Verdana;">
+                  <input type="text" class="form-control" placeholder="Novo Preço" v-model="editedSofa.preco">
+                </div>
+                <div class="mb-3" style="font-family: Verdana;">
+                  <input type="image" class="form-control" placeholder="Nova imagem" v-model="editedSofa.imagem">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn-lg btn-info" @click="saveSofaChanges">Salvar Modificações</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para exibir a imagem -->
       <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -103,12 +151,14 @@
 <script>
 import NavbarAdmin from '../../../../components/ComponentsAposLogin/NavbarAdmin.vue';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
   name: "SofasAdmin",
 
   components: {
     NavbarAdmin,
+    FontAwesomeIcon,
   },
 
   data() {
@@ -117,6 +167,8 @@ export default {
       app_name: "Espaços Miranda",
       userId: null,
       imagemModalSrc: '',
+      showEditModal: false,
+      editedSofa: {},
       columnVisibility: {
         nome: true,
         tipo: true,
@@ -188,7 +240,104 @@ export default {
     closeModal() {
       $('#imagemModal').modal('hide');
     },
-  }
+
+    // Ações
+
+    openEditModal(item) {
+      this.showEditModal = true;
+      this.editedSofa = { ...item };
+    },
+
+    closeEditModal() {
+      this.showEditModal = false;
+    },
+
+    saveSofaChanges() {
+      const SofaIdToUpdate = this.editedSofa.id;
+      const updatedData = {
+        nome: this.editedSofa.nome,
+        material: this.editedSofa.material,
+        tipo: this.editedSofa.tipo,
+        preco: this.editedSofa.preco,
+        imagem: this.editedSofa.imagem,
+      };
+
+      axios.put(`http://localhost:3000/Sofas/${SofaIdToUpdate}`, updatedData)
+        .then(response => {
+          console.log("Dados do Sofa atualizados com sucesso:", response.data);
+          // Toastr de sucesso
+          toastr.success("Sofa Editado com sucesso.", "Sucesso", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-success",
+          });
+          // Feche o modal de edição
+          this.closeEditModal();
+        })
+        .catch(error => {
+          console.error("Erro ao atualizar dados do Sofa:", error);
+          // Toastr de erro
+          toastr.error("Erro ao editar o Sofa.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+        });
+    },
+
+    confirmDeleteSofa(sofaId) {
+      const confirmDelete = window.confirm("Quer mesmo eliminar este Sofa?");
+      if (confirmDelete) {
+        axios.delete(`http://localhost:3000/Sofas/${sofaId}`)
+          .then(response => {
+            console.log("Sofá eliminado com sucesso:", response.data);
+            // Toastr de sucesso
+            toastr.success("Sofá eliminada com sucesso.", "Sucesso", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-success",
+              });
+              // f5 na pagina
+              
+          })
+          .catch(error => {
+            console.error("Erro ao eliminar o Sofá:", error);
+            // Toastr Erro
+            toastr.error("Erro ao eliminar o Sofá.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+          });
+      }
+    },
+
+    
+  },
 }
 </script>
   
@@ -213,7 +362,7 @@ export default {
 /* DropDown-Filtro */
 
 .btn-MostrarTudo {
-  margin-right: 8px; /* Adiciona margem à direita para separar os botões */
+  margin-right: 8px;
   margin-left: 1285px;
   margin-bottom: 3px;
 }
@@ -279,7 +428,7 @@ th, td {
     font-size: 18px;
 }
 
-/* Modal */
+/* Modal Ver Imagem */
 
 .modal-body {
   display: flex;
@@ -305,8 +454,42 @@ th, td {
 
 .modal-content {
   width: auto;
-  max-width: 90%; /* Ajuste a largura máxima conforme necessário */
+  max-width: 90%; 
   height: auto;
-  max-height: 90vh; /* Ajuste a altura máxima conforme necessário */
+  max-height: 90vh;
+}
+
+/* botão Açoes */
+.TextAcoes {
+  text-align: left;
+}
+
+.table .TextAcoes button {
+  margin-right: 5px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal.show {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 </style>
