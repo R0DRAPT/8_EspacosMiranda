@@ -10,7 +10,7 @@
 
     <!-- Dropdown-Filtro -->
     <div class="dropdown">
-      
+
         <button class="btn btn-secondary btn-MostrarTudo" @click="mostrarTodosCampos">
           Mostrar Campos
         </button>
@@ -19,6 +19,55 @@
           Filtrar Campos
         </button>
 
+        <button class="btn btn-info btn-add" @click="openAddModal">
+          Adicionar Sofá
+        </button>
+
+        <!-- Modal ADD Sofá -->
+        <div class="modal modal-add" id="modalAdd" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
+              <div class="modal-header">
+                <h5 class="modal-title"><b>Adicionar Sofá</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeAddModal">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Campo Nome -->
+                <div class="form-group">
+                  <label for="nome">Nome:</label>
+                  <input type="text" class="form-control" id="nome" v-model="novoSofa.nome" autocomplete="off">
+                </div>
+                <!-- Campo Tipo -->
+                <div class="form-group">
+                  <label for="tipo">Tipo:</label>
+                  <input type="text" class="form-control" id="tipo" v-model="novoSofa.tipo" autocomplete="off">
+                </div>
+                <!-- Campo Material -->
+                <div class="form-group">
+                  <label for="material">Material:</label>
+                  <input type="text" class="form-control" id="material" v-model="novoSofa.material" autocomplete="off">
+                </div>
+                <!-- Campo Preço -->
+                <div class="form-group">
+                  <label for="preco">Preço:</label>
+                  <input type="text" class="form-control" id="preco" v-model="novoSofa.preco" autocomplete="off">
+                </div>
+                <!-- Campo Imagem -->
+                <div class="form-group">
+                  <label for="imagem">Imagem:</label>
+                  <input type="text" class="form-control" id="imagem" v-model="novoSofa.imagem" autocomplete="off">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn-lg btn-info" @click="addSofa">Adicionar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- DropDown Filtro -->
       <div class="dropdown-menu" aria-labelledby="checkboxDropdown">
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.nome" class="custom-checkbox" />
@@ -65,7 +114,9 @@
       <th scope="col" v-if="columnVisibility.imagem">
         <label class="CamposSofas">Imagem</label>
       </th>
-      <th class="TextAcoes">Ações</th>
+      <th scope="col">
+        <label class="CamposSofas">Ações</label>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -95,7 +146,7 @@
       <!-- Modal para editar Sofá -->
       <div class="modal" :class="{ 'show': showEditModal }" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-          <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 100%; border-radius: 10px;">
+          <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
             <div class="modal-header">
               <h5 class="modal-title"><b>Editar Sofá</b></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
@@ -117,8 +168,11 @@
                   <input type="text" class="form-control" placeholder="Novo Preço" v-model="editedSofa.preco">
                 </div>
                 <div class="mb-3" style="font-family: Verdana;">
-                  <input type="image" class="form-control" placeholder="Nova imagem" v-model="editedSofa.imagem">
-                </div>
+                  <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedSofa.imagem">
+              </div>
+              <div class="mb-3 corpo-modal-imagem-EditarSofa" v-if="editedSofa.imagem" style="font-family: Verdana;">
+                  <img :src="`/img/catalogo/ImagensArtigos/${editedSofa.imagem}`" alt="Imagem">
+              </div>
               </form>
             </div>
             <div class="modal-footer">
@@ -138,12 +192,13 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body corpo-modal-imagem">
               <img :src="imagemModalSrc" alt="Imagem">
             </div>
           </div>
         </div>
       </div>
+      
     <br/><br/>
   </div>
 </template>
@@ -168,6 +223,7 @@ export default {
       userId: null,
       imagemModalSrc: '',
       showEditModal: false,
+      showAddModal: false,
       editedSofa: {},
       columnVisibility: {
         nome: true,
@@ -175,6 +231,13 @@ export default {
         material: true,
         preco: true,
         imagem: true,
+      },
+      novoSofa: {
+        nome: '',
+        tipo: '',
+        material: '',
+        preco: null,
+        imagem: ''
       },
       // Imagens
       BannerSofas: "/img/Catalogo/BannersCatalogo/BannerSofas.jpg",
@@ -336,7 +399,53 @@ export default {
       }
     },
 
-    
+    // Add
+
+    openAddModal() {
+      this.showAddModal = true;
+    },
+
+    closeAddModal() {
+      this.showAddModal = false;
+    },
+
+    addSofa() {
+    // Realiza um POST para adicionar o novo sofá
+    axios.post('http://localhost:3000/Sofas', this.novoSofa)
+      .then(response => {
+        console.log('Novo sofá adicionado com sucesso:', response.data);
+        // Adiciona o novo sofá à lista de itens exibidos na tabela
+        this.items.push(response.data);
+        this.closeAddModal();
+        // Toastr de sucesso
+        toastr.success('Sofá adicionado com sucesso.', 'Sucesso', {
+          closeButton: true,
+          positionClass: 'toast-bottom-right',
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: 'fadeIn',
+          hideMethod: 'fadeOut',
+          toastClass: 'toast-success',
+        });
+      })
+      .catch(error => {
+        console.error('Erro ao adicionar novo sofá:', error);
+        // Toastr de erro
+        toastr.error('Erro ao adicionar o sofá.', 'Erro!', {
+          closeButton: true,
+          positionClass: 'toast-bottom-right',
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: 'fadeIn',
+          hideMethod: 'fadeOut',
+          toastClass: 'toast-error',
+        });
+      });
+    },
   },
 }
 </script>
@@ -360,10 +469,10 @@ export default {
 }
 
 /* DropDown-Filtro */
-
+/* Botão que mexe com os outros */
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1285px;
+  margin-left: 1145px;
   margin-bottom: 3px;
 }
 
@@ -376,7 +485,6 @@ export default {
 .custom-checkbox {
   margin-right: 8px;
   vertical-align: middle;
-  
 }
 
 .dropdown-menu {
@@ -406,20 +514,7 @@ export default {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
 }
 
-/* Cabeçalho da tabela */
-
-thead {
-    background-color: #333;
-    color: #fff;
-}
-
-th, td {
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
 /* CamposSofas */
-
 .CamposSofas {
     background-color: transparent;
     border: none;
@@ -430,10 +525,17 @@ th, td {
 
 /* Modal Ver Imagem */
 
-.modal-body {
+.corpo-modal-imagem {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.corpo-modal-imagem img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
 }
 
 .modal-dialog {
@@ -445,18 +547,11 @@ th, td {
   margin: 0 auto;
 }
 
-.modal-body img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto; 
-}
-
 .modal-content {
   width: auto;
   max-width: 90%; 
   height: auto;
-  max-height: 90vh;
+  
 }
 
 /* botão Açoes */
@@ -468,21 +563,24 @@ th, td {
   margin-right: 5px;
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.5);
-}
-
 .modal.show {
   display: block;
   animation: fadeIn 0.3s ease;
 }
+
+.corpo-modal-imagem-EditarSofa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.corpo-modal-imagem-EditarSofa img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
+}
+
 
 @keyframes fadeIn {
   from {
@@ -491,5 +589,21 @@ th, td {
   to {
     opacity: 1;
   }
+}
+
+/* Adicionar Sofás */
+
+.btn-add {
+  margin-bottom: 3px;
+  margin-left: 8px;
+}
+
+.modal-add {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-add.show {
+  display: block;
 }
 </style>

@@ -37,7 +37,7 @@
       "material": "Couro",
       "tipo": "Confortável",
       "preco": "1€",
-      "imagem": "Banner1.png"
+      "imagem": "Banner1.jpg"
     },
     {
       "id": 2,
@@ -62,6 +62,14 @@
       "tipo": "Clássico",
       "preco": "1€",
       "imagem": "imagem3"
+    },
+    {
+      "nome": "Sofá E",
+      "tipo": "Madeira",
+      "material": "asd",
+      "preco": "1389€",
+      "imagem": "Banner1.jpg",
+      "id": 5
     }
   ],
   "Cadeiroes": [
