@@ -32,19 +32,19 @@
   ],
   "Sofas": [
     {
-      "id": 1,
       "nome": "Sofá A",
       "material": "Couro",
       "tipo": "Confortável",
-      "preco": "1€",
-      "imagem": "Banner1.jpg"
+      "preco": 13,
+      "imagem": "Banner1.jpg",
+      "id": 1
     },
     {
       "id": 2,
       "nome": "Sofá B",
       "material": "Tecido",
       "tipo": "Moderno",
-      "preco": "1€",
+      "preco": "1",
       "imagem": "sofacama.png"
     },
     {
@@ -52,7 +52,7 @@
       "nome": "Sofá C",
       "material": "Veludo",
       "tipo": "Clássico",
-      "preco": "1€",
+      "preco": "1",
       "imagem": "imagem3"
     },
     {
@@ -60,16 +60,32 @@
       "nome": "Sofá D",
       "material": "Veludo",
       "tipo": "Clássico",
-      "preco": "1€",
+      "preco": "1",
       "imagem": "imagem3"
     },
     {
       "nome": "Sofá E",
       "tipo": "Madeira",
       "material": "asd",
-      "preco": "1389€",
+      "preco": "1389",
       "imagem": "Banner1.jpg",
       "id": 5
+    },
+    {
+      "nome": "teste",
+      "tipo": "teste",
+      "material": "teste",
+      "preco": 213,
+      "imagem": "",
+      "id": 6
+    },
+    {
+      "nome": "Rdorigo",
+      "tipo": "Miranda",
+      "material": "123",
+      "preco": 123,
+      "imagem": "123",
+      "id": 7
     }
   ],
   "Cadeiroes": [

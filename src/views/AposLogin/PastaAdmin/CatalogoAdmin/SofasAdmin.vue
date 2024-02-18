@@ -19,8 +19,8 @@
           Filtrar Campos
         </button>
 
-        <button class="btn btn-info btn-add" @click="openAddModal">
-          Adicionar Sofá
+        <button class="btn btn-primary btn-add" @click="openAddModal">
+          <font-awesome-icon :icon="['fas', 'plus']" />
         </button>
 
         <!-- Modal ADD Sofá -->
@@ -52,12 +52,21 @@
                 <!-- Campo Preço -->
                 <div class="form-group">
                   <label for="preco">Preço:</label>
-                  <input type="text" class="form-control" id="preco" v-model="novoSofa.preco" autocomplete="off">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">€</span>
+                        </div>
+                        <input type="number" class="form-control" id="preco" v-model="novoSofa.preco" autocomplete="off">
+                    </div>
                 </div>
                 <!-- Campo Imagem -->
                 <div class="form-group">
-                  <label for="imagem">Imagem:</label>
-                  <input type="text" class="form-control" id="imagem" v-model="novoSofa.imagem" autocomplete="off">
+                    <label for="imagem">Imagem:</label>
+                    <input type="text" class="form-control" id="imagem" v-model="novoSofa.imagem" @input="updateImage" autocomplete="off">
+                </div>
+                <!-- Exibição dinâmica da imagem -->
+                <div class="corpo-modal-imagem" v-if="novoSofa.imagem">
+                    <img :src="`/img/catalogo/ImagensArtigos/${novoSofa.imagem}`" alt="Imagem">
                 </div>
               </div>
               <div class="modal-footer">
@@ -125,7 +134,7 @@
       <td v-if="columnVisibility.nome">{{ item.nome }}</td>
       <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
       <td v-if="columnVisibility.material">{{ item.material }}</td>
-      <td v-if="columnVisibility.preco">{{ item.preco }}</td>
+      <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
       <td v-if="columnVisibility.imagem">
         <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
       </td>
@@ -135,7 +144,7 @@
           <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
         </button>
 
-        <button class="btn btn-danger btn-sm" @click="confirmDeleteUser(item.id)">
+        <button class="btn btn-danger btn-sm" @click="confirmDeleteSofa(item.id)">
           <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
         </button>
       </td>
@@ -165,7 +174,12 @@
                   <input type="text" class="form-control" placeholder="Novo Material" v-model="editedSofa.material">
                 </div>
                 <div class="mb-3" style="font-family: Verdana;">
-                  <input type="text" class="form-control" placeholder="Novo Preço" v-model="editedSofa.preco">
+                  <div class="input-group">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text">€</span>
+                      </div>
+                      <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedSofa.preco">
+                  </div>
                 </div>
                 <div class="mb-3" style="font-family: Verdana;">
                   <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedSofa.imagem">
@@ -316,6 +330,8 @@ export default {
     },
 
     saveSofaChanges() {
+      this.editedSofa.preco = parseFloat(this.editedSofa.preco.toString().replace('€', '').trim());
+
       const SofaIdToUpdate = this.editedSofa.id;
       const updatedData = {
         nome: this.editedSofa.nome,
@@ -410,41 +426,43 @@ export default {
     },
 
     addSofa() {
-    // Realiza um POST para adicionar o novo sofá
-    axios.post('http://localhost:3000/Sofas', this.novoSofa)
-      .then(response => {
-        console.log('Novo sofá adicionado com sucesso:', response.data);
-        // Adiciona o novo sofá à lista de itens exibidos na tabela
-        this.items.push(response.data);
-        this.closeAddModal();
-        // Toastr de sucesso
-        toastr.success('Sofá adicionado com sucesso.', 'Sucesso', {
-          closeButton: true,
-          positionClass: 'toast-bottom-right',
-          progressBar: true,
-          timeOut: 5000,
-          extendedTimeOut: 1000,
-          preventDuplicates: true,
-          showMethod: 'fadeIn',
-          hideMethod: 'fadeOut',
-          toastClass: 'toast-success',
+      this.novoSofa.preco = parseFloat(this.novoSofa.preco.toString().replace('€', '').trim());
+
+      // Realiza um POST para adicionar o novo sofá
+      axios.post('http://localhost:3000/Sofas', this.novoSofa)
+        .then(response => {
+          console.log('Novo sofá adicionado com sucesso:', response.data);
+          // Adiciona o novo sofá à lista de itens exibidos na tabela
+          this.items.push(response.data);
+          this.closeAddModal();
+          // Toastr de sucesso
+          toastr.success('Sofá adicionado com sucesso.', 'Sucesso', {
+            closeButton: true,
+            positionClass: 'toast-bottom-right',
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut',
+            toastClass: 'toast-success',
+          });
+        })
+        .catch(error => {
+          console.error('Erro ao adicionar novo sofá:', error);
+          // Toastr de erro
+          toastr.error('Erro ao adicionar o sofá.', 'Erro!', {
+            closeButton: true,
+            positionClass: 'toast-bottom-right',
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut',
+            toastClass: 'toast-error',
+          });
         });
-      })
-      .catch(error => {
-        console.error('Erro ao adicionar novo sofá:', error);
-        // Toastr de erro
-        toastr.error('Erro ao adicionar o sofá.', 'Erro!', {
-          closeButton: true,
-          positionClass: 'toast-bottom-right',
-          progressBar: true,
-          timeOut: 5000,
-          extendedTimeOut: 1000,
-          preventDuplicates: true,
-          showMethod: 'fadeIn',
-          hideMethod: 'fadeOut',
-          toastClass: 'toast-error',
-        });
-      });
     },
   },
 }
@@ -472,7 +490,7 @@ export default {
 /* Botão que mexe com os outros */
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1145px;
+  margin-left: 1235px;
   margin-bottom: 3px;
 }
 
