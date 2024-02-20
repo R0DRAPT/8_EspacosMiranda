@@ -136,7 +136,7 @@
       <td v-if="columnVisibility.material">{{ item.material }}</td>
       <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
       <td v-if="columnVisibility.imagem">
-        <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
+        <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
       </td>
       <!-- Botões de edição e eliminar -->
       <td class="TextAcoes">
@@ -201,7 +201,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel">{{ getItemNome(imagemModalSrc) }}</h5>
+              <h5 class="modal-title" id="imagemModalLabel">{{ imagemModalNome }}</h5>
               <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -236,6 +236,7 @@ export default {
       app_name: "Espaços Miranda",
       userId: null,
       imagemModalSrc: '',
+      imagemModalNome: '',
       showEditModal: false,
       showAddModal: false,
       editedSofa: {},
@@ -309,8 +310,9 @@ export default {
       return item ? item.nome : 'Imagem';
     },
 
-    verImagem(imagemSrc) {
+    verImagem(imagemSrc, nome) {
       this.imagemModalSrc = `/img/catalogo/ImagensArtigos/${imagemSrc}`;
+      this.imagemModalNome = nome;
       $('#imagemModal').modal('show');
     },
 
