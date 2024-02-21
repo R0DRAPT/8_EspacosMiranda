@@ -182,11 +182,13 @@
                   </div>
                 </div>
                 <div class="mb-3" style="font-family: Verdana;">
-                  <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedSofa.imagem">
-              </div>
-              <div class="mb-3 corpo-modal-imagem-EditarSofa" v-if="editedSofa.imagem" style="font-family: Verdana;">
-                  <img :src="`/img/catalogo/ImagensArtigos/${editedSofa.imagem}`" alt="Imagem">
-              </div>
+                  <label for="novaImagem">Nova imagem:</label>
+                  <input type="file" class="form-control-file" id="novaImagem" @change="handleImageUpload" accept="image/*">
+                </div>
+                <!-- Exibição dinâmica da imagem -->
+                <div class="corpo-modal-imagem-EditarSofa" v-if="editedSofa.imagem" style="font-family: Verdana;">
+                    <img :src="`/img/catalogo/ImagensArtigos/${editedSofa.imagem}`" alt="Imagem">
+                </div>
               </form>
             </div>
             <div class="modal-footer">
@@ -305,6 +307,8 @@ export default {
       }
     },
 
+    // Modal Imagem
+
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
       return item ? item.nome : 'Imagem';
@@ -318,6 +322,26 @@ export default {
 
     closeModal() {
       $('#imagemModal').modal('hide');
+    },
+
+    handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            axios.post('/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(response => {
+                this.editedSofa.imagem = response.data.path;
+            })
+            .catch(error => {
+                console.error('Erro ao fazer upload da imagem:', error);
+            });
+        }
     },
 
     // Ações
