@@ -52,23 +52,23 @@
       "material": "Veludo",
       "tipo": "Clássico",
       "preco": 1,
-      "imagem": "imagem3",
+      "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
       "id": 3
     },
     {
-      "id": 4,
       "nome": "Sofá D",
       "material": "Veludo",
       "tipo": "Clássico",
-      "preco": "1",
-      "imagem": "imagem3"
+      "preco": 1,
+      "imagem": "imagem3",
+      "id": 4
     },
     {
       "nome": "Sofá E",
-      "tipo": "Madeira",
       "material": "asd",
-      "preco": "1389",
-      "imagem": "Banner1.jpg",
+      "tipo": "Madeira",
+      "preco": 1389,
+      "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
       "id": 5
     },
     {
@@ -84,7 +84,7 @@
       "material": "123",
       "tipo": "Miranda",
       "preco": 123,
-      "imagem": "teste.png",
+      "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
       "id": 7
     }
   ],

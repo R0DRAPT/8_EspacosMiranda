@@ -181,14 +181,19 @@
                       <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedSofa.preco">
                   </div>
                 </div>
-                <div class="mb-3" style="font-family: Verdana;">
-                  <label for="novaImagem">Nova imagem:</label>
-                  <input type="file" class="form-control-file" id="novaImagem" @change="handleImageUpload" accept="image/*">
+                <!-- Campo Nova Imagem -->
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" v-model="editedSofa.imagem" placeholder="Escolha uma imagem">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" @click="chooseImage">Escolher Imagem</button>
+                        </div>
+                    </div>
                 </div>
-                <!-- Exibição dinâmica da imagem -->
-                <div class="corpo-modal-imagem-EditarSofa" v-if="editedSofa.imagem" style="font-family: Verdana;">
-                    <img :src="`/img/catalogo/ImagensArtigos/${editedSofa.imagem}`" alt="Imagem">
-                </div>
+                
+              <div class="mb-3 corpo-modal-imagem-EditarSofa" v-if="editedSofa.imagem" style="font-family: Verdana;">
+                  <img :src="`/img/catalogo/ImagensArtigos/${editedSofa.imagem}`" alt="Imagem">
+              </div>
               </form>
             </div>
             <div class="modal-footer">
@@ -307,44 +312,88 @@ export default {
       }
     },
 
-    // Modal Imagem
+    // Imagens
 
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
       return item ? item.nome : 'Imagem';
     },
 
-    verImagem(imagemSrc, nome) {
-      this.imagemModalSrc = `/img/catalogo/ImagensArtigos/${imagemSrc}`;
-      this.imagemModalNome = nome;
-      $('#imagemModal').modal('show');
+    async verImagem(imagemSrc, nome) {
+        const caminhoLocal = `/img/catalogo/ImagensArtigos/${imagemSrc}`;
+        
+        // Verifica se a imagem existe localmente
+        if (await this.verificarExistenciaLocal(caminhoLocal)) {
+            this.imagemModalSrc = caminhoLocal;
+            this.imagemModalNome = nome;
+            $('#imagemModal').modal('show');
+        } else {
+            // Busca por imagem na internet
+            const imagemOnline = await this.buscarImagemOnline(nome);
+            if (imagemOnline) {
+                this.imagemModalSrc = imagemOnline;
+                this.imagemModalNome = nome;
+                $('#imagemModal').modal('show');
+            } else {
+                alert("Imagem não encontrada.");
+            }
+        }
+    },
+
+    async verificarExistenciaLocal(caminho) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = caminho;
+        });
+    },
+
+    async buscarImagemOnline(nome) {
+        try {
+            // Adicionando algumas palavras-chave relacionadas ao nome do sofá para refinar a busca
+            const consulta = `${nome}`;
+            const resposta = await axios.get(`https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(consulta)}&client_id=3Y-uBt35nZHT-N5aGKYp_JYE7MYPHs52USv2JMgx6pQ`);
+            if (resposta.data.results && resposta.data.results.length > 0) {
+                return resposta.data.results[0].urls.regular;
+            } else {
+                return null; // Nenhuma imagem encontrada
+            }
+        } catch (erro) {
+            console.error('Erro ao buscar imagem online:', erro);
+            return null;
+        }
     },
 
     closeModal() {
       $('#imagemModal').modal('hide');
     },
 
-    handleImageUpload(event) {
-        const file = event.target.files[0];
+    chooseImage() {
+      // Referencie o input de arquivo oculto
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
         if (file) {
-            const formData = new FormData();
-            formData.append('image', file);
-
-            axios.post('/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(response => {
-                this.editedSofa.imagem = response.data.path;
-            })
-            .catch(error => {
-                console.error('Erro ao fazer upload da imagem:', error);
-            });
+          // Atualize o estado com o nome do arquivo selecionado
+          this.editedSofa.imagem = file.name;
+          // Exiba a imagem selecionada na modal de edição
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            this.imagemSelecionada = event.target.result;
+          };
+          reader.readAsDataURL(file);
+          // Aqui você pode fazer o upload da imagem para o servidor, se necessário
         }
+      };
+      input.click();
     },
 
-    // Ações
+    uploadImage(file) {
+      console.log('Fazendo upload da imagem:', file);
+    },
 
     openEditModal(item) {
       this.showEditModal = true;
@@ -370,7 +419,6 @@ export default {
       axios.put(`http://localhost:3000/Sofas/${SofaIdToUpdate}`, updatedData)
         .then(response => {
           console.log("Dados do Sofa atualizados com sucesso:", response.data);
-          // Toastr de sucesso
           toastr.success("Sofa Editado com sucesso.", "Sucesso", {
             closeButton: true,
             positionClass: "toast-bottom-right",
@@ -382,12 +430,10 @@ export default {
             hideMethod: "fadeOut",
             toastClass: "toast-success",
           });
-          // Feche o modal de edição
           this.closeEditModal();
         })
         .catch(error => {
           console.error("Erro ao atualizar dados do Sofa:", error);
-          // Toastr de erro
           toastr.error("Erro ao editar o Sofa.", "Erro!", {
             closeButton: true,
             positionClass: "toast-bottom-right",
@@ -408,40 +454,34 @@ export default {
         axios.delete(`http://localhost:3000/Sofas/${sofaId}`)
           .then(response => {
             console.log("Sofá eliminado com sucesso:", response.data);
-            // Toastr de sucesso
             toastr.success("Sofá eliminada com sucesso.", "Sucesso", {
-                closeButton: true,
-                positionClass: "toast-bottom-right",
-                progressBar: true,
-                timeOut: 5000,
-                extendedTimeOut: 1000,
-                preventDuplicates: true,
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut",
-                toastClass: "toast-success",
-              });
-              // f5 na pagina
-              
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-success",
+            });
           })
           .catch(error => {
             console.error("Erro ao eliminar o Sofá:", error);
-            // Toastr Erro
             toastr.error("Erro ao eliminar o Sofá.", "Erro!", {
-            closeButton: true,
-            positionClass: "toast-bottom-right",
-            progressBar: true,
-            timeOut: 5000,
-            extendedTimeOut: 1000,
-            preventDuplicates: true,
-            showMethod: "fadeIn",
-            hideMethod: "fadeOut",
-            toastClass: "toast-error",
-          });
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-error",
+            });
           });
       }
     },
-
-    // Add
 
     openAddModal() {
       this.showAddModal = true;
@@ -458,10 +498,8 @@ export default {
       axios.post('http://localhost:3000/Sofas', this.novoSofa)
         .then(response => {
           console.log('Novo sofá adicionado com sucesso:', response.data);
-          // Adiciona o novo sofá à lista de itens exibidos na tabela
           this.items.push(response.data);
           this.closeAddModal();
-          // Toastr de sucesso
           toastr.success('Sofá adicionado com sucesso.', 'Sucesso', {
             closeButton: true,
             positionClass: 'toast-bottom-right',
@@ -476,7 +514,6 @@ export default {
         })
         .catch(error => {
           console.error('Erro ao adicionar novo sofá:', error);
-          // Toastr de erro
           toastr.error('Erro ao adicionar o sofá.', 'Erro!', {
             closeButton: true,
             positionClass: 'toast-bottom-right',
@@ -490,7 +527,7 @@ export default {
           });
         });
     },
-  },
+  }
 }
 </script>
   
