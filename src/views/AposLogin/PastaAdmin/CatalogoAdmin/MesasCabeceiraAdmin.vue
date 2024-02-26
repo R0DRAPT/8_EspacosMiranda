@@ -5,7 +5,7 @@
     <!-- Banner -->
     <img class="Banner" :src="BannerMesasCabeceira" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Mesas De Cabeceira - Admin</h1>
+    <h1 class="titulo">Mesas De Cabeceira</h1>
     <br />
 
     <!-- Dropdown-Filtro -->

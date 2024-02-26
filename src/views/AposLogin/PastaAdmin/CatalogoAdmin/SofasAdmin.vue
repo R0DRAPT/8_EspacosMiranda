@@ -334,50 +334,69 @@ export default {
     },
 
     saveSofaChanges() {
-      this.editedSofa.preco = parseFloat(this.editedSofa.preco.toString().replace('€', '').trim());
 
-      const SofaIdToUpdate = this.editedSofa.id;
-      const updatedData = {
-        nome: this.editedSofa.nome,
-        material: this.editedSofa.material,
-        tipo: this.editedSofa.tipo,
-        preco: this.editedSofa.preco,
-        imagem: this.editedSofa.imagem,
-      };
+    // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
+    axios.get(`/img/catalogo/ImagensArtigos/${this.editedSofa.imagem}`)
+      .then(() => {
+        // Se a imagem existe, continua com a atualização do sofá
+        this.editedSofa.preco = parseFloat(this.editedSofa.preco.toString().replace('€', '').trim());
+        const SofaIdToUpdate = this.editedSofa.id;
+        const updatedData = {
+          nome: this.editedSofa.nome,
+          material: this.editedSofa.material,
+          tipo: this.editedSofa.tipo,
+          preco: this.editedSofa.preco,
+          imagem: this.editedSofa.imagem,
+        };
 
-      axios.put(`http://localhost:3000/Sofas/${SofaIdToUpdate}`, updatedData)
-        .then(response => {
-          console.log("Dados do Sofa atualizados com sucesso:", response.data);
-          // Toastr de sucesso
-          toastr.success("Sofa Editado com sucesso.", "Sucesso", {
-            closeButton: true,
-            positionClass: "toast-bottom-right",
-            progressBar: true,
-            timeOut: 5000,
-            extendedTimeOut: 1000,
-            preventDuplicates: true,
-            showMethod: "fadeIn",
-            hideMethod: "fadeOut",
-            toastClass: "toast-success",
+        axios.put(`http://localhost:3000/Sofas/${SofaIdToUpdate}`, updatedData)
+          .then(response => {
+            console.log("Dados do Sofa atualizados com sucesso:", response.data);
+            // Toastr de sucesso
+            toastr.success("Sofa Editado com sucesso.", "Sucesso", {
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-success",
+            });
+            // Feche o modal de edição
+            this.closeEditModal();
+          })
+          .catch(error => {
+            console.error("Erro ao atualizar dados do Sofa:", error);
+            // Toastr de erro
+            toastr.error("Erro ao editar o Sofa.", "Erro!", {
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-error",
+            });
           });
-          // Feche o modal de edição
-          this.closeEditModal();
-        })
-        .catch(error => {
-          console.error("Erro ao atualizar dados do Sofa:", error);
-          // Toastr de erro
-          toastr.error("Erro ao editar o Sofa.", "Erro!", {
-            closeButton: true,
-            positionClass: "toast-bottom-right",
-            progressBar: true,
-            timeOut: 5000,
-            extendedTimeOut: 1000,
-            preventDuplicates: true,
-            showMethod: "fadeIn",
-            hideMethod: "fadeOut",
-            toastClass: "toast-error",
-          });
+      })
+      .catch(() => {
+        // Se a imagem não existe, exibe o toastr de erro
+        toastr.error("Adicione Primeiro A Imagem Na Pasta Correta (Imagens Artigos)", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
         });
+      });
     },
 
     confirmDeleteSofa(sofaId) {
@@ -621,12 +640,12 @@ export default {
   margin-left: 8px;
 }
 
-.modal-add {
-  display: none;
-  animation: fadeIn 0.3s ease;
-}
+  .modal-add {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
 
-.modal-add.show {
-  display: block;
-}
+  .modal-add.show {
+    display: block;
+  }
 </style>

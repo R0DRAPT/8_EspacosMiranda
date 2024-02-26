@@ -5,7 +5,7 @@
     <!-- Banner -->
     <img class="Banner" :src="BannerMesas" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Mesas- Admin</h1>
+    <h1 class="titulo">Mesas</h1>
     <br />
 
     <!-- Dropdown-Filtro -->

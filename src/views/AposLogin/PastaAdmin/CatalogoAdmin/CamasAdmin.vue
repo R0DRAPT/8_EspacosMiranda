@@ -5,7 +5,7 @@
     <!-- Banner -->
     <img class="Banner" :src="BannerCamas" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Camas - Admin</h1>
+    <h1 class="titulo">Camas</h1>
     <br />
 
     <!-- Dropdown-Filtro -->

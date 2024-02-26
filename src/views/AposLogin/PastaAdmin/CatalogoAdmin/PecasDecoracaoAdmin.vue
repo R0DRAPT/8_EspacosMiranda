@@ -5,7 +5,7 @@
     <!-- Banner -->
     <img class="Banner" :src="BannerPecasDecor" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Pecas De Decoracao - Admin</h1>
+    <h1 class="titulo">Pecas De Decoracao</h1>
     <br />
 
     <!-- Dropdown-Filtro -->

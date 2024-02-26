@@ -5,7 +5,7 @@
     <!-- Banner -->
     <img class="Banner" :src="BannerConsolas" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Consolas - Admin</h1>
+    <h1 class="titulo">Consolas</h1>
     <br />
 
     <!-- Dropdown-Filtro -->

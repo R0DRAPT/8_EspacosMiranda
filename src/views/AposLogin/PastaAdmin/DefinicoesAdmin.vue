@@ -57,6 +57,11 @@
       <button class="btn btn-secondary dropdown-toggle" type="button" id="checkboxDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown">
         Filtrar Campos
       </button>
+
+      <button @click="openAddModal" class="btn btn-primary btn-add">
+        <font-awesome-icon :icon="['fas', 'plus']" />
+      </button>
+
       <div class="dropdown-menu" aria-labelledby="checkboxDropdown">
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.email" class="custom-checkbox" />
@@ -77,7 +82,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Id</th>
+          <th>#</th>
           <th v-if="columnVisibility.email">Email</th>
           <th v-if="columnVisibility.username">Nome de Utilizador</th>
           <th v-if="columnVisibility.password">Password</th>
@@ -134,6 +139,37 @@
       </div>
     </div>
 
+    <!-- Modal para adicionar Utilizador -->
+    <div class="modal modal-add" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><b>Adicionar Utilizador</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeAddModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="user-form" style="text-align: center; margin: 0 auto; max-width: 500px;">
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Email" v-model="newUser.email">
+              </div>
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Nome de Utilizador" v-model="newUser.username">
+              </div>
+              <div class="mb-3" style="font-family: Verdana; position: relative;">
+                <input type="password" class="form-control" placeholder="Password" v-model="newUser.password" id="passwordNewUser">
+                <span class="eye-icon" @click="togglePasswordVisibilityNewUser" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">&#128065;</span>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-lg btn-info" @click="addUser">Adicionar Utilizador</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -171,6 +207,12 @@ export default {
         username: true,
         password: true,
       },
+      showAddModal: false,
+      newUser: {
+        email: '',
+        username: '',
+        password: ''
+      }
     };
   },
 
@@ -209,7 +251,7 @@ export default {
         .catch(error => {
           console.error("Erro ao buscar dados dos utilizador na API", error);
         });
-    },
+  },
 
   methods: {
 
@@ -463,6 +505,65 @@ export default {
           });
         });
     },
+
+    // Adicionar Utilizador
+
+    openAddModal() {
+      this.showAddModal = true;
+    },
+
+    closeAddModal() {
+      this.showAddModal = false;
+    },
+
+    togglePasswordVisibilityNewUser() {
+      this.showPassword = !this.showPassword;
+      const passwordInput = document.getElementById('passwordNewUser');
+      if (this.showPassword) {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    },
+
+    addUser() {
+      const newUser = {
+        email: this.newUser.email,
+        username: this.newUser.username,
+        password: this.newUser.password
+      };
+
+      axios.post('http://localhost:3000/users', newUser)
+        .then(response => {
+          console.log("Novo usuário adicionado com sucesso:", response.data);
+          toastr.success("Novo usuário adicionado com sucesso.", "Sucesso", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-success",
+          });
+          this.closeAddModal();
+        })
+        .catch(error => {
+          console.error("Erro ao adicionar novo usuário:", error);
+          toastr.error("Erro ao adicionar novo usuário.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+        });
+    },
   },
 
   computed: {
@@ -606,12 +707,26 @@ th, td {
 
 /* botão Açoes */
 .TextAcoes {
-  text-align: left; /* Alinha o texto para a esquerda */
+  text-align: left;
 }
 
-/* Adiciona espaçamento entre os botões na coluna "Ações" */
 .table .TextAcoes button {
-  margin-right: 5px; /* Adiciona espaçamento entre os botões */
+  margin-right: 5px;
+}
+
+/* Botão ADD */
+
+.btn-add {
+  margin-bottom: 3px;
+  margin-left: 8px;
+}
+
+.modal-add {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-add.show {
+  display: block;
 }
 </style>
-

@@ -5,7 +5,7 @@
     <!-- Banner -->
     <img class="Banner" :src="BannerCadeiras" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Cadeiras - Admin</h1>
+    <h1 class="titulo">Cadeiras</h1>
     <br />
 
     <!-- Dropdown-Filtro -->
