@@ -101,7 +101,7 @@
       </div>
     </div>
 
-    <!-- Tabela Informação Sofas -->
+<!-- Tabela Informação Sofas -->
 <table class="table table-striped">
   <thead>
     <tr>
@@ -351,9 +351,9 @@ export default {
 
         axios.put(`http://localhost:3000/Sofas/${SofaIdToUpdate}`, updatedData)
           .then(response => {
-            console.log("Dados do Sofa atualizados com sucesso:", response.data);
+            console.log("Dados do sofá atualizados com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Sofa Editado com sucesso.", "Sucesso", {
+            toastr.success("Sofá Editado com sucesso.", "Sucesso", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,
@@ -640,12 +640,12 @@ export default {
   margin-left: 8px;
 }
 
-  .modal-add {
-    display: none;
-    animation: fadeIn 0.3s ease;
-  }
+.modal-add {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
 
-  .modal-add.show {
-    display: block;
-  }
+.modal-add.show {
+  display: block;
+}
 </style>

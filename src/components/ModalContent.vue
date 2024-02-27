@@ -76,22 +76,42 @@ export default {
         const isAdmin = adminData.username === this.username && adminData.password === this.password;
 
         if (isAdmin) {
-          // login como admin
-          toastr.success("Login como admin efetuado com sucesso.", "Sucesso!", {
-            closeButton: true,
-            positionClass: "toast-bottom-right",
-            progressBar: true,
-            timeOut: 5000,
-            extendedTimeOut: 1000,
-            preventDuplicates: true,
-            showMethod: "fadeIn",
-            hideMethod: "fadeOut",
-            toastClass: "toast-success",
-          });
+          // Exibir um prompt para inserir a chave
+          const chave = prompt("Qual é a chave?");
 
-          this.$emit('close-modal');
-          this.$router.push({ name: 'Admin', params: { id: 999 } });
-          return;
+          // Verificar se a chave inserida é igual à chave na base de dados
+          if (chave === adminData.chave) {
+            // login como admin
+            toastr.success("Login como admin efetuado com sucesso.", "Sucesso!", {
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-success",
+            });
+
+            this.$emit('close-modal');
+            this.$router.push({ name: 'Admin', params: { id: 999 } });
+            return;
+          } else {
+            // Chave incorreta
+            toastr.error("Chave incorreta. Acesso negado.", "Erro!", {
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-error",
+            });
+            return;
+          }
         }
 
         // Se não for admin, verificar se é um usuário normal

@@ -17,15 +17,15 @@
           <div class="modal-body">
             <form class="user-form" style="text-align: center; margin: 0 auto; max-width: 500px;">
               <div class="mb-3" style="font-family:Verdana">
-                <!-- Utilizador -->
-                <input type="text" class="form-control" id="username" placeholder="Seu Nome de Utilizador" v-model="editedData.username" autocomplete="off" :readonly="!isEditing">
+                <!-- Email -->
+                <input type="text" class="form-control" id="email" placeholder="Seu Email" v-model="editedData.email" autocomplete="off" :readonly="!isEditing">
               </div>
 
               <div style="margin: 2px;"></div>
 
               <div class="mb-3" style="font-family:Verdana">
-                <!-- Email -->
-                <input type="text" class="form-control" id="email" placeholder="Seu Email" v-model="editedData.email" autocomplete="off" :readonly="!isEditing">
+                <!-- Utilizador -->
+                <input type="text" class="form-control" id="username" placeholder="Seu Nome de Utilizador" v-model="editedData.username" autocomplete="off" :readonly="!isEditing">
               </div>
 
               <div style="margin: 2px;"></div>
@@ -37,6 +37,14 @@
                   <span class="eye-icon" @click="togglePasswordVisibility" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">&#128065;</span>
                 </div>
               </div>
+
+              <div style="margin: 2px;"></div>
+
+              <!-- Chave -->
+              <div class="mb-3" style="font-family: Verdana;">
+                  <input type="text" class="form-control" id="chave" placeholder="Chave" v-model="editedData.chave" autocomplete="off" :readonly="!isEditing">
+              </div>>
+
             </form>
           </div>
           <div class="modal-footer">
@@ -193,6 +201,7 @@ export default {
       email: "",
       username: "",
       password: "",
+      chave: "",
       userId: null,
       isEditing: false,
       showEditModal: false,
@@ -229,9 +238,10 @@ export default {
           this.email = adminData.email;
           this.username = adminData.username;
           this.password = adminData.password;
+          this.chave = adminData.chave;
 
           // Salva os dados originais quando o componente é montado
-          this.originalData = { email: this.email, username: this.username, password: this.password };
+          this.originalData = { email: this.email, username: this.username, password: this.password, chave: this.chave};
           // Inicializa os dados editados com os dados originais
           this.editedData = { ...this.originalData };
 
@@ -470,6 +480,7 @@ export default {
         email: this.editedData.email,
         username: this.editedData.username,
         password: this.editedData.password,
+        chave: this.editedData.chave,
         // ... outros campos
       };
 

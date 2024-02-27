@@ -7,6 +7,7 @@
       "email": "macedorodrigo63@gmail.com",
       "username": "admin",
       "password": "admin",
+      "chave": "Rodrigo",
       "id": 999
     }
   ],
@@ -90,12 +91,12 @@
   ],
   "Cadeiroes": [
     {
-      "id": 1,
       "nome": "Cadeirao A",
       "material": "Couro",
       "tipo": "Confortável",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 46,
+      "imagem": "sofacama.png",
+      "id": 1
     }
   ],
   "Consolas": [
