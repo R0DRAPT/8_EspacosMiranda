@@ -451,30 +451,49 @@ export default {
     addSofa() {
       this.novoSofa.preco = parseFloat(this.novoSofa.preco.toString().replace('€', '').trim());
 
-      // Realiza um POST para adicionar o novo sofá
-      axios.post('http://localhost:3000/Sofas', this.novoSofa)
-        .then(response => {
-          console.log('Novo sofá adicionado com sucesso:', response.data);
-          // Adiciona o novo sofá à lista de itens exibidos na tabela
-          this.items.push(response.data);
-          this.closeAddModal();
-          // Toastr de sucesso
-          toastr.success('Sofá adicionado com sucesso.', 'Sucesso', {
-            closeButton: true,
-            positionClass: 'toast-bottom-right',
-            progressBar: true,
-            timeOut: 5000,
-            extendedTimeOut: 1000,
-            preventDuplicates: true,
-            showMethod: 'fadeIn',
-            hideMethod: 'fadeOut',
-            toastClass: 'toast-success',
-          });
+      // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
+      axios.get(`/img/catalogo/ImagensArtigos/${this.novoSofa.imagem}`)
+        .then(() => {
+          // Se a imagem existe, continua com a adição do novo sofá
+          // Realiza um POST para adicionar o novo sofá
+          axios.post('http://localhost:3000/Sofas', this.novoSofa)
+            .then(response => {
+              console.log('Novo sofá adicionado com sucesso:', response.data);
+              // Adiciona o novo sofá à lista de itens exibidos na tabela
+              this.items.push(response.data);
+              this.closeAddModal();
+              // Toastr de sucesso
+              toastr.success('Sofá adicionado com sucesso.', 'Sucesso', {
+                closeButton: true,
+                positionClass: 'toast-bottom-right',
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut',
+                toastClass: 'toast-success',
+              });
+            })
+            .catch(error => {
+              console.error('Erro ao adicionar novo sofá:', error);
+              // Toastr de erro
+              toastr.error('Erro ao adicionar o sofá.', 'Erro!', {
+                closeButton: true,
+                positionClass: 'toast-bottom-right',
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut',
+                toastClass: 'toast-error',
+              });
+            });
         })
-        .catch(error => {
-          console.error('Erro ao adicionar novo sofá:', error);
-          // Toastr de erro
-          toastr.error('Erro ao adicionar o sofá.', 'Erro!', {
+        .catch(() => {
+          // Se a imagem não existe, exibe o toastr de erro
+          toastr.error('Adicione Primeiro A Imagem Na Pasta Correta (Imagens Artigos)', 'Erro!', {
             closeButton: true,
             positionClass: 'toast-bottom-right',
             progressBar: true,

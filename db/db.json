@@ -101,22 +101,30 @@
   ],
   "Consolas": [
     {
-      "id": 1,
       "nome": "Consola A",
       "material": "Couro",
       "tipo": "Confortável",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 23123,
+      "imagem": "sofacama.png",
+      "id": 1
+    },
+    {
+      "nome": "Teste3",
+      "material": "1233",
+      "tipo": "1233",
+      "preco": 1233,
+      "imagem": "Banner1.jpg",
+      "id": 2
     }
   ],
   "PecasDecor": [
     {
-      "id": 1,
       "nome": "Peca A ",
       "material": "Gesso",
       "tipo": "Folha",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 231312,
+      "imagem": "sofacama.png",
+      "id": 1
     }
   ],
   "Cadeiras": [
