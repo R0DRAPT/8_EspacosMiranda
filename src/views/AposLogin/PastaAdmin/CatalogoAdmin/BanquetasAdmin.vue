@@ -23,7 +23,7 @@
           <font-awesome-icon :icon="['fas', 'plus']" />
         </button>
 
-        <!-- Modal ADD Cadeirão -->
+        <!-- Modal ADD Banquetas -->
         <div class="modal modal-add" id="modalAdd" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
@@ -99,7 +99,8 @@
         </label>
       </div>
     </div>
-        <!-- Tabela Informação Sofas -->
+
+    <!-- Tabela Informação Sofas -->
     <table class="table table-striped">
       <thead>
         <tr>
@@ -335,7 +336,7 @@ export default {
     // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
     axios.get(`/img/catalogo/ImagensArtigos/${this.editedBanqueta.imagem}`)
       .then(() => {
-        // Se a imagem existe, continua com a atualização da Peca
+        // Se a imagem existe, continua com a atualização da Banqueta
         this.editedBanqueta.preco = parseFloat(this.editedBanqueta.preco.toString().replace('€', '').trim());
         const BanquetaIdToUpdate = this.editedBanqueta.id;
         const updatedData = {
@@ -350,7 +351,7 @@ export default {
           .then(response => {
             console.log("Dados da Banqueta atualizados com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Peça Editada com sucesso.", "Sucesso", {
+            toastr.success("Banqueta Editada com sucesso.", "Sucesso", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,
@@ -451,7 +452,7 @@ export default {
       // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
       axios.get(`/img/catalogo/ImagensArtigos/${this.novoBanqueta.imagem}`)
         .then(() => {
-          // Se a imagem existe, continua com a adição do novo cadeirão
+          // Se a imagem existe, continua com a adição do novo Banquetas
           axios.post('http://localhost:3000/Banquetas', this.novoBanqueta)
             .then(response => {
               console.log('Nova Banqueta adicionado com sucesso:', response.data);

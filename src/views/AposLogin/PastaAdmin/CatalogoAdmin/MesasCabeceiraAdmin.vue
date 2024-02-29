@@ -148,7 +148,7 @@
       </tbody>
     </table>
 
-    <!-- Modal para editar Banqueta -->
+    <!-- Modal para editar Mesa de Cabeceira -->
     <div class="modal" :class="{ 'show': showEditModal }" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
@@ -348,9 +348,9 @@ export default {
 
         axios.put(`http://localhost:3000/MesasCabeceira/${MesaCabeceiraIdToUpdate}`, updatedData)
           .then(response => {
-            console.log("Mesa de Cabeceira da Banqueta atualizados com sucesso:", response.data);
+            console.log("Mesa de Cabeceira atualizado com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Mesa de Cabeceira Editada com sucesso.", "Sucesso", {
+            toastr.success("Mesa de Cabeceira editada com sucesso.", "Sucesso", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,

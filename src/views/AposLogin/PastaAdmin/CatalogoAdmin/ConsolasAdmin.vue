@@ -23,12 +23,12 @@
         <font-awesome-icon :icon="['fas', 'plus']" />
       </button>
 
-      <!-- Modal ADD Cadeirão -->
+      <!-- Modal ADD Consola -->
       <div class="modal modal-add" id="modalAdd" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
             <div class="modal-header">
-              <h5 class="modal-title"><b>Adicionar Cadeirão</b></h5>
+              <h5 class="modal-title"><b>Adicionar Consola</b></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeAddModal">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -452,7 +452,7 @@ export default {
       // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
       axios.get(`/img/catalogo/ImagensArtigos/${this.novoConsola.imagem}`)
         .then(() => {
-          // Se a imagem existe, continua com a adição do novo cadeirão
+          // Se a imagem existe, continua com a adição do novo Consola
           axios.post('http://localhost:3000/Consolas', this.novoConsola)
             .then(response => {
               console.log('Nova Consola adicionado com sucesso:', response.data);

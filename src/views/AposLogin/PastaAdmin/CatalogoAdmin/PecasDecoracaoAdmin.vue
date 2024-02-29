@@ -148,7 +148,7 @@
       </tbody>
     </table>
 
-    <!-- Modal para editar Consola -->
+    <!-- Modal para editar Peça de Decor -->
     <div class="modal" :class="{ 'show': showEditModal }" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
@@ -275,7 +275,7 @@ export default {
         this.items = response.data;
       })
       .catch((error) => {
-        console.error('Erro ao obter dados de Consolas:', error);
+        console.error('Erro ao obter dados da Peça:', error);
       });
   },
 

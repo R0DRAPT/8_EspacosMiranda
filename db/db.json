@@ -161,28 +161,36 @@
       "material": "Madeira",
       "tipo": "Escuro",
       "preco": 231,
-      "imagem": "sofacama.png",
+      "imagem": "Banner1.jpg",
       "id": 1
     }
   ],
   "Camas": [
     {
-      "id": 1,
       "nome": "Cama A ",
       "material": "Madeira",
       "tipo": "Escuro",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 123,
+      "imagem": "Banner1.jpg",
+      "id": 1
     }
   ],
   "Mesas": [
     {
-      "id": 1,
       "nome": "Mesas A ",
       "material": "Madeira",
       "tipo": "Escuro",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 32133,
+      "imagem": "sofacama.png",
+      "id": 1
+    },
+    {
+      "nome": "teste",
+      "material": "teste",
+      "tipo": "teste",
+      "preco": 13,
+      "imagem": "Banner1.jpg",
+      "id": 2
     }
   ]
 }
