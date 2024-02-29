@@ -19,6 +19,63 @@
           Filtrar Campos
         </button>
 
+        <button class="btn btn-primary btn-add" @click="openAddModal">
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </button>
+
+        <!-- Modal ADD Cadeirão -->
+        <div class="modal modal-add" id="modalAdd" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
+              <div class="modal-header">
+                <h5 class="modal-title"><b>Adicionar Cadeira</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeAddModal">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Campo Nome -->
+                <div class="form-group">
+                  <label for="nome">Nome:</label>
+                  <input type="text" class="form-control" id="nome" v-model="novoCadeira.nome" autocomplete="off">
+                </div>
+                <!-- Campo Tipo -->
+                <div class="form-group">
+                  <label for="tipo">Tipo:</label>
+                  <input type="text" class="form-control" id="tipo" v-model="novoCadeira.tipo" autocomplete="off">
+                </div>
+                <!-- Campo Material -->
+                <div class="form-group">
+                  <label for="material">Material:</label>
+                  <input type="text" class="form-control" id="material" v-model="novoCadeira.material" autocomplete="off">
+                </div>
+                <!-- Campo Preço -->
+                <div class="form-group">
+                  <label for="preco">Preço:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">€</span>
+                        </div>
+                        <input type="number" class="form-control" id="preco" v-model="novoCadeira.preco" autocomplete="off">
+                    </div>
+                </div>
+                <!-- Campo Imagem -->
+                <div class="form-group">
+                    <label for="imagem">Imagem:</label>
+                    <input type="text" class="form-control" id="imagem" v-model="novoCadeira.imagem" @input="updateImage" autocomplete="off">
+                </div>
+                <!-- Exibição dinâmica da imagem -->
+                <div class="corpo-modal-imagem" v-if="novoCadeira.imagem">
+                    <img :src="`/img/catalogo/ImagensArtigos/${novoCadeira.imagem}`" alt="Imagem">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn-lg btn-info" @click="addCadeira">Adicionar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       <div class="dropdown-menu" aria-labelledby="checkboxDropdown">
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.nome" class="custom-checkbox" />
@@ -42,7 +99,7 @@
         </label>
       </div>
     </div>
-        <!-- Tabela Informação Sofas -->
+        <!-- Tabela Informação Cadeiras -->
     <table class="table table-striped">
       <thead>
         <tr>
@@ -64,6 +121,7 @@
           <th scope="col" v-if="columnVisibility.imagem">
             <label class="CamposSofas">Imagem</label>
           </th>
+          <th scope="col">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -72,30 +130,87 @@
           <td v-if="columnVisibility.nome">{{ item.nome }}</td>
           <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
           <td v-if="columnVisibility.material">{{ item.material }}</td>
-          <td v-if="columnVisibility.preco">{{ item.preco }}</td>
+          <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
           <td v-if="columnVisibility.imagem">
-            <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
+            <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
+          </td>
+          <!-- Botões de edição e eliminar -->
+          <td class="TextAcoes">
+            <button class="btn btn-primary btn-sm" @click="openEditModal(item)">
+              <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
+            </button>
+
+            <button class="btn btn-danger btn-sm" @click="confirmDeleteCadeira(item.id)">
+              <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- Modal para exibir a imagem -->
-      <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel">{{ getItemNome(imagemModalSrc) }}</h5>
-              <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <img :src="imagemModalSrc" alt="Imagem">
-            </div>
+    <!-- Modal para editar Cadeira -->
+    <div class="modal" :class="{ 'show': showEditModal }" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
+          <div class="modal-header">
+            <h5 class="modal-title"><b>Editar Cadeira</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" >
+            <form class="user-form">
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Novo Nome" v-model="editedCadeira.nome">
+              </div>
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Novo Tipo" v-model="editedCadeira.tipo">
+              </div>
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Novo Material" v-model="editedCadeira.material">
+              </div>
+              <div class="mb-3" style="font-family: Verdana;">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">€</span>
+                    </div>
+                    <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedCadeira.preco">
+                </div>
+              </div>
+              
+              <div class="mb-3" style="font-family: Verdana;">
+                <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedCadeira.imagem">
+              </div>
+
+              <div class="mb-3 corpo-modal-imagem-EditarCadeira" v-if="editedCadeira.imagem" style="font-family: Verdana;">
+                  <img :src="`/img/catalogo/ImagensArtigos/${editedCadeira.imagem}`" alt="Imagem">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-lg btn-info" @click="saveCadeiraChanges">Salvar Modificações</button>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Modal para exibir a imagem -->
+    <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="imagemModalLabel">{{ imagemModalNome }}</h5>
+            <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body corpo-modal-imagem">
+            <img :src="imagemModalSrc" alt="Imagem">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <br/><br/>
   </div>
 </template>
@@ -103,12 +218,14 @@
 <script>
 import NavbarAdmin from '../../../../components/ComponentsAposLogin/NavbarAdmin.vue';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
   name: "CadeirasAdmin",
 
   components: {
     NavbarAdmin,
+    FontAwesomeIcon,
   },
 
   data() {
@@ -117,12 +234,23 @@ export default {
       app_name: "Espaços Miranda",
       userId: null,
       imagemModalSrc: '',
+      imagemModalNome: '',
+      showEditModal: false,
+      showAddModal: false,
+      editedCadeira: {},
       columnVisibility: {
         nome: true,
         tipo: true,
         material: true,
         preco: true,
         imagem: true,
+      },
+      novoCadeira: {
+        nome: '',
+        tipo: '',
+        material: '',
+        preco: null,
+        imagem: ''
       },
       // Imagens
       BannerCadeiras: "/img/Catalogo/BannersCatalogo/BannerCadeiras.jpg",
@@ -175,18 +303,204 @@ export default {
       }
     },
 
+    // Imagem
+
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
       return item ? item.nome : 'Imagem';
     },
 
-    verImagem(imagemSrc) {
+    verImagem(imagemSrc, nome) {
       this.imagemModalSrc = `/img/catalogo/ImagensArtigos/${imagemSrc}`;
+      this.imagemModalNome = nome;
       $('#imagemModal').modal('show');
     },
 
     closeModal() {
       $('#imagemModal').modal('hide');
+    },
+
+    // Ações
+
+    openEditModal(item) {
+      this.showEditModal = true;
+      this.editedCadeira = { ...item };
+    },
+
+    closeEditModal() {
+      this.showEditModal = false;
+    },
+
+    saveCadeiraChanges() {
+    // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
+    axios.get(`/img/catalogo/ImagensArtigos/${this.editedCadeira.imagem}`)
+      .then(() => {
+        // Se a imagem existe, continua com a atualização da Cadeira
+        this.editedCadeira.preco = parseFloat(this.editedCadeira.preco.toString().replace('€', '').trim());
+        const CadeiraIdToUpdate = this.editedCadeira.id;
+        const updatedData = {
+          nome: this.editedCadeira.nome,
+          material: this.editedCadeira.material,
+          tipo: this.editedCadeira.tipo,
+          preco: this.editedCadeira.preco,
+          imagem: this.editedCadeira.imagem,
+        };
+
+        axios.put(`http://localhost:3000/Cadeiras/${CadeiraIdToUpdate}`, updatedData)
+          .then(response => {
+            console.log("Dados da Cadeira atualizados com sucesso:", response.data);
+            // Toastr de sucesso
+            toastr.success("Cadeira Editada com sucesso.", "Sucesso", {
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-success",
+            });
+            // Feche o modal de edição
+            this.closeEditModal();
+          })
+          .catch(error => {
+            console.error("Erro ao atualizar dados da Cadeira:", error);
+            // Toastr de erro
+            toastr.error("Erro ao editar a Cadeira.", "Erro!", {
+              closeButton: true,
+              positionClass: "toast-bottom-right",
+              progressBar: true,
+              timeOut: 5000,
+              extendedTimeOut: 1000,
+              preventDuplicates: true,
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              toastClass: "toast-error",
+            });
+          });
+      })
+      .catch(() => {
+        // Se a imagem não existe, exibe o toastr de erro
+        toastr.error("Adicione Primeiro A Imagem Na Pasta Correta (Imagens Artigos)", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+      });
+    },
+
+    confirmDeleteCadeira(cadeiraId) {
+      const confirmDelete = window.confirm("Quer mesmo eliminar esta Cadeira?");
+      if (confirmDelete) {
+        axios.delete(`http://localhost:3000/Cadeiras/${cadeiraId}`)
+          .then(response => {
+            console.log("Cadeira eliminado com sucesso:", response.data);
+            // Toastr de sucesso
+            toastr.success("Cadeira eliminada com sucesso.", "Sucesso", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-success",
+              });
+              // f5 na pagina
+              
+          })
+          .catch(error => {
+            console.error("Erro ao eliminar a Cadeira:", error);
+            // Toastr Erro
+            toastr.error("Erro ao eliminar a Cadeira.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+          });
+      }
+    },
+
+    // Add
+
+    openAddModal() {
+      this.showAddModal = true;
+    },
+
+    closeAddModal() {
+      this.showAddModal = false;
+    },
+
+    addCadeira() {
+      this.novoCadeira.preco = parseFloat(this.novoCadeira.preco.toString().replace('€', '').trim());
+
+      // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
+      axios.get(`/img/catalogo/ImagensArtigos/${this.novoCadeira.imagem}`)
+        .then(() => {
+          // Se a imagem existe, continua com a adição do novo cadeirão
+          axios.post('http://localhost:3000/Cadeiras', this.novoCadeira)
+            .then(response => {
+              console.log('Nova Cadeira adicionado com sucesso:', response.data);
+              // Adiciona a nova Cadeira à lista de itens exibidos na tabela
+              this.items.push(response.data);
+              this.closeAddModal();
+              // Toastr de sucesso
+              toastr.success('Cadeira adicionado com sucesso.', 'Sucesso', {
+                closeButton: true,
+                positionClass: 'toast-bottom-right',
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut',
+                toastClass: 'toast-success',
+              });
+            })
+            .catch(error => {
+              console.error('Erro ao adicionar nova Cadeira:', error);
+              // Toastr de erro
+              toastr.error('Erro ao adicionar a Cadeira.', 'Erro!', {
+                closeButton: true,
+                positionClass: 'toast-bottom-right',
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut',
+                toastClass: 'toast-error',
+              });
+            });
+        })
+        .catch(() => {
+          // Se a imagem não existe, exibe o toastr de erro
+          toastr.error('Adicione Primeiro A Imagem Na Pasta Correta (Imagens Artigos)', 'Erro!', {
+            closeButton: true,
+            positionClass: 'toast-bottom-right',
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut',
+            toastClass: 'toast-error',
+          });
+        });
     },
   }
 }
@@ -212,10 +526,10 @@ export default {
 }
 
 /* DropDown-Filtro */
-
+/* Botão que mexe com os outros */
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1285px;
+  margin-left: 1235px;
   margin-bottom: 3px;
 }
 
@@ -249,29 +563,17 @@ export default {
 /* Tabela */
 
 .table {
-    width: 70%;
-    margin: 0px auto; 
-    font-size: 18px;
-    border-collapse: collapse;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
-}
-
-/* Cabeçalho da tabela */
-
-thead {
-    background-color: #333;
-    color: #fff;
-}
-
-th, td {
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+  width: 70%;
+  margin: 0px auto; 
+  font-size: 18px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+  text-align: center;
 }
 
 /* CamposSofas */
-
 .CamposSofas {
     background-color: transparent;
     border: none;
@@ -280,12 +582,19 @@ th, td {
     font-size: 18px;
 }
 
-/* Modal */
+/* Modal Ver Imagem */
 
-.modal-body {
+.corpo-modal-imagem {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.corpo-modal-imagem img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
 }
 
 .modal-dialog {
@@ -297,17 +606,62 @@ th, td {
   margin: 0 auto;
 }
 
-.modal-body img {
+.modal-content {
+  width: auto;
+  max-width: 90%; 
+  height: auto;
+  
+}
+
+/* botão Açoes */
+.TextAcoes {
+  text-align: center;
+}
+
+.table .TextAcoes button {
+  margin-right: 5px;
+}
+
+.modal.show {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.corpo-modal-imagem-EditarCadeira {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.corpo-modal-imagem-EditarCadeira img {
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto; 
 }
 
-.modal-content {
-  width: auto;
-  max-width: 90%; /* Ajuste a largura máxima conforme necessário */
-  height: auto;
-  max-height: 90vh; /* Ajuste a altura máxima conforme necessário */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Adicionar Cadeira */
+
+.btn-add {
+  margin-bottom: 3px;
+  margin-left: 8px;
+}
+
+.modal-add {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-add.show {
+  display: block;
 }
 </style>

@@ -99,7 +99,7 @@
         </label>
       </div>
     </div>
-        <!-- Tabela Informação Sofas -->
+    <!-- Tabela Informação Pecas -->
     <table class="table table-striped">
       <thead>
         <tr>

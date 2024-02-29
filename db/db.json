@@ -129,32 +129,40 @@
   ],
   "Cadeiras": [
     {
-      "id": 1,
       "nome": "Cadeira A ",
       "material": "Madeira",
       "tipo": "Pequena",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 21313,
+      "imagem": "sofacama.png",
+      "id": 1
     }
   ],
   "Banquetas": [
     {
-      "id": 1,
       "nome": "Banqueta A ",
       "material": "Pelo",
       "tipo": "Grande",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 31,
+      "imagem": "sofacama.png",
+      "id": 1
+    },
+    {
+      "nome": "teste",
+      "tipo": "teste",
+      "material": "teste",
+      "preco": 3,
+      "imagem": "banner1.jpg",
+      "id": 2
     }
   ],
   "MesasCabeceira": [
     {
-      "id": 1,
       "nome": "Mesas de Cabeceira A ",
       "material": "Madeira",
       "tipo": "Escuro",
-      "preco": "1€",
-      "imagem": "sofacama.png"
+      "preco": 231,
+      "imagem": "sofacama.png",
+      "id": 1
     }
   ],
   "Camas": [
