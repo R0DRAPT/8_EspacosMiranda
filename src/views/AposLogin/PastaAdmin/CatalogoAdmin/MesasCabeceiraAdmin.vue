@@ -350,7 +350,7 @@ export default {
           .then(response => {
             console.log("Mesa de Cabeceira atualizado com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Mesa de Cabeceira editada com sucesso.", "Sucesso", {
+            toastr.success("Mesa de Cabeceira editada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,
@@ -363,11 +363,15 @@ export default {
             });
             // Feche o modal de edição
             this.closeEditModal();
+            // f5 na pagina
+            setTimeout(() => {
+                location.reload();
+              }, 5000);  
           })
           .catch(error => {
             console.error("Erro ao atualizar dados da Mesa de Cabeceira:", error);
             // Toastr de erro
-            toastr.error("Erro ao editar a Mesa de Cabeceira.", "Erro!", {
+            toastr.error("Erro ao editar a Mesa de Cabeceira. ", "Erro!", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,
@@ -403,7 +407,7 @@ export default {
           .then(response => {
             console.log("Mesa de Cabeceira eliminado com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Mesa de Cabeceira eliminada com sucesso.", "Sucesso", {
+            toastr.success("Mesa de Cabeceira eliminada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
                 closeButton: true,
                 positionClass: "toast-bottom-right",
                 progressBar: true,
@@ -415,6 +419,9 @@ export default {
                 toastClass: "toast-success",
               });
               // f5 na pagina
+              setTimeout(() => {
+                location.reload();
+              }, 5000);  
               
           })
           .catch(error => {

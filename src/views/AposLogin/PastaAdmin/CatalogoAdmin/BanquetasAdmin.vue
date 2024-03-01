@@ -351,7 +351,7 @@ export default {
           .then(response => {
             console.log("Dados da Banqueta atualizados com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Banqueta Editada com sucesso.", "Sucesso", {
+            toastr.success("Banqueta Editada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,
@@ -364,6 +364,10 @@ export default {
             });
             // Feche o modal de edição
             this.closeEditModal();
+            // f5 na pagina
+            setTimeout(() => {
+                location.reload();
+              }, 5000);  
           })
           .catch(error => {
             console.error("Erro ao atualizar dados da Banqueta:", error);
@@ -404,7 +408,7 @@ export default {
           .then(response => {
             console.log("Banqueta eliminado com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Banqueta eliminada com sucesso.", "Sucesso", {
+            toastr.success("Banqueta eliminada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
                 closeButton: true,
                 positionClass: "toast-bottom-right",
                 progressBar: true,
@@ -416,6 +420,9 @@ export default {
                 toastClass: "toast-success",
               });
               // f5 na pagina
+              setTimeout(() => {
+                location.reload();
+              }, 5000);  
               
           })
           .catch(error => {

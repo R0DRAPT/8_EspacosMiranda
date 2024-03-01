@@ -353,7 +353,7 @@ export default {
           .then(response => {
             console.log("Dados do sofá atualizados com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Sofá Editado com sucesso.", "Sucesso", {
+            toastr.success("Sofá Editado com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,
@@ -366,6 +366,10 @@ export default {
             });
             // Feche o modal de edição
             this.closeEditModal();
+            // f5 na pagina
+            setTimeout(() => {
+                location.reload();
+              }, 5000);  
           })
           .catch(error => {
             console.error("Erro ao atualizar dados do Sofa:", error);
@@ -406,7 +410,7 @@ export default {
           .then(response => {
             console.log("Sofá eliminado com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Sofá eliminada com sucesso.", "Sucesso", {
+            toastr.success("Sofá eliminada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
                 closeButton: true,
                 positionClass: "toast-bottom-right",
                 progressBar: true,
@@ -418,7 +422,9 @@ export default {
                 toastClass: "toast-success",
               });
               // f5 na pagina
-              
+              setTimeout(() => {
+                location.reload();
+              }, 5000);   
           })
           .catch(error => {
             console.error("Erro ao eliminar o Sofá:", error);

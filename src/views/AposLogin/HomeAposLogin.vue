@@ -5,8 +5,8 @@
     <section class="main-container" style="background-color: #b49660; padding:20px; font-size: 18px; margin-right: 300px;">
       <h4 class="spacebetween" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Bem Vindo <b>{{ username }}</b></h4>
       <p class="spacebetween paragrafo-main" style="font-family: verdana" >──────</p>
-      <p class="spacebetween paragrafo-main"><b style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Agora já pode ver os nossos artigos</b></p>
-      <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Se ver algum artigo que goste pode adicionar ao seu carrinho.</p>
+      <p class="spacebetween paragrafo-main"><b style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Agora já tem acesso aos nossos artigos</b></p>
+      <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Pode ver os artigos, as imagens desse artigo e também os seus componentes.</p>
       <!-- <p class="spacebetween paragrafo-main" style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"></p> -->
     </section>
     

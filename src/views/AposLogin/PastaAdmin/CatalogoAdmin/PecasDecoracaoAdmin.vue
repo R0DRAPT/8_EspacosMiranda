@@ -350,7 +350,7 @@ export default {
           .then(response => {
             console.log("Dados da Peça atualizados com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Peça Editada com sucesso.", "Sucesso", {
+            toastr.success("Peça Editada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
               closeButton: true,
               positionClass: "toast-bottom-right",
               progressBar: true,
@@ -363,6 +363,10 @@ export default {
             });
             // Feche o modal de edição
             this.closeEditModal();
+            // f5 na pagina
+            setTimeout(() => {
+                location.reload();
+              }, 5000);  
           })
           .catch(error => {
             console.error("Erro ao atualizar dados da Peça:", error);
@@ -403,7 +407,7 @@ export default {
           .then(response => {
             console.log("Peça eliminado com sucesso:", response.data);
             // Toastr de sucesso
-            toastr.success("Peça eliminada com sucesso.", "Sucesso", {
+            toastr.success("Peça eliminada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
                 closeButton: true,
                 positionClass: "toast-bottom-right",
                 progressBar: true,
@@ -415,6 +419,9 @@ export default {
                 toastClass: "toast-success",
               });
               // f5 na pagina
+              setTimeout(() => {
+                location.reload();
+              }, 5000);  
               
           })
           .catch(error => {
