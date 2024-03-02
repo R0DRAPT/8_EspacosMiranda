@@ -42,7 +42,8 @@
         </label>
       </div>
     </div>
-        <!-- Tabela Informação Sofas -->
+
+    <!-- Tabela Informação Sofas -->
     <table class="table table-striped">
       <thead>
         <tr>
@@ -64,6 +65,9 @@
           <th scope="col" v-if="columnVisibility.imagem">
             <label class="CamposSofas">Imagem</label>
           </th>
+          <th scope="col">
+            <label class="CamposSofas">Componentes</label>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -76,26 +80,59 @@
           <td v-if="columnVisibility.imagem">
             <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
           </td>
+          <!-- Btn Componentes -->
+          <td class="btnComponentes">
+            <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
+          </td>
         </tr>
       </tbody>
     </table>
 
     <!-- Modal para exibir a imagem -->
-      <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel">{{ getItemNome(imagemModalSrc) }}</h5>
-              <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <img :src="imagemModalSrc" alt="Imagem">
-            </div>
+    <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-imagem" role="document">
+        <div class="modal-content modal-content-imagem">
+          <div class="modal-header modal-header-imagem">
+            <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel">{{ getItemNome(imagemModalSrc) }}</h5>
+            <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body modal-body-imagem">
+            <img :src="imagemModalSrc" alt="Imagem">
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Modal Para Exibir Componentes -->
+    <div class="modal fade" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-componentes" role="document">
+        <div class="modal-content modal-content-componentes">
+          <div class="modal-header">
+            <h5 class="modal-title" id="componentesModalLabel">Componentes - {{ selectedSofaName }}</h5>
+            <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body modal-body-componentes">
+            <table class="table table-Componentes">
+              <thead>
+                <tr>
+                  <th>Id Sofá</th>
+                  <th>Nome</th>
+                  <th>Preço Fixo</th>
+                  <th>Dimensão</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <br/><br/>
   </div>
 </template>
@@ -117,6 +154,7 @@ export default {
       app_name: "Espaços Miranda",
       userId: null,
       imagemModalSrc: '',
+      selectedSofaName: '',
       columnVisibility: {
         nome: true,
         tipo: true,
@@ -175,6 +213,8 @@ export default {
       }
     },
 
+    // Imagem
+
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
       return item ? item.nome : 'Imagem';
@@ -187,6 +227,21 @@ export default {
 
     closeModal() {
       $('#imagemModal').modal('hide');
+    },
+
+    // Componentes
+
+    openComponenteModal(itemId) {
+      const selectedSofa = this.items.find(item => item.id === itemId);
+      if (selectedSofa) {
+        this.selectedSofaName = selectedSofa.nome;
+        $('#componentesModal').modal('show');
+      }
+    },
+
+
+    closeComponenteModal() {
+      $('#componentesModal').modal('hide');
     },
   }
 }
@@ -279,15 +334,15 @@ th, td {
     font-size: 18px;
 }
 
-/* Modal */
+/* Modal Imagem */
 
-.modal-body {
+.modal-body-imagem {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.modal-dialog {
+.modal-dialog-imagem {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -303,10 +358,57 @@ th, td {
   height: auto; 
 }
 
-.modal-content {
+.modal-content-imagem {
   width: auto;
   max-width: 90%;
   height: auto;
   max-height: 90vh;
 }
+
+/* Modal Componentes */
+
+.modal-body-componentes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog-componentes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  width: 100%;
+  margin: auto;
+}
+
+.modal-content-componentes {
+  width: 1270px; /* Muda a dimensao da tabela toda */
+  height: 100%;
+}
+
+/* Tabela Componentes */
+
+.table-Componentes {
+  width: 1270px; /* Muda a dimensao da tabela toda */
+  margin: 0 auto; 
+  font-size: 18px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+}
+
+/* Cabeçalho da tabela */
+
+thead {
+    background-color: #333;
+    color: #fff;
+}
+
+th, td {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
 </style>

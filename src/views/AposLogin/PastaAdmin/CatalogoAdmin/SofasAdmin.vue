@@ -618,7 +618,6 @@ export default {
   width: auto;
   max-width: 90%; 
   height: auto;
-  
 }
 
 /* botão Açoes */

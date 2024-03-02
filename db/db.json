@@ -31,6 +31,7 @@
       "id": 12
     }
   ],
+
   "Sofas": [
     {
       "nome": "Sofá A",
@@ -183,6 +184,14 @@
       "preco": 13,
       "imagem": "Banner1.jpg",
       "id": 2
+    }
+  ],
+
+  "ComponentesSofa": [
+    {
+      "nome": "Almofadas",
+      "PrecoFixo": "3",
+      "Dimensao": "20x10"
     }
   ]
 }
