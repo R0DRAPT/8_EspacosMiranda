@@ -39,7 +39,10 @@
       "tipo": "Confortável",
       "preco": 13,
       "imagem": "Banner1.jpg",
-      "id": 1
+      "id": 1,
+      "componentes": [
+        
+      ]
     },
     {
       "id": 2,
@@ -191,7 +194,9 @@
     {
       "nome": "Almofadas",
       "PrecoFixo": "3",
-      "Dimensao": "20x10"
+      "Dimensao": "20x10",
+      "imagem": "Banner1.jpg",
+      "id": 1
     }
   ]
 }

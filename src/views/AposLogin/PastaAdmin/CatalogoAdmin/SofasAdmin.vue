@@ -124,6 +124,9 @@
         <label class="CamposSofas">Imagem</label>
       </th>
       <th scope="col">
+        <label class="CamposSofas">Componentes</label>
+      </th>
+      <th scope="col">
         <label class="CamposSofas">Ações</label>
       </th>
     </tr>
@@ -137,6 +140,10 @@
       <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
       <td v-if="columnVisibility.imagem">
         <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
+      </td>
+      <!-- Btn Componentes -->
+      <td class="btnComponentes">
+        <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
       </td>
       <!-- Botões de edição e eliminar -->
       <td class="TextAcoes">
@@ -214,6 +221,106 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal Para Exibir Componentes -->
+      <div class="modal fade" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-componentes" role="document">
+          <div class="modal-content modal-content-componentes">
+            <div class="modal-header">
+              <h5 class="modal-title" id="componentesModalLabel">Componentes - {{ selectedSofaName }}</h5>
+              <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-body-componentes">
+              <table class="table table-Componentes">
+                <thead>
+                  <tr>
+                    <th>
+                      <label>#</label>
+                    </th>
+                    <th scope="col">
+                      <label class="CamposSofas">Nome</label>
+                    </th>
+                    <th scope="col">
+                      <label class="CamposSofas">Dimensão</label>
+                    </th>
+                    <th scope="col">
+                      <label class="CamposSofas">Preço Fixo</label>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(componente, index) in selectedSofa.componentes" :key="index">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ componente.nome }}</td>
+                    <td>{{ componente.dimensao }}</td>
+                    <td>{{ componente.precofixo }}</td>
+                    <td>
+                      <button class="btn btn-danger btn-sm" @click="removeComponenteSofa(index)">
+                        Remover
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <button class="btn btn-primary btn-add text-right" @click="openAddComponenteModal">
+                  <font-awesome-icon :icon="['fas', 'plus']" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Add Componente Sofá -->
+      <div class="modal modal-add-componente" id="addComponenteModal" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-dialog-componente" role="document">
+            <div class="modal-content modal-content-componente" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
+              <div class="modal-header modal-header-componente">
+                <h5 class="modal-title  modal-title-componente"><b>Adicionar Componente</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeAddComponenteModal">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Campo Nome -->
+                <div class="form-group">
+                  <label for="nome">Nome:</label>
+                  <input type="text" class="form-control" id="nome" v-model="novoComponenteSofa.nome" autocomplete="off">
+                </div>
+                <!-- Campo Dimensão -->
+                <div class="form-group">
+                  <label for="dimensao">Dimensão:</label>
+                  <input type="text" class="form-control" id="dimensao" v-model="novoComponenteSofa.dimensao" autocomplete="off">
+                </div>
+                <!-- Campo Preço Fixo-->
+                <div class="form-group">
+                  <label for="precofixo">Preço Fixo:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">€</span>
+                        </div>
+                        <input type="number" class="form-control" id="precofixo" v-model="novoComponenteSofa.precofixo" autocomplete="off">
+                    </div>
+                </div>
+                <!-- Campo Imagem -->
+                <div class="form-group">
+                    <label for="imagem">Imagem:</label>
+                    <input type="text" class="form-control" id="imagem" v-model="novoComponenteSofa.imagem" @input="updateImage" autocomplete="off">
+                </div>
+                <!-- Exibição dinâmica da imagem -->
+                <div class="corpo-modal-imagem" v-if="novoSofa.imagem">
+                    <img :src="`/img/catalogo/ImagensArtigos/${novoComponenteSofa.imagem}`" alt="Imagem">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn-lg btn-info" @click="addComponenteSofa">Adicionar</button>
+              </div>
+            </div>
+          </div>
+        </div>
       
     <br/><br/>
   </div>
@@ -241,6 +348,7 @@ export default {
       imagemModalNome: '',
       showEditModal: false,
       showAddModal: false,
+      selectedSofaName: '',
       editedSofa: {},
       columnVisibility: {
         nome: true,
@@ -254,6 +362,13 @@ export default {
         tipo: '',
         material: '',
         preco: null,
+        imagem: '',
+        componentes: []
+      },
+      novoComponenteSofa: {
+        nome: '',
+        dimensao: '',
+        precofixo: '',
         imagem: ''
       },
       // Imagens
@@ -306,6 +421,8 @@ export default {
         this.columnVisibility[key] = true;
       }
     },
+
+    // Imagens
 
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
@@ -452,6 +569,14 @@ export default {
 
     closeAddModal() {
       this.showAddModal = false;
+      this.novoSofa = {
+        nome: '',
+        tipo: '',
+        material: '',
+        preco: null,
+        imagem: '',
+        componentes: []
+      };
     },
 
     addSofa() {
@@ -511,6 +636,49 @@ export default {
             toastClass: 'toast-error',
           });
         });
+    },
+
+    // Componentes
+
+    openComponenteModal(itemId) {
+      this.selectedSofaId = itemId;
+      const selectedSofa = this.items.find(item => item.id === itemId);
+      if (selectedSofa) {
+        this.selectedSofaName = selectedSofa.nome;
+        $('#componentesModal').modal('show');
+      }
+    },
+
+
+    closeComponenteModal() {
+      $('#componentesModal').modal('hide');
+    },
+
+    // Add Componentes
+    
+    openAddComponenteModal() {
+      $('#addComponenteModal').modal('show');
+    },
+
+    closeAddComponenteModal() {
+      $('#addComponenteModal').modal('hide');
+    },
+
+    addComponenteSofa() {
+      const componente = {
+        nome: this.novoComponenteSofa.nome,
+        dimensao: this.novoComponenteSofa.dimensao,
+        precofixo: this.novoComponenteSofa.precofixo,
+        imagem: this.novoComponenteSofa.imagem
+      };
+      const selectedSofa = this.items.find(item => item.id === this.selectedSofaId);
+      selectedSofa.componentes.push(componente);
+      this.closeAddComponenteModal();
+    },
+
+    removeComponenteSofa(componenteIndex) {
+      const selectedSofa = this.items.find(item => item.id === this.selectedSofaId);
+      selectedSofa.componentes.splice(componenteIndex, 1);
     },
   },
 }
@@ -671,5 +839,51 @@ export default {
 
 .modal-add.show {
   display: block;
+}
+
+/* Modal Componentes */
+
+.modal-body-componentes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog-componentes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  width: 100%;
+  margin: auto;
+}
+
+.modal-content-componentes {
+  width: 1270px; /* Muda a dimensao da tabela toda */
+  height: 100%;
+}
+
+/* Tabela Componentes */
+
+.table-Componentes {
+  width: 1270px; /* Muda a dimensao da tabela toda */
+  margin: 0 auto; 
+  font-size: 18px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+}
+
+/* Cabeçalho da tabela */
+
+thead {
+    background-color: #333;
+    color: #fff;
+}
+
+th, td {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 </style>

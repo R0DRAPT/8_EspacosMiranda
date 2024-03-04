@@ -119,7 +119,7 @@
             <table class="table table-Componentes">
               <thead>
                 <tr>
-                  <th>Id Sofá</th>
+                  <th>#</th>
                   <th>Nome</th>
                   <th>Preço Fixo</th>
                   <th>Dimensão</th>
