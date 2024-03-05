@@ -236,31 +236,20 @@
               <table class="table table-Componentes">
                 <thead>
                   <tr>
-                    <th>
-                      <label>#</label>
-                    </th>
-                    <th scope="col">
-                      <label class="CamposSofas">Nome</label>
-                    </th>
-                    <th scope="col">
-                      <label class="CamposSofas">Dimensão</label>
-                    </th>
-                    <th scope="col">
-                      <label class="CamposSofas">Preço Fixo</label>
-                    </th>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Preço Fixo</th>
+                    <th>Dimensão</th>
+                    <th>Imagem</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(componente, index) in selectedSofa.componentes" :key="index">
+                  <tr v-for="(componente, index) in selectedSofaComponents" :key="index">
                     <td>{{ index + 1 }}</td>
                     <td>{{ componente.nome }}</td>
-                    <td>{{ componente.dimensao }}</td>
                     <td>{{ componente.precofixo }}</td>
-                    <td>
-                      <button class="btn btn-danger btn-sm" @click="removeComponenteSofa(index)">
-                        Remover
-                      </button>
-                    </td>
+                    <td>{{ componente.dimensao }}</td>
+                    <td>{{ componente.imagem }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -349,6 +338,8 @@ export default {
       showEditModal: false,
       showAddModal: false,
       selectedSofaName: '',
+      selectedSofaComponents: [],
+      currentSofaId: null,
       editedSofa: {},
       columnVisibility: {
         nome: true,
@@ -357,14 +348,15 @@ export default {
         preco: true,
         imagem: true,
       },
+      // Adicionar
       novoSofa: {
         nome: '',
         tipo: '',
         material: '',
         preco: null,
-        imagem: '',
-        componentes: []
+        imagem: ''
       },
+      // Componentes
       novoComponenteSofa: {
         nome: '',
         dimensao: '',
@@ -399,6 +391,7 @@ export default {
   },
 
   methods: {
+    // Filtro
     toggleDropdown() {
       const dropdown = document.getElementById('checkboxDropdown');
       if (dropdown.classList.contains('show')) {
@@ -451,7 +444,6 @@ export default {
     },
 
     saveSofaChanges() {
-
     // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
     axios.get(`/img/catalogo/ImagensArtigos/${this.editedSofa.imagem}`)
       .then(() => {
@@ -563,20 +555,13 @@ export default {
 
     // Add
 
-    openAddModal() {
+    openAddModal(sofa) {
       this.showAddModal = true;
+      currentSofaId = sofa.id;
     },
 
     closeAddModal() {
       this.showAddModal = false;
-      this.novoSofa = {
-        nome: '',
-        tipo: '',
-        material: '',
-        preco: null,
-        imagem: '',
-        componentes: []
-      };
     },
 
     addSofa() {
@@ -641,14 +626,14 @@ export default {
     // Componentes
 
     openComponenteModal(itemId) {
-      this.selectedSofaId = itemId;
       const selectedSofa = this.items.find(item => item.id === itemId);
       if (selectedSofa) {
         this.selectedSofaName = selectedSofa.nome;
+        this.selectedSofaComponents = selectedSofa.componentes || [];
+        this.currentSofaId = selectedSofa.id;
         $('#componentesModal').modal('show');
       }
     },
-
 
     closeComponenteModal() {
       $('#componentesModal').modal('hide');
@@ -657,7 +642,24 @@ export default {
     // Add Componentes
     
     openAddComponenteModal() {
-      $('#addComponenteModal').modal('show');
+      // Verificar se currentSofaId está definido
+      if (this.currentSofaId) {
+        $('#addComponenteModal').modal('show');
+      } else {
+        console.error("ID do sofá não definido.");
+        // Toastr de erro
+        toastr.error("ID do sofá não definido. Por favor, selecione um sofá válido.", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+      }
     },
 
     closeAddComponenteModal() {
@@ -665,21 +667,97 @@ export default {
     },
 
     addComponenteSofa() {
-      const componente = {
-        nome: this.novoComponenteSofa.nome,
-        dimensao: this.novoComponenteSofa.dimensao,
-        precofixo: this.novoComponenteSofa.precofixo,
-        imagem: this.novoComponenteSofa.imagem
-      };
-      const selectedSofa = this.items.find(item => item.id === this.selectedSofaId);
-      selectedSofa.componentes.push(componente);
-      this.closeAddComponenteModal();
-    },
+      // Verificar se o ID do sofá está definido
+      if (this.currentSofaId) {
+        const selectedSofa = this.items.find(item => item.id === this.currentSofaId);
 
-    removeComponenteSofa(componenteIndex) {
-      const selectedSofa = this.items.find(item => item.id === this.selectedSofaId);
-      selectedSofa.componentes.splice(componenteIndex, 1);
-    },
+        // Verificar se o sofá foi encontrado
+        if (selectedSofa) {
+          // Verificar se o sofá possui a propriedade 'componentes'
+          if (!selectedSofa.hasOwnProperty('componentes')) {
+            // Se não tiver, criar a propriedade 'componentes' como um array vazio
+            selectedSofa.componentes = [];
+          }
+
+          // Adicionar o novo componente ao array de componentes do sofá
+          selectedSofa.componentes.push({
+            nome: this.novoComponenteSofa.nome,
+            dimensao: this.novoComponenteSofa.dimensao,
+            precofixo: parseFloat(this.novoComponenteSofa.precofixo.toString().replace('€', '').trim()),
+            imagem: this.novoComponenteSofa.imagem
+          });
+
+          // Limpar os campos do formulário após adicionar o componente
+          this.novoComponenteSofa.nome = '';
+          this.novoComponenteSofa.dimensao = '';
+          this.novoComponenteSofa.precofixo = '';
+          this.novoComponenteSofa.imagem = '';
+
+          // Atualizar o sofá no servidor
+          axios.put(`http://localhost:3000/Sofas/${selectedSofa.id}`, selectedSofa)
+            .then(response => {
+              console.log("Componente adicionado ao sofá com sucesso:", response.data);
+              // Fechar o modal de adição de componente
+              this.closeAddComponenteModal();
+              // Toastr de sucesso
+              toastr.success("Componente adicionado ao sofá com sucesso.", "Sucesso", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-success",
+              });
+            })
+            .catch(error => {
+              console.error("Erro ao adicionar componente ao sofá:", error);
+              // Toastr de erro
+              toastr.error("Erro ao adicionar componente ao sofá.", "Erro!", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-error",
+              });
+            });
+        } else {
+          console.error("Sofá não encontrado com o ID:", this.currentSofaId);
+          // Toastr de erro
+          toastr.error("Sofá não encontrado. Por favor, selecione um sofá válido.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+        }
+      } else {
+        console.error("ID do sofá não definido.");
+        // Toastr de erro
+        toastr.error("ID do sofá não definido. Por favor, abra a modal novamente.", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+      }
+    }
   },
 }
 </script>

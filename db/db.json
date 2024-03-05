@@ -31,7 +31,6 @@
       "id": 12
     }
   ],
-
   "Sofas": [
     {
       "nome": "Sofá A",
@@ -41,7 +40,18 @@
       "imagem": "Banner1.jpg",
       "id": 1,
       "componentes": [
-        
+        {
+          "nome": "1teste",
+          "dimensao": "1x2",
+          "precofixo": 11,
+          "imagem": "111"
+        },
+        {
+          "nome": "teste",
+          "dimensao": "2",
+          "precofixo": 32,
+          "imagem": "a"
+        }
       ]
     },
     {
@@ -50,7 +60,15 @@
       "material": "Tecido",
       "tipo": "Moderno",
       "preco": "1",
-      "imagem": "sofacama.png"
+      "imagem": "sofacama.png",
+      "componentes": [
+        {
+          "nome": "1",
+          "dimensao": "1",
+          "precofixo": 1,
+          "imagem": "1"
+        }
+      ]
     },
     {
       "nome": "Sofá C",
@@ -58,7 +76,15 @@
       "tipo": "Clássico",
       "preco": 1,
       "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
-      "id": 3
+      "id": 3,
+      "componentes": [
+        {
+          "nome": "a",
+          "dimensao": "a",
+          "precofixo": 1,
+          "imagem": "1a"
+        }
+      ]
     },
     {
       "nome": "Sofá D",
@@ -75,14 +101,6 @@
       "preco": 1389,
       "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
       "id": 5
-    },
-    {
-      "nome": "teste",
-      "material": "teste",
-      "tipo": "teste",
-      "preco": 2133332,
-      "imagem": "Banner1.jpg",
-      "id": 6
     }
   ],
   "Cadeiroes": [
@@ -189,7 +207,6 @@
       "id": 2
     }
   ],
-
   "ComponentesSofa": [
     {
       "nome": "Almofadas",
