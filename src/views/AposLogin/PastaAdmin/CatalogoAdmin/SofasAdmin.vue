@@ -249,7 +249,9 @@
                     <td>{{ componente.nome }}</td>
                     <td>{{ componente.precofixo }}</td>
                     <td>{{ componente.dimensao }}</td>
-                    <td>{{ componente.imagem }}</td>
+                    <td @click="openImageModal(componente.imagem)">
+                      {{ componente.imagem }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -263,8 +265,25 @@
         </div>
       </div>
 
+      <!-- Modal Ver Imagem Componente -->
+      <div class="modal fade" id="verImagemComponenteModal" tabindex="-1" role="dialog" aria-labelledby="verImagemComponenteModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="verImagemComponenteModalLabel">{{ selectedSofaName }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeImageModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body corpo-modal-imagem">
+              <img :src="imagemComponenteModalSrc" alt="Imagem">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Modal Add Componente Sofá -->
-      <div class="modal modal-add-componente" id="addComponenteModal" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
+      <div class="modal modal-add-componente" id="addComponenteModal" :class="{ 'show': showComponenteAddModal }" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-dialog-componente" role="document">
             <div class="modal-content modal-content-componente" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
               <div class="modal-header modal-header-componente">
@@ -337,7 +356,9 @@ export default {
       imagemModalNome: '',
       showEditModal: false,
       showAddModal: false,
+      showComponenteAddModal: false,
       selectedSofaName: '',
+      imagemComponenteModalSrc: '',
       selectedSofaComponents: [],
       currentSofaId: null,
       editedSofa: {},
@@ -555,7 +576,7 @@ export default {
 
     // Add
 
-    openAddModal(sofa) {
+    openAddModal(sofa, currentSofaId) {
       this.showAddModal = true;
       currentSofaId = sofa.id;
     },
@@ -757,7 +778,23 @@ export default {
           toastClass: "toast-error",
         });
       }
-    }
+    },
+
+    // Botão Ver Imagem Componentes
+
+    openImageModal(imagem) {
+      this.selectedImage = imagem;
+      $('#verImagemComponenteModal').modal('show');
+    },
+
+    closeImageModal() {
+      $('#verImagemComponenteModal').modal('hide');
+    },
+    
+    verImagemComponente(imagemSrc) {
+      this.imagemComponenteModalSrc = `/public/img/Catalogo/ImagensComponentes/${imagemSrc}`;
+      $('#imagemComponenteModal').modal('show');
+    },
   },
 }
 </script>
