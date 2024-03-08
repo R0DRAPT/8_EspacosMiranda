@@ -210,7 +210,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="imagemModalLabel">{{ imagemModalNome }}</h5>
+              <h5 class="modal-title" id="imagemModalLabel"><b>{{ imagemModalNome }}</b></h5>
               <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -227,7 +227,10 @@
         <div class="modal-dialog modal-dialog-componentes" role="document">
           <div class="modal-content modal-content-componentes">
             <div class="modal-header">
-              <h5 class="modal-title" id="componentesModalLabel">Componentes - {{ selectedSofaName }}</h5>
+              <h5 class="modal-title" id="componentesModalLabel"><b>Componentes - {{ selectedSofaName }}</b></h5>
+                <button class="btn btn-primary btn-add" @click="openAddComponenteModal">
+                  <font-awesome-icon :icon="['fas', 'plus']" />
+                </button>
               <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -255,11 +258,6 @@
                   </tr>
                 </tbody>
               </table>
-              <div>
-                <button class="btn btn-primary btn-add text-right" @click="openAddComponenteModal">
-                  <font-awesome-icon :icon="['fas', 'plus']" />
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -270,7 +268,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="verImagemComponenteModalLabel">{{ selectedSofaName }}</h5>
+              <h5 class="modal-title" id="verImagemComponenteModalLabel"><b>{{ selectedSofaName }}</b></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeImageModal">
                 <span aria-hidden="true">&times;</span>
               </button>

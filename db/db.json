@@ -101,22 +101,6 @@
       "preco": 1389,
       "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
       "id": 5
-    },
-    {
-      "nome": "a",
-      "tipo": "A",
-      "material": "A",
-      "preco": 123,
-      "imagem": "banner1.jpg",
-      "id": 6,
-      "componentes": [
-        {
-          "nome": "1",
-          "dimensao": "1",
-          "precofixo": 12,
-          "imagem": "11"
-        }
-      ]
     }
   ],
   "Cadeiroes": [
