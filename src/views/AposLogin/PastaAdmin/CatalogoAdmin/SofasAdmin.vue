@@ -145,13 +145,15 @@
       <td class="btnComponentes">
         <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
       </td>
+
       <!-- Botões de edição e eliminar -->
       <td class="TextAcoes">
-        <button class="btn btn-primary btn-sm" @click="openEditModal(item)">
+        <!-- Botão Editar -->
+        <button class="btn btn-primary btn-sm" @click="openEditModal(item)" title="Editar Sofá">
           <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
         </button>
-
-        <button class="btn btn-danger btn-sm" @click="confirmDeleteSofa(item.id)">
+        <!-- Botão Remover -->
+        <button class="btn btn-danger btn-sm" @click="confirmDeleteSofa(item.id)" title="Remover Sofá">
           <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
         </button>
       </td>
@@ -228,9 +230,11 @@
           <div class="modal-content modal-content-componentes">
             <div class="modal-header">
               <h5 class="modal-title" id="componentesModalLabel"><b>Componentes - {{ selectedSofaName }}</b></h5>
-                <button class="btn btn-primary btn-add" @click="openAddComponenteModal">
-                  <font-awesome-icon :icon="['fas', 'plus']" />
-                </button>
+              <!-- Botão Abrir Modal Add Componente -->
+              <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 529px;">
+                <font-awesome-icon :icon="['fas', 'plus']" />
+              </button>
+
               <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -244,6 +248,7 @@
                     <th>Preço Fixo</th>
                     <th>Dimensão</th>
                     <th>Imagem</th>
+                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -254,6 +259,20 @@
                     <td>{{ componente.dimensao }}</td>
                     <td @click="openImageModal(componente.imagem)">
                       {{ componente.imagem }}
+                    </td>
+
+                    <!-- Botões Ações Componentes -->
+                    <td class="TextAcoes">
+
+                      <!-- Botão Remover Componente -->
+                      <button class="btn btn-danger btn-sm" @click="confirmDeleteSofa(item.id)" title="Remover Componente">
+                        <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
+                      </button>
+
+                      <!-- Botão Editar Componente -->
+                      <button class="btn btn-primary btn-sm" @click="openEditModal(item)" title="Editar Componente">
+                        <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -351,6 +370,7 @@ export default {
       app_name: "Espaços Miranda",
       userId: null,
       imagemModalSrc: '',
+      imagemModalComponenteSrc: '',
       imagemModalNome: '',
       showEditModal: false,
       showAddModal: false,
@@ -780,19 +800,23 @@ export default {
 
     // Botão Ver Imagem Componentes
 
-    openImageModal(imagem) {
-      this.selectedImage = imagem;
+    getItemNome(imagemSrcComponente) {
+      const componente = this.selectedSofaComponents.find(comp => `/img/catalogo/ImagensComponentes/${comp.imagem}` === imagemSrcComponente);
+      return componente ? componente.nome : 'Componente';
+    },
+
+
+    openImageModal(imagemSrcComponente) {
+      this.imagemModalComponenteSrc = `/img/catalogo/ImagensComponentes/${imagemSrcComponente}`;
       $('#verImagemComponenteModal').modal('show');
     },
 
     closeImageModal() {
       $('#verImagemComponenteModal').modal('hide');
     },
+
+    // Ações Componentes
     
-    verImagemComponente(imagemSrc) {
-      this.imagemComponenteModalSrc = `/public/img/Catalogo/ImagensComponentes/${imagemSrc}`;
-      $('#imagemComponenteModal').modal('show');
-    },
   },
 }
 </script>
