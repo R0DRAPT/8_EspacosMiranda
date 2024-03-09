@@ -51,6 +51,12 @@
           "dimensao": "2",
           "precofixo": 32,
           "imagem": "Banner1.jpg"
+        },
+        {
+          "nome": "teste",
+          "dimensao": "11x33",
+          "precofixo": 123,
+          "imagem": "sofacama.png"
         }
       ]
     },

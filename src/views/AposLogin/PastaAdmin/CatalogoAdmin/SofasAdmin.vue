@@ -257,7 +257,7 @@
                     <td>{{ componente.nome }}</td>
                     <td>{{ componente.precofixo }}</td>
                     <td>{{ componente.dimensao }}</td>
-                    <td @click="openImageModal(componente.imagem)">
+                    <td @click="openImageModal(componente.imagem)" class="ImagensComponentes">
                       {{ componente.imagem }}
                     </td>
 
@@ -293,7 +293,7 @@
               </button>
             </div>
             <div class="modal-body corpo-modal-imagem">
-              <img :src="imagemComponenteModalSrc" alt="Imagem">
+              <img :src="imagemModalComponenteSrc" alt="Imagem">
             </div>
           </div>
         </div>
@@ -335,9 +335,10 @@
                     <label for="imagem">Imagem:</label>
                     <input type="text" class="form-control" id="imagem" v-model="novoComponenteSofa.imagem" @input="updateImage" autocomplete="off">
                 </div>
+
                 <!-- Exibição dinâmica da imagem -->
-                <div class="corpo-modal-imagem" v-if="novoSofa.imagem">
-                    <img :src="`/img/catalogo/ImagensArtigos/${novoComponenteSofa.imagem}`" alt="Imagem">
+                <div class="corpo-modal-imagem" v-if="novoComponenteSofa.imagem">
+                    <img :src="`/img/Catalogo/ImagensComponentes/${novoComponenteSofa.imagem}`" alt="Imagem">
                 </div>
               </div>
               <div class="modal-footer">
@@ -376,7 +377,6 @@ export default {
       showAddModal: false,
       showComponenteAddModal: false,
       selectedSofaName: '',
-      imagemComponenteModalSrc: '',
       selectedSofaComponents: [],
       currentSofaId: null,
       editedSofa: {},
@@ -801,13 +801,14 @@ export default {
     // Botão Ver Imagem Componentes
 
     getItemNome(imagemSrcComponente) {
-      const componente = this.selectedSofaComponents.find(comp => `/img/catalogo/ImagensComponentes/${comp.imagem}` === imagemSrcComponente);
+      const componente = this.selectedSofaComponents.find(comp => `/img/Catalogo/ImagensComponentes/${comp.imagem}` === imagemSrcComponente);
       return componente ? componente.nome : 'Componente';
     },
 
 
     openImageModal(imagemSrcComponente) {
-      this.imagemModalComponenteSrc = `/img/catalogo/ImagensComponentes/${imagemSrcComponente}`;
+      this.imagemModalComponenteSrc = `/img/Catalogo/ImagensComponentes/${imagemSrcComponente}`;
+      console.log(this.imagemModalComponenteSrc)
       $('#verImagemComponenteModal').modal('show');
     },
 
@@ -1010,6 +1011,10 @@ export default {
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+}
+
+.ImagensComponentes {
+  cursor: pointer;
 }
 
 /* Cabeçalho da tabela */
