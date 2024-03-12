@@ -252,8 +252,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(componente, index) in selectedSofaComponents" :key="index">
-                    <td>{{ index + 1 }}</td>
+                  <tr v-for="(componente, id) in selectedSofaComponents" :key="id">
+                    <td>{{ id + 1 }}</td>
                     <td>{{ componente.nome }}</td>
                     <td>{{ componente.precofixo }}</td>
                     <td>{{ componente.dimensao }}</td>
@@ -265,12 +265,12 @@
                     <td class="TextAcoes">
 
                       <!-- Botão Remover Componente -->
-                      <button class="btn btn-danger btn-sm" @click="confirmDeleteSofa(item.id)" title="Remover Componente">
+                      <button class="btn btn-danger btn-sm" @click="confirmDeleteComponente(componente.id)" title="Remover Componente">
                         <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
                       </button>
 
                       <!-- Botão Editar Componente -->
-                      <button class="btn btn-primary btn-sm" @click="openEditModal(item)" title="Editar Componente">
+                      <button class="btn btn-primary btn-sm" @click="openEditModalComponente(componente)" title="Editar Componente">
                         <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
                       </button>
                     </td>
@@ -287,7 +287,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="verImagemComponenteModalLabel"><b>{{ selectedSofaName }}</b></h5>
+              <h5 class="modal-title" id="verImagemComponenteModalLabel"><b>Componente - {{ selectedComponenteName }}</b></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeImageModal">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -377,6 +377,7 @@ export default {
       showAddModal: false,
       showComponenteAddModal: false,
       selectedSofaName: '',
+      selectedComponenteName: '',
       selectedSofaComponents: [],
       currentSofaId: null,
       editedSofa: {},
@@ -430,7 +431,7 @@ export default {
   },
 
   methods: {
-    // Filtro
+    // ----------------------  Filtro ---------------------- 
     toggleDropdown() {
       const dropdown = document.getElementById('checkboxDropdown');
       if (dropdown.classList.contains('show')) {
@@ -454,7 +455,7 @@ export default {
       }
     },
 
-    // Imagens
+    // ----------------------  Imagens ---------------------- 
 
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
@@ -471,7 +472,7 @@ export default {
       $('#imagemModal').modal('hide');
     },
 
-    // Ações
+    // ----------------------  Ações ---------------------- 
 
     openEditModal(item) {
       this.showEditModal = true;
@@ -592,7 +593,7 @@ export default {
       }
     },
 
-    // Add
+    // ----------------------  Add ---------------------- 
 
     openAddModal(sofa, currentSofaId) {
       this.showAddModal = true;
@@ -662,7 +663,7 @@ export default {
         });
     },
 
-    // Componentes
+    // ---------------------- Componentes ---------------------- 
 
     openComponenteModal(itemId) {
       const selectedSofa = this.items.find(item => item.id === itemId);
@@ -807,18 +808,84 @@ export default {
 
 
     openImageModal(imagemSrcComponente) {
-      this.imagemModalComponenteSrc = `/img/Catalogo/ImagensComponentes/${imagemSrcComponente}`;
-      console.log(this.imagemModalComponenteSrc)
-      $('#verImagemComponenteModal').modal('show');
+      const componente = this.selectedSofaComponents.find(comp => {
+        const lastIndexOfSlash = comp.imagem.lastIndexOf('/');
+        const imageName = comp.imagem.substring(lastIndexOfSlash + 1);
+        return imageName === imagemSrcComponente;
+      });
+
+      console.log("Componente encontrado:", componente);
+      
+      if (componente) {
+        console.log("Nome do componente:", componente.nome);
+        this.selectedComponenteName = componente.nome;
+        this.imagemModalComponenteSrc = `/img/Catalogo/ImagensComponentes/${componente.imagem}`;
+        $('#verImagemComponenteModal').modal('show');
+      } else {
+        console.error("Componente não encontrado para a imagem:", imagemSrcComponente);
+        // Toastr de erro
+        toastr.error("Componente não encontrado. Por favor, tente novamente.", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+      }
     },
+
 
     closeImageModal() {
       $('#verImagemComponenteModal').modal('hide');
     },
 
     // Ações Componentes
-    
-  },
+
+    confirmDeleteComponente(componenteId) {
+      const confirmDelete = window.confirm("Quer mesmo eliminar este Componente?");
+      if (confirmDelete) {
+        axios.delete(`http://localhost:3000/Sofas/componentes/${componenteId}`)
+          .then(response => {
+            console.log("Componente eliminado com sucesso:", response.data);
+            // Toastr de sucesso
+            toastr.success("Componente eliminado com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-success",
+              });
+              // f5 na pagina
+              setTimeout(() => {
+                location.reload();
+              }, 5000);   
+          })
+          .catch(error => {
+            console.error("Erro ao eliminar o Componente:", error);
+            // Toastr Erro
+            toastr.error("Erro ao eliminar o Componente.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+          });
+      }
+    },
+   },
 }
 </script>
   

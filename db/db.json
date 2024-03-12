@@ -44,19 +44,22 @@
           "nome": "1teste",
           "dimensao": "1x2",
           "precofixo": 11,
-          "imagem": "111"
+          "imagem": "111",
+          "id": 1
         },
         {
           "nome": "teste",
           "dimensao": "2",
           "precofixo": 32,
-          "imagem": "Banner1.jpg"
+          "imagem": "Banner1.jpg",
+          "id": 2
         },
         {
           "nome": "teste",
           "dimensao": "11x33",
           "precofixo": 123,
-          "imagem": "sofacama.png"
+          "imagem": "sofacama.png",
+          "id": 3
         }
       ]
     },
