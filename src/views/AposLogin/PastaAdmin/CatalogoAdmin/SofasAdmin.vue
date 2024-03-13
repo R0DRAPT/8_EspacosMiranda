@@ -230,6 +230,7 @@
           <div class="modal-content modal-content-componentes">
             <div class="modal-header">
               <h5 class="modal-title" id="componentesModalLabel"><b>Componentes - {{ selectedSofaName }}</b></h5>
+
               <!-- Botão Abrir Modal Add Componente -->
               <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 529px;">
                 <font-awesome-icon :icon="['fas', 'plus']" />
@@ -264,15 +265,16 @@
                     <!-- Botões Ações Componentes -->
                     <td class="TextAcoes">
 
+                      <!-- Botão Editar Componente -->
+                      <button class="btn btn-primary btn-sm" @click="openEditModalComponente(componente)" title="Editar Componente">
+                        <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
+                      </button>
+
                       <!-- Botão Remover Componente -->
                       <button class="btn btn-danger btn-sm" @click="confirmDeleteComponente(componente.id)" title="Remover Componente">
                         <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
                       </button>
 
-                      <!-- Botão Editar Componente -->
-                      <button class="btn btn-primary btn-sm" @click="openEditModalComponente(componente)" title="Editar Componente">
-                        <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
-                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -301,53 +303,95 @@
 
       <!-- Modal Add Componente Sofá -->
       <div class="modal modal-add-componente" id="addComponenteModal" :class="{ 'show': showComponenteAddModal }" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-dialog-componente" role="document">
-            <div class="modal-content modal-content-componente" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
-              <div class="modal-header modal-header-componente">
-                <h5 class="modal-title  modal-title-componente"><b>Adicionar Componente</b></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeAddComponenteModal">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="modal-dialog modal-dialog-componente" role="document">
+          <div class="modal-content modal-content-componente" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
+            <div class="modal-header modal-header-componente">
+              <h5 class="modal-title  modal-title-componente"><b>Adicionar Componente</b></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeAddComponenteModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Campo Nome -->
+              <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" v-model="novoComponenteSofa.nome" autocomplete="off">
               </div>
-              <div class="modal-body">
-                <!-- Campo Nome -->
-                <div class="form-group">
-                  <label for="nome">Nome:</label>
-                  <input type="text" class="form-control" id="nome" v-model="novoComponenteSofa.nome" autocomplete="off">
-                </div>
-                <!-- Campo Dimensão -->
-                <div class="form-group">
-                  <label for="dimensao">Dimensão:</label>
-                  <input type="text" class="form-control" id="dimensao" v-model="novoComponenteSofa.dimensao" autocomplete="off">
-                </div>
-                <!-- Campo Preço Fixo-->
-                <div class="form-group">
-                  <label for="precofixo">Preço Fixo:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">€</span>
-                        </div>
-                        <input type="number" class="form-control" id="precofixo" v-model="novoComponenteSofa.precofixo" autocomplete="off">
-                    </div>
-                </div>
-                <!-- Campo Imagem -->
-                <div class="form-group">
-                    <label for="imagem">Imagem:</label>
-                    <input type="text" class="form-control" id="imagem" v-model="novoComponenteSofa.imagem" @input="updateImage" autocomplete="off">
-                </div>
+              <!-- Campo Dimensão -->
+              <div class="form-group">
+                <label for="dimensao">Dimensão:</label>
+                <input type="text" class="form-control" id="dimensao" v-model="novoComponenteSofa.dimensao" autocomplete="off">
+              </div>
+              <!-- Campo Preço Fixo-->
+              <div class="form-group">
+                <label for="precofixo">Preço Fixo:</label>
+                  <div class="input-group">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text">€</span>
+                      </div>
+                      <input type="number" class="form-control" id="precofixo" v-model="novoComponenteSofa.precofixo" autocomplete="off">
+                  </div>
+              </div>
+              <!-- Campo Imagem -->
+              <div class="form-group">
+                  <label for="imagem">Imagem:</label>
+                  <input type="text" class="form-control" id="imagem" v-model="novoComponenteSofa.imagem" @input="updateImage" autocomplete="off">
+              </div>
 
-                <!-- Exibição dinâmica da imagem -->
-                <div class="corpo-modal-imagem" v-if="novoComponenteSofa.imagem">
-                    <img :src="`/img/Catalogo/ImagensComponentes/${novoComponenteSofa.imagem}`" alt="Imagem">
-                </div>
+              <!-- Exibição dinâmica da imagem -->
+              <div class="corpo-modal-imagem" v-if="novoComponenteSofa.imagem">
+                  <img :src="`/img/Catalogo/ImagensComponentes/${novoComponenteSofa.imagem}`" alt="Imagem">
               </div>
-              <div class="modal-footer">
-                <button class="btn-lg btn-info" @click="addComponenteSofa">Adicionar</button>
-              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn-lg btn-info" @click="addComponenteSofa">Adicionar</button>
             </div>
           </div>
         </div>
-      
+      </div>
+
+      <!-- Modal Editar Componente Sofá -->
+      <div class="modal modalEditarComponente" :class="{ 'show': showEditModalComponente }" tabindex="-1" role="dialog" style="z-index: 1060;">
+        <div class="modal-dialog modalEditarComponente-dialog" role="document">
+          <div class="modal-content modalEditarComponente-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
+            <div class="modal-header modalEditarComponente-header">
+              <h5 class="modal-title modalEditarComponente-tilte"><b>Editar {{ selectedComponenteName }}</b></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModalComponente">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modalEditarComponente-body">
+              <form class="user-form modalEditarComponente-userform">
+                <div class="mb-3">
+                  <input type="text" class="form-control" placeholder="Novo Nome" v-model="editedComponente.nome">
+                </div>
+                <div class="mb-3">
+                  <input type="text" class="form-control" placeholder="Nova Dimensão" v-model="editedComponente.dimensao">
+                </div>
+                <div class="mb-3">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">€</span>
+                    </div>
+                    <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedComponente.precofixo">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedComponente.imagem">
+                </div>
+                <div class="mb-3 corpo-modal-imagem" v-if="editedComponente.imagem">
+                  <img :src="`/img/catalogo/ImagensArtigos/${editedComponente.imagem}`" alt="Imagem">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn-lg btn-info" @click="saveComponenteChanges">Salvar Modificações</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <br/><br/>
   </div>
 </template>
@@ -381,6 +425,7 @@ export default {
       selectedSofaComponents: [],
       currentSofaId: null,
       editedSofa: {},
+      editedComponente: {},
       columnVisibility: {
         nome: true,
         tipo: true,
@@ -719,8 +764,12 @@ export default {
             selectedSofa.componentes = [];
           }
 
-          // Adicionar o novo componente ao array de componentes do sofá
+          // Gerar o ID incremental para o novo componente
+          const novoComponenteId = selectedSofa.componentes.length + 1;
+
+          // Adicionar o novo componente ao array de componentes do sofá com o ID gerado
           selectedSofa.componentes.push({
+            id: novoComponenteId,
             nome: this.novoComponenteSofa.nome,
             dimensao: this.novoComponenteSofa.dimensao,
             precofixo: parseFloat(this.novoComponenteSofa.precofixo.toString().replace('€', '').trim()),
@@ -846,32 +895,52 @@ export default {
     // Ações Componentes
 
     confirmDeleteComponente(componenteId) {
-      const confirmDelete = window.confirm("Quer mesmo eliminar este Componente?");
-      if (confirmDelete) {
-        axios.delete(`http://localhost:3000/Sofas/componentes/${componenteId}`)
-          .then(response => {
-            console.log("Componente eliminado com sucesso:", response.data);
-            // Toastr de sucesso
-            toastr.success("Componente eliminado com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
-                closeButton: true,
-                positionClass: "toast-bottom-right",
-                progressBar: true,
-                timeOut: 5000,
-                extendedTimeOut: 1000,
-                preventDuplicates: true,
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut",
-                toastClass: "toast-success",
+      const selectedSofa = this.items.find(item => item.id === this.currentSofaId);
+
+      if (selectedSofa) {
+        if (selectedSofa.componentes && selectedSofa.componentes.some(componente => componente.id === componenteId)) {
+          const confirmDelete = window.confirm("Quer mesmo eliminar este componente?");
+
+          if (confirmDelete) {
+            selectedSofa.componentes = selectedSofa.componentes.filter(componente => componente.id !== componenteId);
+
+            axios.put(`http://localhost:3000/Sofas/${selectedSofa.id}`, selectedSofa)
+              .then(response => {
+                console.log("Componente removido do sofá com sucesso:", response.data);
+                toastr.success("Componente removido do sofá com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
+                  closeButton: true,
+                  positionClass: "toast-bottom-right",
+                  progressBar: true,
+                  timeOut: 5000,
+                  extendedTimeOut: 1000,
+                  preventDuplicates: true,
+                  showMethod: "fadeIn",
+                  hideMethod: "fadeOut",
+                  toastClass: "toast-success",
+                });
+                // f5 na pagina
+                setTimeout(() => {
+                  location.reload();
+                }, 5000);   
+              })
+              .catch(error => {
+                console.error("Erro ao remover componente do sofá:", error);
+                toastr.error("Erro ao remover componente do sofá.", "Erro!", {
+                  closeButton: true,
+                  positionClass: "toast-bottom-right",
+                  progressBar: true,
+                  timeOut: 5000,
+                  extendedTimeOut: 1000,
+                  preventDuplicates: true,
+                  showMethod: "fadeIn",
+                  hideMethod: "fadeOut",
+                  toastClass: "toast-error",
+                });
               });
-              // f5 na pagina
-              setTimeout(() => {
-                location.reload();
-              }, 5000);   
-          })
-          .catch(error => {
-            console.error("Erro ao eliminar o Componente:", error);
-            // Toastr Erro
-            toastr.error("Erro ao eliminar o Componente.", "Erro!", {
+          }
+        } else {
+          console.error("Componente não encontrado na lista de componentes.");
+          toastr.error("Componente não encontrado na lista de componentes.", "Erro!", {
             closeButton: true,
             positionClass: "toast-bottom-right",
             progressBar: true,
@@ -882,10 +951,90 @@ export default {
             hideMethod: "fadeOut",
             toastClass: "toast-error",
           });
-          });
+        }
+      } else {
+        console.error("Sofá não encontrado com o ID:", this.currentSofaId);
+        toastr.error("Sofá não encontrado. Por favor, selecione um sofá válido.", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
       }
     },
-   },
+
+    openEditModalComponente(componente) {
+      // $('#componentesModal').modal('hide');
+      this.showEditModalComponente = true;
+      this.editedComponente = { ...componente };
+      this.selectedComponenteName = componente.nome;
+    },
+
+    closeEditModalComponente() {
+      this.showEditModalComponente = false;
+      this.editedComponente = {};
+    },
+
+    saveComponenteChanges() {
+      // Verifica se o componente a ser editado possui um ID válido
+      if (!this.editedComponente || !this.editedComponente.id) {
+        console.error("ID inválido do componente para edição:", this.editedComponente);
+        // Toastr de erro
+        toastr.error("ID inválido do componente para edição. Por favor, tente novamente.", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+        return;
+      }
+
+      // Realiza um PUT para atualizar os dados do componente
+      axios.put(`http://localhost:3000/Sofas/${this.editedComponente.sofaId}/componentes/${this.editedComponente.id}`, this.editedComponente)
+        .then(response => {
+          console.log("Dados do componente atualizados com sucesso:", response.data);
+          // Toastr de sucesso
+          toastr.success("Componente editado com sucesso.", "Sucesso", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-success",
+          });
+          // Feche o modal de edição
+          this.closeEditModalComponente();
+        })
+        .catch(error => {
+          console.error("Erro ao atualizar dados do componente:", error);
+          // Toastr de erro
+          toastr.error("Erro ao editar o componente.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+        });
+    },
+  },
 }
 </script>
   
@@ -1094,5 +1243,22 @@ thead {
 th, td {
     text-align: center;
     border-bottom: 1px solid #ddd;
+}
+
+/* Modal Editar Componente Sofá */
+
+.modal-dialog-editarComponentes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vh;
+  margin: 0 auto;
+}
+
+.modal-content-editarComponentes {
+  width: auto;
+  max-width: 90%; 
+  height: auto;
 }
 </style>
