@@ -969,7 +969,7 @@ export default {
     },
 
     openEditModalComponente(componente) {
-      // $('#componentesModal').modal('hide');
+      $('#componentesModal').modal('hide');
       this.showEditModalComponente = true;
       this.editedComponente = { ...componente };
       this.selectedComponenteName = componente.nome;
@@ -981,47 +981,62 @@ export default {
     },
 
     saveComponenteChanges() {
-      // Verifica se o componente a ser editado possui um ID válido
-      if (!this.editedComponente || !this.editedComponente.id) {
-        console.error("ID inválido do componente para edição:", this.editedComponente);
-        // Toastr de erro
-        toastr.error("ID inválido do componente para edição. Por favor, tente novamente.", "Erro!", {
-          closeButton: true,
-          positionClass: "toast-bottom-right",
-          progressBar: true,
-          timeOut: 5000,
-          extendedTimeOut: 1000,
-          preventDuplicates: true,
-          showMethod: "fadeIn",
-          hideMethod: "fadeOut",
-          toastClass: "toast-error",
-        });
-        return;
-      }
+      // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensComponentes/
+      axios.get(`/img/catalogo/ImagensComponentes/${this.editedComponente.imagem}`)
+        .then(() => {
+          // Se a imagem existe, continua com a atualização do componente
+          this.editedComponente.precofixo = parseFloat(this.editedComponente.precofixo.toString().replace('€', '').trim());
+          const ComponenteSofaIdToUpdate = this.editedComponente.id;
+          const SofaIdToUpdate = this.currentSofaId;
 
-      // Realiza um PUT para atualizar os dados do componente
-      axios.put(`http://localhost:3000/Sofas/${this.editedComponente.sofaId}/componentes/${this.editedComponente.id}`, this.editedComponente)
-        .then(response => {
-          console.log("Dados do componente atualizados com sucesso:", response.data);
-          // Toastr de sucesso
-          toastr.success("Componente editado com sucesso.", "Sucesso", {
-            closeButton: true,
-            positionClass: "toast-bottom-right",
-            progressBar: true,
-            timeOut: 5000,
-            extendedTimeOut: 1000,
-            preventDuplicates: true,
-            showMethod: "fadeIn",
-            hideMethod: "fadeOut",
-            toastClass: "toast-success",
-          });
-          // Feche o modal de edição
-          this.closeEditModalComponente();
+          const updatedData = {
+            nome: this.editedComponente.nome,
+            dimensao: this.editedComponente.dimensao,
+            precofixo: this.editedComponente.precofixo,
+            imagem: this.editedComponente.imagem,
+          };
+
+          axios.put(`http://localhost:3000/Sofas/${SofaIdToUpdate}/componentes/${ComponenteSofaIdToUpdate}`, updatedData)
+            .then(response => {
+              console.log("Dados do Componente atualizados com sucesso:", response.data);
+              // Toastr de sucesso
+              toastr.success("Componente Editado com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-success",
+              });
+              // Feche o modal de edição
+              this.closeEditModalComponente();
+              // f5 na pagina
+              setTimeout(() => {
+                  location.reload();
+                }, 5000);  
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar dados do Componente:", error);
+              // Toastr de erro
+              toastr.error("Erro ao editar o Componente.", "Erro!", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-error",
+              });
+            });
         })
-        .catch(error => {
-          console.error("Erro ao atualizar dados do componente:", error);
-          // Toastr de erro
-          toastr.error("Erro ao editar o componente.", "Erro!", {
+        .catch(() => {
+          // Se a imagem não existe, exibe o toastr de erro
+          toastr.error("Adicione Primeiro A Imagem Na Pasta Correta (Imagens Componentes)", "Erro!", {
             closeButton: true,
             positionClass: "toast-bottom-right",
             progressBar: true,
@@ -1033,7 +1048,7 @@ export default {
             toastClass: "toast-error",
           });
         });
-    },
+    }
   },
 }
 </script>
@@ -1060,7 +1075,7 @@ export default {
 /* Botão que mexe com os outros */
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1235px;
+  margin-left: 1320px; /* Casa: 1235px / Escola: 1320px */
   margin-bottom: 3px;
 }
 

@@ -60,6 +60,13 @@
           "precofixo": 123,
           "imagem": "sofacama.png",
           "id": 3
+        },
+        {
+          "id": 4,
+          "nome": "aaa",
+          "dimensao": "aaa",
+          "precofixo": 111,
+          "imagem": "Banner1.jpg"
         }
       ]
     },
@@ -91,7 +98,8 @@
           "nome": "a",
           "dimensao": "a",
           "precofixo": 1,
-          "imagem": "1a"
+          "imagem": "1a",
+          "id": 1
         }
       ]
     },
@@ -105,7 +113,7 @@
     },
     {
       "nome": "Sofá E",
-      "material": "asd",
+      "material": "Madeirasdsadsa",
       "tipo": "Madeira",
       "preco": 1389,
       "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
