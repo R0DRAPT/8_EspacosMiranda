@@ -60,13 +60,6 @@
           "precofixo": 123,
           "imagem": "sofacama.png",
           "id": 3
-        },
-        {
-          "id": 4,
-          "nome": "aaa",
-          "dimensao": "aaa",
-          "precofixo": 111,
-          "imagem": "Banner1.jpg"
         }
       ]
     },
