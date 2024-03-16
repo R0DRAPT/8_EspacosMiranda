@@ -385,7 +385,7 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button class="btn-lg btn-info" @click="saveComponenteChanges">Salvar Modificações</button>
+                <button class="btn-lg btn-info" @click="saveComponenteChanges(this.editedComponente.id)">Salvar Modificações</button>
             </div>
           </div>
         </div>
@@ -969,84 +969,21 @@ export default {
     },
 
     openEditModalComponente(componenteId) {
-      console.log("ID do componente:", componenteId);
-      $('#componentesModal').modal('hide');
-      this.showEditModalComponente = true;
-      const componente = this.selectedSofaComponents.find(comp => comp.id === componenteId);
-      this.editedComponente = { ...componente };
-      this.selectedComponenteName = componente.nome;
-    },
+      console.log("abriu edit");
 
+      const selectedSofa = this.items.find(item => item.id === this.currentSofaId);
+      if (selectedSofa) {
+        const selectedComponente = selectedSofa.componentes.find(componente => componente.id === componenteId);
 
-    closeEditModalComponente() {
-      this.showEditModalComponente = false;
-      this.editedComponente = {};
-    },
+        if (selectedComponente) {
+          // Preencha os campos da modal de edição com os detalhes do componente selecionado
+          this.editedComponente = { ...selectedComponente };
 
-    saveComponenteChanges(componenteId) {
-      // Verifica se o ID do sofá está definido
-      if (this.currentSofaId) {
-        // Encontra o sofá correspondente ao ID atual
-        const selectedSofa = this.items.find(item => item.id === this.currentSofaId);
-
-        // Verifica se o sofá foi encontrado
-        if (selectedSofa) {
-          // Encontra o componente dentro do sofá pelo ID
-          const selectedComponente = selectedSofa.componentes.find(comp => comp.id === componenteId);
-
-          // Verifica se o componente foi encontrado
-          if (selectedComponente) {
-            // Atualiza o componente específico do sofá
-            axios.put(`http://localhost:3000/Sofas/${this.currentSofaId}/componentes/${componenteId}`, selectedComponente)
-              .then(response => {
-                console.log("Componente do sofá atualizado com sucesso:", response.data);
-                // Toastr de sucesso
-                toastr.success("Componente do sofá atualizado com sucesso.", "Sucesso", {
-                  closeButton: true,
-                  positionClass: "toast-bottom-right",
-                  progressBar: true,
-                  timeOut: 5000,
-                  extendedTimeOut: 1000,
-                  preventDuplicates: true,
-                  showMethod: "fadeIn",
-                  hideMethod: "fadeOut",
-                  toastClass: "toast-success",
-                });
-              })
-              .catch(error => {
-                console.error("Erro ao atualizar componente do sofá:", error);
-                // Toastr de erro
-                toastr.error("Erro ao atualizar componente do sofá.", "Erro!", {
-                  closeButton: true,
-                  positionClass: "toast-bottom-right",
-                  progressBar: true,
-                  timeOut: 5000,
-                  extendedTimeOut: 1000,
-                  preventDuplicates: true,
-                  showMethod: "fadeIn",
-                  hideMethod: "fadeOut",
-                  toastClass: "toast-error",
-                });
-              });
-          } else {
-            console.error("Componente não encontrado com o ID:", componenteId);
-            // Toastr de erro
-            toastr.error("Componente não encontrado. Por favor, selecione um componente válido.", "Erro!", {
-              closeButton: true,
-              positionClass: "toast-bottom-right",
-              progressBar: true,
-              timeOut: 5000,
-              extendedTimeOut: 1000,
-              preventDuplicates: true,
-              showMethod: "fadeIn",
-              hideMethod: "fadeOut",
-              toastClass: "toast-error",
-            });
-          }
+          $('#componentesModal').modal('hide');
+          this.showEditModalComponente = true;
         } else {
-          console.error("Sofá não encontrado com o ID:", this.currentSofaId);
-          // Toastr de erro
-          toastr.error("Sofá não encontrado. Por favor, selecione um sofá válido.", "Erro!", {
+          console.error("Componente não encontrado na lista de componentes.");
+          toastr.error("Componente não encontrado na lista de componentes.", "Erro!", {
             closeButton: true,
             positionClass: "toast-bottom-right",
             progressBar: true,
@@ -1059,9 +996,85 @@ export default {
           });
         }
       } else {
-        console.error("ID do sofá não definido.");
-        // Toastr de erro
-        toastr.error("ID do sofá não definido. Por favor, abra a modal novamente.", "Erro!", {
+        console.error("Sofá não encontrado com o ID:", this.currentSofaId);
+        toastr.error("Sofá não encontrado. Por favor, selecione um sofá válido.", "Erro!", {
+          closeButton: true,
+          positionClass: "toast-bottom-right",
+          progressBar: true,
+          timeOut: 5000,
+          extendedTimeOut: 1000,
+          preventDuplicates: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut",
+          toastClass: "toast-error",
+        });
+      }
+    },
+
+    closeEditModalComponente() {
+      this.showEditModalComponente = false;
+      this.editedComponente = {};
+    },
+
+    saveComponenteChanges() {
+      const selectedSofa = this.items.find(item => item.id === this.currentSofaId);
+
+      if (selectedSofa) {
+        const editedIndex = selectedSofa.componentes.findIndex(componente => componente.id === this.editedComponente.id);
+
+        if (editedIndex !== -1) {
+          // Atualize os detalhes do componente
+          selectedSofa.componentes[editedIndex] = { ...this.editedComponente };
+
+          // Chame a API para salvar as modificações
+          axios.put(`http://localhost:3000/Sofas/${this.currentSofaId}`, selectedSofa)
+            .then(response => {
+              console.log("Componente do sofá atualizado com sucesso:", response.data);
+              toastr.success("Componente atualizado com sucesso.", "Sucesso", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-success",
+              });
+              this.closeEditModalComponente();
+              $('#componentesModal').modal('show');
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar componente do sofá:", error);
+              toastr.error("Erro ao atualizar componente do sofá.", "Erro!", {
+                closeButton: true,
+                positionClass: "toast-bottom-right",
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                preventDuplicates: true,
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                toastClass: "toast-error",
+              });
+            });
+        } else {
+          console.error("Componente não encontrado na lista de componentes.");
+          toastr.error("Componente não encontrado na lista de componentes.", "Erro!", {
+            closeButton: true,
+            positionClass: "toast-bottom-right",
+            progressBar: true,
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            toastClass: "toast-error",
+          });
+        }
+      } else {
+        console.error("Sofá não encontrado com o ID:", this.currentSofaId);
+        toastr.error("Sofá não encontrado. Por favor, selecione um sofá válido.", "Erro!", {
           closeButton: true,
           positionClass: "toast-bottom-right",
           progressBar: true,

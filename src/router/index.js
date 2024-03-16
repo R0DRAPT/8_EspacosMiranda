@@ -12,9 +12,9 @@ const routes = [
     name: 'Contactos',
     component: () => import(/* webpackChunkName: "Contactos" */ '../views/Contactos.vue')
   },
-
-  // Apos Login
-
+  // |-----------------------------------------------------------------------------------------|
+  // |--------------------------------------  Apos Login --------------------------------------| 
+  // |-----------------------------------------------------------------------------------------|
   {
     path: '/HomeAposLogin/:id',
     name: 'HomeAposLogin',
@@ -30,9 +30,9 @@ const routes = [
     name: 'Definicoes',
     component: () => import(/* webpackChunkName: "Definicoes" */ '../views/AposLogin/Definicoes.vue')
   },
-
-  // Admin
-
+  // |------------------------------------------------------------------------------------|
+  // |--------------------------------------  Admin --------------------------------------|  
+  // |------------------------------------------------------------------------------------|
   {
     path: '/Admin/:id',
     name: 'Admin',
@@ -44,9 +44,9 @@ const routes = [
     name: 'DefinicoesAdmin',
     component: () => import(/* webpackChunkName: "DefinicoesAdmin" */ '../views/AposLogin/PastaAdmin/DefinicoesAdmin.vue')
   },
-
-  // CatálogoAdmin
-
+  //  |-------------------------------------------------------------------------------|
+  //  --------------------------------- CatálogoAdmin --------------------------------|
+  //  |-------------------------------------------------------------------------------|
   {
     path: '/SofasAdmin/:id',
     name: 'SofasAdmin',
@@ -101,7 +101,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "MesasAdmin" */ '../views/AposLogin/PastaAdmin/CatalogoAdmin/MesasAdmin.vue')
   },
 
-  // Catálogo
+  // |--------------------------------------------------------------------------------------|
+  // |-------------------------------------- Catálogo --------------------------------------| 
+  // |--------------------------------------------------------------------------------------|
 
   {
     path: '/Sofas/:id',
