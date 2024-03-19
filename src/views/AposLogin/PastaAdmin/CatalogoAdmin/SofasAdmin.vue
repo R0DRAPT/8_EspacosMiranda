@@ -258,9 +258,10 @@
                     <td>{{ componente.nome }}</td>
                     <td>{{ componente.precofixo }}</td>
                     <td>{{ componente.dimensao }}</td>
-                    <td @click="openImageModal(componente.imagem)" class="ImagensComponentes">
-                      {{ componente.imagem }}
+                    <td class="ImagensComponentes">
+                      <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
                     </td>
+                    
 
                     <!-- Botões Ações Componentes -->
                     <td class="TextAcoes">
@@ -289,7 +290,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="verImagemComponenteModalLabel"><b>Componente - {{ selectedComponenteName }}</b></h5>
+              <h5 class="modal-title" id="verImagemComponenteModalLabel"><b>{{ selectedComponenteName }}</b></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeImageModal">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -764,56 +765,75 @@ export default {
             selectedSofa.componentes = [];
           }
 
-          // Gerar o ID incremental para o novo componente
-          const novoComponenteId = selectedSofa.componentes.length + 1;
+          // Verificar se a imagem inserida existe na pasta /public/img/catalogo/ImagensComponentes/
+          axios.get(`/img/catalogo/ImagensComponentes/${this.novoComponenteSofa.imagem}`)
+            .then(() => {
+              // Se a imagem existe, continua com a adição do novo componente
+              // Gerar o ID incremental para o novo componente
+              const novoComponenteId = selectedSofa.componentes.length + 1;
 
-          // Adicionar o novo componente ao array de componentes do sofá com o ID gerado
-          selectedSofa.componentes.push({
-            id: novoComponenteId,
-            nome: this.novoComponenteSofa.nome,
-            dimensao: this.novoComponenteSofa.dimensao,
-            precofixo: parseFloat(this.novoComponenteSofa.precofixo.toString().replace('€', '').trim()),
-            imagem: this.novoComponenteSofa.imagem
-          });
-
-          // Limpar os campos do formulário após adicionar o componente
-          this.novoComponenteSofa.nome = '';
-          this.novoComponenteSofa.dimensao = '';
-          this.novoComponenteSofa.precofixo = '';
-          this.novoComponenteSofa.imagem = '';
-
-          // Atualizar o sofá no servidor
-          axios.put(`http://localhost:3000/Sofas/${selectedSofa.id}`, selectedSofa)
-            .then(response => {
-              console.log("Componente adicionado ao sofá com sucesso:", response.data);
-              // Fechar o modal de adição de componente
-              this.closeAddComponenteModal();
-              // Toastr de sucesso
-              toastr.success("Componente adicionado ao sofá com sucesso.", "Sucesso", {
-                closeButton: true,
-                positionClass: "toast-bottom-right",
-                progressBar: true,
-                timeOut: 5000,
-                extendedTimeOut: 1000,
-                preventDuplicates: true,
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut",
-                toastClass: "toast-success",
+              // Adicionar o novo componente ao array de componentes do sofá com o ID gerado
+              selectedSofa.componentes.push({
+                id: novoComponenteId,
+                nome: this.novoComponenteSofa.nome,
+                dimensao: this.novoComponenteSofa.dimensao,
+                precofixo: parseFloat(this.novoComponenteSofa.precofixo.toString().replace('€', '').trim()),
+                imagem: this.novoComponenteSofa.imagem
               });
+
+              // Limpar os campos do formulário após adicionar o componente
+              this.novoComponenteSofa.nome = '';
+              this.novoComponenteSofa.dimensao = '';
+              this.novoComponenteSofa.precofixo = '';
+              this.novoComponenteSofa.imagem = '';
+
+              // Atualizar o sofá no servidor
+              axios.put(`http://localhost:3000/Sofas/${selectedSofa.id}`, selectedSofa)
+                .then(response => {
+                  console.log("Componente adicionado ao sofá com sucesso:", response.data);
+                  // Fechar o modal de adição de componente
+                  this.closeAddComponenteModal();
+                  // Toastr de sucesso
+                  toastr.success("Componente adicionado ao sofá com sucesso.", "Sucesso", {
+                    closeButton: true,
+                    positionClass: "toast-bottom-right",
+                    progressBar: true,
+                    timeOut: 5000,
+                    extendedTimeOut: 1000,
+                    preventDuplicates: true,
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    toastClass: "toast-success",
+                  });
+                })
+                .catch(error => {
+                  console.error("Erro ao adicionar componente ao sofá:", error);
+                  // Toastr de erro
+                  toastr.error("Erro ao adicionar componente ao sofá.", "Erro!", {
+                    closeButton: true,
+                    positionClass: "toast-bottom-right",
+                    progressBar: true,
+                    timeOut: 5000,
+                    extendedTimeOut: 1000,
+                    preventDuplicates: true,
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    toastClass: "toast-error",
+                  });
+                });
             })
-            .catch(error => {
-              console.error("Erro ao adicionar componente ao sofá:", error);
-              // Toastr de erro
-              toastr.error("Erro ao adicionar componente ao sofá.", "Erro!", {
+            .catch(() => {
+              // Se a imagem não existe, exibe o toastr de erro
+              toastr.error('Adicione Primeiro A Imagem Na Pasta Correta (Imagens Componentes)', 'Erro!', {
                 closeButton: true,
-                positionClass: "toast-bottom-right",
+                positionClass: 'toast-bottom-right',
                 progressBar: true,
                 timeOut: 5000,
                 extendedTimeOut: 1000,
                 preventDuplicates: true,
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut",
-                toastClass: "toast-error",
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut',
+                toastClass: 'toast-error',
               });
             });
         } else {
@@ -856,7 +876,7 @@ export default {
     },
 
 
-    openImageModal(imagemSrcComponente) {
+    openImageModal(imagemSrcComponente, componentName) {
       const componente = this.selectedSofaComponents.find(comp => {
         const lastIndexOfSlash = comp.imagem.lastIndexOf('/');
         const imageName = comp.imagem.substring(lastIndexOfSlash + 1);
@@ -867,7 +887,7 @@ export default {
       
       if (componente) {
         console.log("Nome do componente:", componente.nome);
-        this.selectedComponenteName = componente.nome;
+        this.selectedComponenteName = componentName;
         this.imagemModalComponenteSrc = `/img/Catalogo/ImagensComponentes/${componente.imagem}`;
         $('#verImagemComponenteModal').modal('show');
       } else {
@@ -1023,30 +1043,49 @@ export default {
         const editedIndex = selectedSofa.componentes.findIndex(componente => componente.id === this.editedComponente.id);
 
         if (editedIndex !== -1) {
-          // Atualize os detalhes do componente
-          selectedSofa.componentes[editedIndex] = { ...this.editedComponente };
+          // Verificar se a imagem existe na pasta /public/img/Catalogo/ImagensComponentes/
+          axios.get(`/img/catalogo/ImagensComponentes/${this.editedComponente.imagem}`)
+            .then(() => {
+              // Se a imagem existe, atualize os detalhes do componente
+              selectedSofa.componentes[editedIndex] = { ...this.editedComponente };
 
-          // Chame a API para salvar as modificações
-          axios.put(`http://localhost:3000/Sofas/${this.currentSofaId}`, selectedSofa)
-            .then(response => {
-              console.log("Componente do sofá atualizado com sucesso:", response.data);
-              toastr.success("Componente atualizado com sucesso.", "Sucesso", {
-                closeButton: true,
-                positionClass: "toast-bottom-right",
-                progressBar: true,
-                timeOut: 5000,
-                extendedTimeOut: 1000,
-                preventDuplicates: true,
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut",
-                toastClass: "toast-success",
-              });
-              this.closeEditModalComponente();
-              $('#componentesModal').modal('show');
+              // Chame a API para salvar as modificações
+              axios.put(`http://localhost:3000/Sofas/${this.currentSofaId}`, selectedSofa)
+                .then(response => {
+                  console.log("Componente do sofá atualizado com sucesso:", response.data);
+                  toastr.success("Componente atualizado com sucesso.", "Sucesso", {
+                    closeButton: true,
+                    positionClass: "toast-bottom-right",
+                    progressBar: true,
+                    timeOut: 5000,
+                    extendedTimeOut: 1000,
+                    preventDuplicates: true,
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    toastClass: "toast-success",
+                  });
+                  this.closeEditModalComponente();
+                  $('#componentesModal').modal('show');
+                })
+                .catch(error => {
+                  console.error("Erro ao atualizar componente do sofá:", error);
+                  toastr.error("Erro ao atualizar componente do sofá.", "Erro!", {
+                    closeButton: true,
+                    positionClass: "toast-bottom-right",
+                    progressBar: true,
+                    timeOut: 5000,
+                    extendedTimeOut: 1000,
+                    preventDuplicates: true,
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    toastClass: "toast-error",
+                  });
+                });
             })
-            .catch(error => {
-              console.error("Erro ao atualizar componente do sofá:", error);
-              toastr.error("Erro ao atualizar componente do sofá.", "Erro!", {
+            .catch(() => {
+              // Se a imagem não existe, exiba o toastr de erro
+              console.error("Imagem do componente não encontrada:", this.editedComponente.imagem);
+              toastr.error("Imagem do componente não encontrada. Por favor, adicione a imagem na pasta correta (Imagens Componentes).", "Erro!", {
                 closeButton: true,
                 positionClass: "toast-bottom-right",
                 progressBar: true,
@@ -1086,7 +1125,7 @@ export default {
           toastClass: "toast-error",
         });
       }
-    }
+    },
   },
 }
 </script>

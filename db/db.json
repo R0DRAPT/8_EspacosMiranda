@@ -44,7 +44,7 @@
           "nome": "1teste",
           "dimensao": "1x2",
           "precofixo": 11,
-          "imagem": "111",
+          "imagem": "sofacama.png",
           "id": 1
         },
         {
@@ -60,6 +60,13 @@
           "precofixo": 123,
           "imagem": "sofacama.png",
           "id": 3
+        },
+        {
+          "id": 4,
+          "nome": "Rodrigo",
+          "dimensao": "teste",
+          "precofixo": 123,
+          "imagem": "Banner1.jpg"
         }
       ]
     },
@@ -102,11 +109,12 @@
       "tipo": "Clássico",
       "preco": 1,
       "imagem": "Banner1.jpg",
-      "id": 4
+      "id": 4,
+      "componentes": []
     },
     {
       "nome": "Sofá E",
-      "material": "Madeirasdsadsa",
+      "material": "Madeira",
       "tipo": "Madeira",
       "preco": 1389,
       "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
