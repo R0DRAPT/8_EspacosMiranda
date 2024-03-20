@@ -35,7 +35,7 @@
     {
       "nome": "Sofá A",
       "material": "Couro",
-      "tipo": "Confortável",
+      "dimensao": "1x1",
       "preco": 13,
       "imagem": "Banner1.jpg",
       "id": 1,
@@ -74,7 +74,7 @@
       "id": 2,
       "nome": "Sofá B",
       "material": "Tecido",
-      "tipo": "Moderno",
+      "dimensao": "1x1",
       "preco": "1",
       "imagem": "sofacama.png",
       "componentes": [
@@ -89,7 +89,7 @@
     {
       "nome": "Sofá C",
       "material": "Veludo",
-      "tipo": "Clássico",
+      "dimensao": "1x1",
       "preco": 1,
       "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
       "id": 3,
@@ -106,7 +106,7 @@
     {
       "nome": "Sofá D",
       "material": "Veludo",
-      "tipo": "Clássico",
+      "dimensao": "1x1",
       "preco": 1,
       "imagem": "Banner1.jpg",
       "id": 4,
@@ -115,7 +115,7 @@
     {
       "nome": "Sofá E",
       "material": "Madeira",
-      "tipo": "Madeira",
+      "dimensao": "1x12",
       "preco": 1389,
       "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
       "id": 5
@@ -125,7 +125,7 @@
     {
       "nome": "Cadeirao A",
       "material": "Couro",
-      "tipo": "Confortável",
+      "dimensao": "Confortável",
       "preco": 463,
       "imagem": "sofacama.png",
       "id": 1
@@ -135,7 +135,7 @@
     {
       "nome": "Consola A",
       "material": "Couro",
-      "tipo": "Confortável",
+      "dimensao": "Confortável",
       "preco": 23123,
       "imagem": "sofacama.png",
       "id": 1
@@ -143,7 +143,7 @@
     {
       "nome": "Teste3",
       "material": "1233",
-      "tipo": "1233",
+      "dimensao": "1233",
       "preco": 1233,
       "imagem": "Banner1.jpg",
       "id": 2
@@ -153,7 +153,7 @@
     {
       "nome": "Peca A ",
       "material": "Gesso",
-      "tipo": "Folha",
+      "dimensao": "Folha",
       "preco": 231,
       "imagem": "sofacama.png",
       "id": 1
@@ -163,7 +163,7 @@
     {
       "nome": "Cadeira A ",
       "material": "Madeira",
-      "tipo": "Pequena",
+      "dimensao": "Pequena",
       "preco": 21313,
       "imagem": "sofacama.png",
       "id": 1
@@ -173,14 +173,14 @@
     {
       "nome": "Banqueta A ",
       "material": "Pelo",
-      "tipo": "Grande",
+      "dimensao": "Grande",
       "preco": 31,
       "imagem": "sofacama.png",
       "id": 1
     },
     {
       "nome": "teste",
-      "tipo": "teste",
+      "dimensao": "teste",
       "material": "teste",
       "preco": 3,
       "imagem": "banner1.jpg",
@@ -191,7 +191,7 @@
     {
       "nome": "Mesas de Cabeceira A ",
       "material": "Madeira",
-      "tipo": "Escuro",
+      "dimensao": "Escuro",
       "preco": 231,
       "imagem": "Banner1.jpg",
       "id": 1
@@ -201,7 +201,7 @@
     {
       "nome": "Cama A ",
       "material": "Madeira",
-      "tipo": "Escuro",
+      "dimensao": "Escuro",
       "preco": 123,
       "imagem": "Banner1.jpg",
       "id": 1
@@ -211,7 +211,7 @@
     {
       "nome": "Mesas A ",
       "material": "Madeira",
-      "tipo": "Escuro",
+      "dimensao": "Escuro",
       "preco": 32133,
       "imagem": "sofacama.png",
       "id": 1
@@ -219,7 +219,7 @@
     {
       "nome": "teste",
       "material": "teste",
-      "tipo": "teste",
+      "dimensao": "teste",
       "preco": 13,
       "imagem": "Banner1.jpg",
       "id": 2

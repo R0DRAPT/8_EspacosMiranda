@@ -39,15 +39,15 @@
                   <label for="nome">Nome:</label>
                   <input type="text" class="form-control" id="nome" v-model="novoSofa.nome" autocomplete="off">
                 </div>
-                <!-- Campo Tipo -->
-                <div class="form-group">
-                  <label for="tipo">Tipo:</label>
-                  <input type="text" class="form-control" id="tipo" v-model="novoSofa.tipo" autocomplete="off">
-                </div>
                 <!-- Campo Material -->
                 <div class="form-group">
                   <label for="material">Material:</label>
                   <input type="text" class="form-control" id="material" v-model="novoSofa.material" autocomplete="off">
+                </div>
+                <!-- Campo dimensao -->
+                <div class="form-group">
+                  <label for="dimensao">Dimensão:</label>
+                  <input type="text" class="form-control" id="dimensao" v-model="novoSofa.dimensao" autocomplete="off">
                 </div>
                 <!-- Campo Preço -->
                 <div class="form-group">
@@ -83,12 +83,12 @@
           Nome
         </label>
         <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibility.tipo" class="custom-checkbox" />
-          Tipo
-        </label>
-        <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.material" class="custom-checkbox" />
           Material
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.dimensao" class="custom-checkbox" />
+          Dimensão
         </label>
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.preco" class="custom-checkbox" />
@@ -97,6 +97,14 @@
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.imagem" class="custom-checkbox" />
           Imagem
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.componentes" class="custom-checkbox" />
+          Componentes
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.acoes" class="custom-checkbox" />
+          Ações
         </label>
       </div>
     </div>
@@ -111,11 +119,11 @@
       <th scope="col" v-if="columnVisibility.nome">
         <label class="CamposSofas">Nome</label>
       </th>
-      <th scope="col" v-if="columnVisibility.tipo">
-        <label class="CamposSofas">Tipo</label>
-      </th>
       <th scope="col" v-if="columnVisibility.material">
         <label class="CamposSofas">Material</label>
+      </th>
+      <th scope="col" v-if="columnVisibility.dimensao">
+        <label class="CamposSofas">Dimensão</label>
       </th>
       <th scope="col" v-if="columnVisibility.preco">
         <label class="CamposSofas">Preço</label>
@@ -123,10 +131,10 @@
       <th scope="col" v-if="columnVisibility.imagem">
         <label class="CamposSofas">Imagem</label>
       </th>
-      <th scope="col">
+      <th scope="col" v-if="columnVisibility.componentes">
         <label class="CamposSofas">Componentes</label>
       </th>
-      <th scope="col">
+      <th scope="col" v-if="columnVisibility.acoes">
         <label class="CamposSofas">Ações</label>
       </th>
     </tr>
@@ -135,19 +143,19 @@
     <tr v-for="(item, index) in items" :key="index">
       <th scope="row">{{ item.id }}</th>
       <td v-if="columnVisibility.nome">{{ item.nome }}</td>
-      <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
       <td v-if="columnVisibility.material">{{ item.material }}</td>
+      <td v-if="columnVisibility.dimensao">{{ item.dimensao }}</td>
       <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
       <td v-if="columnVisibility.imagem">
         <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
       </td>
       <!-- Btn Componentes -->
-      <td class="btnComponentes">
+      <td class="btnComponentes" v-if="columnVisibility.componentes">
         <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
       </td>
 
       <!-- Botões de edição e eliminar -->
-      <td class="TextAcoes">
+      <td class="TextAcoes" v-if="columnVisibility.acoes">
         <!-- Botão Editar -->
         <button class="btn btn-primary btn-sm" @click="openEditModal(item)" title="Editar Sofá">
           <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
@@ -177,10 +185,10 @@
                   <input type="text" class="form-control" placeholder="Novo Nome" v-model="editedSofa.nome">
                 </div>
                 <div class="mb-3" style="font-family: Verdana;">
-                  <input type="text" class="form-control" placeholder="Novo Tipo" v-model="editedSofa.tipo">
+                  <input type="text" class="form-control" placeholder="Novo Material" v-model="editedSofa.material">
                 </div>
                 <div class="mb-3" style="font-family: Verdana;">
-                  <input type="text" class="form-control" placeholder="Novo Material" v-model="editedSofa.material">
+                  <input type="text" class="form-control" placeholder="Nova Dimensão" v-model="editedSofa.dimensao">
                 </div>
                 <div class="mb-3" style="font-family: Verdana;">
                   <div class="input-group">
@@ -190,11 +198,9 @@
                       <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedSofa.preco">
                   </div>
                 </div>
-                
                 <div class="mb-3" style="font-family: Verdana;">
                   <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedSofa.imagem">
                 </div>
-
                 <div class="mb-3 corpo-modal-imagem-EditarSofa" v-if="editedSofa.imagem" style="font-family: Verdana;">
                     <img :src="`/img/catalogo/ImagensArtigos/${editedSofa.imagem}`" alt="Imagem">
                 </div>
@@ -261,21 +267,16 @@
                     <td class="ImagensComponentes">
                       <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
                     </td>
-                    
-
                     <!-- Botões Ações Componentes -->
                     <td class="TextAcoes">
-
                       <!-- Botão Editar Componente -->
                       <button class="btn btn-primary btn-sm" @click="openEditModalComponente(componente.id)" title="Editar Componente">
                         <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
                       </button>
-
                       <!-- Botão Remover Componente -->
                       <button class="btn btn-danger btn-sm" @click="confirmDeleteComponente(componente.id)" title="Remover Componente">
                         <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
                       </button>
-
                     </td>
                   </tr>
                 </tbody>
@@ -429,15 +430,17 @@ export default {
       editedComponente: {},
       columnVisibility: {
         nome: true,
-        tipo: true,
         material: true,
+        dimensao: true,
         preco: true,
         imagem: true,
+        componentes: true,
+        acoes: true,
       },
       // Adicionar
       novoSofa: {
         nome: '',
-        tipo: '',
+        dimensao: '',
         material: '',
         preco: null,
         imagem: ''
@@ -539,7 +542,7 @@ export default {
         const updatedData = {
           nome: this.editedSofa.nome,
           material: this.editedSofa.material,
-          tipo: this.editedSofa.tipo,
+          dimensao: this.editedSofa.dimensao,
           preco: this.editedSofa.preco,
           imagem: this.editedSofa.imagem,
         };
