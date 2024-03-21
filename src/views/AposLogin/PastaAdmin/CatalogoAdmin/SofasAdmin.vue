@@ -110,7 +110,7 @@
     </div>
 
 <!-- Tabela Informação Sofas -->
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>
@@ -231,14 +231,14 @@
       </div>
 
       <!-- Modal Para Exibir Componentes -->
-      <div class="modal fade" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
+      <div class="modal fade modal-l modal-componentes" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-componentes" role="document">
           <div class="modal-content modal-content-componentes">
             <div class="modal-header">
               <h5 class="modal-title" id="componentesModalLabel"><b>Componentes - {{ selectedSofaName }}</b></h5>
 
               <!-- Botão Abrir Modal Add Componente -->
-              <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 529px;">
+              <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 955px;"> <!-- Escola: 955px // Casa:  -->
                 <font-awesome-icon :icon="['fas', 'plus']" />
               </button>
 
@@ -1291,6 +1291,10 @@ export default {
 }
 
 /* Modal Componentes */
+
+.modal-l .modal-dialog-componentes {
+  max-width: 90%;
+}
 
 .modal-body-componentes {
   display: flex;
