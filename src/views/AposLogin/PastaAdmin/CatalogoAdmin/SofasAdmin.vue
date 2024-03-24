@@ -23,7 +23,7 @@
           <font-awesome-icon :icon="['fas', 'plus']" />
         </button>
 
-        <!-- Modal ADD Sofá -->
+        <!-- Modal ADD Sofá -->eeee
         <div class="modal modal-add" id="modalAdd" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
@@ -44,7 +44,7 @@
                   <label for="material">Material:</label>
                   <input type="text" class="form-control" id="material" v-model="novoSofa.material" autocomplete="off">
                 </div>
-                <!-- Campo dimensao -->
+                <!-- Campo Dimensão -->
                 <div class="form-group">
                   <label for="dimensao">Dimensão:</label>
                   <input type="text" class="form-control" id="dimensao" v-model="novoSofa.dimensao" autocomplete="off">
@@ -139,6 +139,7 @@
       </th>
     </tr>
   </thead>
+  
   <tbody>
     <tr v-for="(item, index) in items" :key="index">
       <th scope="row">{{ item.id }}</th>

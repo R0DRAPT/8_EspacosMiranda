@@ -100,6 +100,13 @@
           "precofixo": 1,
           "imagem": "1a",
           "id": 1
+        },
+        {
+          "id": 2,
+          "nome": "b",
+          "dimensao": "bb",
+          "precofixo": 231,
+          "imagem": "banner1.jpg"
         }
       ]
     },
@@ -156,7 +163,16 @@
       "dimensao": "Folha",
       "preco": 231,
       "imagem": "sofacama.png",
-      "id": 1
+      "id": 1,
+      "componentes": [
+        {
+          "id": 1,
+          "nome": "Rodrigo",
+          "dimensao": "1x1",
+          "precofixo": 123123,
+          "imagem": "banner1.jpg"
+        }
+      ]
     }
   ],
   "Cadeiras": [
@@ -223,15 +239,6 @@
       "preco": 13,
       "imagem": "Banner1.jpg",
       "id": 2
-    }
-  ],
-  "ComponentesSofa": [
-    {
-      "nome": "Almofadas",
-      "PrecoFixo": "3",
-      "Dimensao": "20x10",
-      "imagem": "Banner1.jpg",
-      "id": 1
     }
   ]
 }
