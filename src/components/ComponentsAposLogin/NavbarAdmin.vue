@@ -1,7 +1,7 @@
 <template>
     <div>
       <div id="nav">
-        <router-link id="logo-url" to="/"><img id="logo" :src="logo" :alt="alt"></router-link>
+        <router-link id="logo-url" :to="'/Admin/' + userId"><img id="logo" :src="logo" :alt="alt"></router-link>
         <router-link :to="'/Admin/' + userId" class="size-and-hover">Página Admin</router-link>
         <!-- Dropdown menu -->
         <div class="dropdown">

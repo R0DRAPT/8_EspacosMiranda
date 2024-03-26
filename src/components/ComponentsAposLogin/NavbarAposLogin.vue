@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="nav">
-      <router-link id="logo-url" to="/"><img id="logo" :src="logo" :alt="alt"></router-link>
+      <router-link id="logo-url" :to="'/HomeAposLogin/' + userId"><img id="logo" :src="logo" :alt="alt"></router-link>
       <router-link :to="'/HomeAposLogin/' + userId" class="size-and-hover">Página Principal</router-link>
       <router-link :to="'/ContactosAposLogin/' + userId" class="size-and-hover">Contactos</router-link>
       <!-- Dropdown menu -->

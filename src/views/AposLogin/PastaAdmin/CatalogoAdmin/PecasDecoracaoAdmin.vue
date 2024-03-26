@@ -930,7 +930,7 @@ export default {
             axios.put(`http://localhost:3000/PecasDecor/${selectedPeca.id}`, selectedPeca)
               .then(response => {
                 console.log("Componente removido da peça de decoração com sucesso:", response.data);
-                toastr.success("Componente removido da peça de decoração com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
+                toastr.success("Componente removido com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
                   closeButton: true,
                   positionClass: "toast-bottom-right",
                   progressBar: true,
