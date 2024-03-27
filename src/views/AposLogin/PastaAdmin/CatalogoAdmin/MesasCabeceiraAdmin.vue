@@ -254,8 +254,8 @@
                   <tr>
                     <th>#</th>
                     <th>Nome</th>
-                    <th>Preço Fixo</th>
                     <th>Dimensão</th>
+                    <th>Preço Fixo</th>
                     <th>Imagem</th>
                     <th>Ações</th>
                   </tr>
@@ -264,8 +264,8 @@
                   <tr v-for="(componente, id) in selectedMesaCabeceiraComponents" :key="id">
                     <td>{{ id + 1 }}</td>
                     <td>{{ componente.nome }}</td>
-                    <td>{{ componente.precofixo }}</td>
                     <td>{{ componente.dimensao }}</td>
+                    <td>{{ componente.precofixo }}</td>
                     <td class="ImagensComponentes">
                       <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
                     </td>

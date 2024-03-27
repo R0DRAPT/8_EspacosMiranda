@@ -154,7 +154,8 @@
       "dimensao": "Confortável",
       "preco": 23123,
       "imagem": "sofacama.png",
-      "id": 1
+      "id": 1,
+      "componentes": []
     },
     {
       "nome": "Teste3",
@@ -189,9 +190,10 @@
       "nome": "Cadeira A ",
       "material": "Madeira",
       "dimensao": "Pequena",
-      "preco": 21313,
+      "preco": 213133,
       "imagem": "sofacama.png",
-      "id": 1
+      "id": 1,
+      "componentes": []
     }
   ],
   "Banquetas": [
