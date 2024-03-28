@@ -203,15 +203,8 @@
       "dimensao": "Grande",
       "preco": 31,
       "imagem": "sofacama.png",
-      "id": 1
-    },
-    {
-      "nome": "teste",
-      "dimensao": "teste",
-      "material": "teste",
-      "preco": 3,
-      "imagem": "banner1.jpg",
-      "id": 2
+      "id": 1,
+      "componentes": []
     }
   ],
   "MesasCabeceira": [
@@ -232,7 +225,8 @@
       "dimensao": "Escuro",
       "preco": 123,
       "imagem": "Banner1.jpg",
-      "id": 1
+      "id": 1,
+      "componentes": []
     }
   ],
   "Mesas": [

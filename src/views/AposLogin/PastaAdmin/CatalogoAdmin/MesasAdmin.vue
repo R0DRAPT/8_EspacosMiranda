@@ -233,8 +233,8 @@
       </div>
     </div>
 
-    <!-- Modal Para Exibir Componentes -->
-    <div class="modal fade modal-l modal-componentes" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
+      <!-- Modal Para Exibir Componentes -->
+      <div class="modal fade modal-l modal-componentes" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-componentes" role="document">
           <div class="modal-content modal-content-componentes">
             <div class="modal-header">
@@ -390,7 +390,7 @@
               </form>
             </div>
             <div class="modal-footer">
-                <button class="btn-lg btn-info" @click="saveComponenteChanges(this.editedComponente.id)">Salvar Modificações</button>
+              <button class="btn-lg btn-info" @click="saveComponenteChanges(this.editedComponente.id)">Salvar Modificações</button>
             </div>
           </div>
         </div>
