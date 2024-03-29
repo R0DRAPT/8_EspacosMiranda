@@ -25,12 +25,12 @@
           Nome
         </label>
         <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibility.tipo" class="custom-checkbox" />
-          Tipo
-        </label>
-        <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.material" class="custom-checkbox" />
           Material
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.dimensao" class="custom-checkbox" />
+          Dimensão
         </label>
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.preco" class="custom-checkbox" />
@@ -39,6 +39,10 @@
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.imagem" class="custom-checkbox" />
           Imagem
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.componentes" class="custom-checkbox" />
+          Componentes
         </label>
       </div>
     </div>
@@ -53,11 +57,11 @@
           <th scope="col" v-if="columnVisibility.nome">
             <label class="CamposSofas">Nome</label>
           </th>
-          <th scope="col" v-if="columnVisibility.tipo">
-            <label class="CamposSofas">Tipo</label>
-          </th>
           <th scope="col" v-if="columnVisibility.material">
             <label class="CamposSofas">Material</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.dimensao">
+            <label class="CamposSofas">Dimensão</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
             <label class="CamposSofas">Preço</label>
@@ -65,7 +69,7 @@
           <th scope="col" v-if="columnVisibility.imagem">
             <label class="CamposSofas">Imagem</label>
           </th>
-          <th scope="col">
+          <th scope="col" v-if="columnVisibility.componentes">
             <label class="CamposSofas">Componentes</label>
           </th>
         </tr>
@@ -74,14 +78,14 @@
         <tr v-for="(item, index) in items" :key="index">
           <th scope="row">{{ item.id }}</th>
           <td v-if="columnVisibility.nome">{{ item.nome }}</td>
-          <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
           <td v-if="columnVisibility.material">{{ item.material }}</td>
+          <td v-if="columnVisibility.dimensao">{{ item.dimensao }}</td>
           <td v-if="columnVisibility.preco">{{ item.preco }}</td>
           <td v-if="columnVisibility.imagem">
-            <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
+            <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
           </td>
           <!-- Btn Componentes -->
-          <td class="btnComponentes">
+          <td class="btnComponentes" v-if="columnVisibility.componentes">
             <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
           </td>
         </tr>
@@ -93,7 +97,7 @@
       <div class="modal-dialog modal-dialog-imagem" role="document">
         <div class="modal-content modal-content-imagem">
           <div class="modal-header modal-header-imagem">
-            <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel">{{ getItemNome(imagemModalSrc) }}</h5>
+            <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel"><b>{{ imagemModalNome }}</b></h5>
             <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -106,11 +110,11 @@
     </div>
 
     <!-- Modal Para Exibir Componentes -->
-    <div class="modal fade" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
+    <div class="modal modal-l modal-componentes fade" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-componentes" role="document">
         <div class="modal-content modal-content-componentes">
           <div class="modal-header">
-            <h5 class="modal-title" id="componentesModalLabel">Componentes - {{ selectedSofaName }}</h5>
+            <h5 class="modal-title" id="componentesModalLabel"><b>Componentes - {{ selectedSofaName }}</b></h5>
             <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -121,13 +125,40 @@
                 <tr>
                   <th>#</th>
                   <th>Nome</th>
-                  <th>Preço Fixo</th>
                   <th>Dimensão</th>
+                  <th>Preço Fixo</th>
+                  <th>Imagem</th>
                 </tr>
               </thead>
               <tbody>
+                <tr v-for="(componente, id) in selectedSofaComponents" :key="id">
+                  <td>{{ id + 1 }}</td>
+                  <td>{{ componente.nome }}</td>
+                  <td>{{ componente.dimensao }}</td>
+                  <td>{{ componente.precofixo }}</td>
+                  <td class="ImagensComponentes">
+                    <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
+                  </td>
+                </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Ver Imagem Componente -->
+    <div class="modal fade" id="verImagemComponenteModal" tabindex="-1" role="dialog" aria-labelledby="verImagemComponenteModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="verImagemComponenteModalLabel"><b>{{ selectedComponenteName }}</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeImageModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body corpo-modal-imagem">
+            <img :src="imagemModalComponenteSrc" alt="Imagem">
           </div>
         </div>
       </div>
@@ -155,13 +186,19 @@ export default {
       userId: null,
       imagemModalSrc: '',
       selectedSofaName: '',
+      imagemModalNome: '',
       columnVisibility: {
         nome: true,
-        tipo: true,
         material: true,
+        dimensao: true,
         preco: true,
         imagem: true,
+        componentes: true,
       },
+      // componentes
+      selectedSofaComponents: [],
+      selectedComponenteName: '',
+      imagemModalComponenteSrc: '',
       // Imagens
       BannerSofas: "/img/Catalogo/BannersCatalogo/BannerSofas.jpg",
       // Dados na Tabela
@@ -190,6 +227,7 @@ export default {
   },
 
   methods: {
+    // ----------------------  Filtro ---------------------- 
     toggleDropdown() {
       const dropdown = document.getElementById('checkboxDropdown');
       if (dropdown.classList.contains('show')) {
@@ -213,15 +251,16 @@ export default {
       }
     },
 
-    // Imagem
+    // ----------------------  Imagens ---------------------- 
 
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
       return item ? item.nome : 'Imagem';
     },
 
-    verImagem(imagemSrc) {
+    verImagem(imagemSrc, nome) {
       this.imagemModalSrc = `/img/catalogo/ImagensArtigos/${imagemSrc}`;
+      this.imagemModalNome = nome;
       $('#imagemModal').modal('show');
     },
 
@@ -229,19 +268,37 @@ export default {
       $('#imagemModal').modal('hide');
     },
 
-    // Componentes
+    // ---------------------- Componentes ---------------------- 
 
     openComponenteModal(itemId) {
       const selectedSofa = this.items.find(item => item.id === itemId);
       if (selectedSofa) {
         this.selectedSofaName = selectedSofa.nome;
+
+        this.selectedSofaComponents = selectedSofa.componentes;
         $('#componentesModal').modal('show');
       }
     },
 
-
     closeComponenteModal() {
       $('#componentesModal').modal('hide');
+    },
+
+    // Imagem Componentes
+
+    getItemNome(imagemSrcComponente) {
+      const componente = this.selectedSofaComponents.find(comp => `/img/Catalogo/ImagensComponentes/${comp.imagem}` === imagemSrcComponente);
+      return componente ? componente.nome : 'Componente';
+    },
+
+    openImageModal(imagemSrc, componentName) {
+      this.imagemModalComponenteSrc = `/img/Catalogo/ImagensComponentes/${imagemSrc}`;
+      this.selectedComponenteName = componentName;
+      $('#verImagemComponenteModal').modal('show');
+    },
+
+    closeImageModal() {
+      $('#verImagemComponenteModal').modal('hide');
     },
   }
 }
@@ -269,7 +326,7 @@ export default {
 
 .btn-MostrarTudo {
   margin-right: 8px; /* Adiciona margem à direita para separar os botões */
-  margin-left: 1285px;
+  margin-left: 1320px; /* Casa: 1235px / Escola: 1320px */
   margin-bottom: 3px;
 }
 
@@ -310,6 +367,16 @@ export default {
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+    text-align: center;
+}
+
+/* CamposSofas */
+.CamposSofas {
+    background-color: transparent;
+    border: none;
+    cursor: default;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 /* Cabeçalho da tabela */
@@ -324,22 +391,19 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
-/* CamposSofas */
-
-.CamposSofas {
-    background-color: transparent;
-    border: none;
-    cursor: default;
-    font-weight: bold;
-    font-size: 18px;
-}
-
 /* Modal Imagem */
 
 .modal-body-imagem {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal-body img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
 }
 
 .modal-dialog-imagem {
@@ -351,21 +415,17 @@ th, td {
   margin: 0 auto;
 }
 
-.modal-body img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto; 
-}
-
 .modal-content-imagem {
   width: auto;
   max-width: 90%;
   height: auto;
-  max-height: 90vh;
 }
 
 /* Modal Componentes */
+
+.modal-l .modal-dialog-componentes {
+  max-width: 90%;
+}
 
 .modal-body-componentes {
   display: flex;
@@ -387,7 +447,7 @@ th, td {
   height: 100%;
 }
 
-/* Tabela Componentes */
+/* Modal Componentes */
 
 .table-Componentes {
   width: 1270px; /* Muda a dimensao da tabela toda */
@@ -409,6 +469,36 @@ thead {
 th, td {
     text-align: center;
     border-bottom: 1px solid #ddd;
+}
+
+/* Imagem Componente */
+
+.corpo-modal-imagem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.corpo-modal-imagem img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
+}
+
+.modal-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vh;
+  margin: 0 auto;
+}
+
+.modal-content {
+  width: auto;
+  max-width: 90%; 
+  height: auto;
 }
 
 </style>
