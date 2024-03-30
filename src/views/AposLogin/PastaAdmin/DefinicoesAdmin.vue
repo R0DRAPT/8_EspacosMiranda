@@ -83,6 +83,10 @@
           <input type="checkbox" v-model="columnVisibility.password" class="custom-checkbox" />
           Password
         </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.acoes" class="custom-checkbox" />
+          Ações
+        </label>
       </div>
     </div>
 
@@ -94,7 +98,7 @@
           <th v-if="columnVisibility.email">Email</th>
           <th v-if="columnVisibility.username">Nome de Utilizador</th>
           <th v-if="columnVisibility.password">Password</th>
-          <th class="TextAcoes">Ações</th>
+          <th v-if="columnVisibility.acoes" class="TextAcoes">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -103,7 +107,7 @@
           <td v-if="columnVisibility.email">{{ user.email }}</td>
           <td v-if="columnVisibility.username">{{ user.username }}</td>
           <td v-if="columnVisibility.password">{{ user.password }}</td>
-          <td class="TextAcoes">
+          <td v-if="columnVisibility.acoes" class="TextAcoes">
             <button class="btn btn-primary btn-sm" @click="openEditModal(user)">
               <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
             </button>
@@ -215,6 +219,7 @@ export default {
         email: true,
         username: true,
         password: true,
+        acoes: true,
       },
       showAddModal: false,
       newUser: {

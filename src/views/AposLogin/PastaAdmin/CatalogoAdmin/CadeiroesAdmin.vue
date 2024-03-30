@@ -237,7 +237,7 @@
       <div class="modal-dialog modal-dialog-componentes" role="document">
         <div class="modal-content modal-content-componentes">
           <div class="modal-header">
-            <h5 class="modal-title" id="componentesModalLabel"><b>Componentes - {{ selectedCadeiraoName }}</b></h5>
+            <h5 class="modal-title" id="componentesModalLabel"><b>{{ selectedCadeiraoName }}</b></h5>
 
             <!-- Botão Abrir Modal Add Componente -->
             <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 955px;"> <!-- Escola: 955px // Casa:  -->

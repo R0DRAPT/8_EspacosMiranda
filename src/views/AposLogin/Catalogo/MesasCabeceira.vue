@@ -25,12 +25,12 @@
           Nome
         </label>
         <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibility.tipo" class="custom-checkbox" />
-          Tipo
-        </label>
-        <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.material" class="custom-checkbox" />
           Material
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.dimensao" class="custom-checkbox" />
+          Dimensão
         </label>
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibility.preco" class="custom-checkbox" />
@@ -40,23 +40,28 @@
           <input type="checkbox" v-model="columnVisibility.imagem" class="custom-checkbox" />
           Imagem
         </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibility.componentes" class="custom-checkbox" />
+          Componentes
+        </label>
       </div>
     </div>
-        <!-- Tabela Informação Sofas -->
+
+    <!-- Tabela Informação Mesas de Cabeceira -->
     <table class="table table-striped">
       <thead>
         <tr>
           <th>
-            <label>Id</label>
+            <label>#</label>
           </th>
           <th scope="col" v-if="columnVisibility.nome">
             <label class="CamposSofas">Nome</label>
           </th>
-          <th scope="col" v-if="columnVisibility.tipo">
-            <label class="CamposSofas">Tipo</label>
-          </th>
           <th scope="col" v-if="columnVisibility.material">
             <label class="CamposSofas">Material</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.dimensao">
+            <label class="CamposSofas">Dimensão</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
             <label class="CamposSofas">Preço</label>
@@ -64,38 +69,101 @@
           <th scope="col" v-if="columnVisibility.imagem">
             <label class="CamposSofas">Imagem</label>
           </th>
+          <th scope="col" v-if="columnVisibility.componentes">
+            <label class="CamposSofas">Componentes</label>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item, index) in items" :key="index">
           <th scope="row">{{ item.id }}</th>
           <td v-if="columnVisibility.nome">{{ item.nome }}</td>
-          <td v-if="columnVisibility.tipo">{{ item.tipo }}</td>
           <td v-if="columnVisibility.material">{{ item.material }}</td>
+          <td v-if="columnVisibility.dimensao">{{ item.dimensao }}</td>
           <td v-if="columnVisibility.preco">{{ item.preco }}</td>
           <td v-if="columnVisibility.imagem">
-            <button class="btn btn-secondary" @click="verImagem(item.imagem)">Ver Imagem</button>
+            <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
+          </td>
+          <!-- Btn Componentes -->
+          <td class="btnComponentes" v-if="columnVisibility.componentes">
+            <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
           </td>
         </tr>
       </tbody>
     </table>
 
     <!-- Modal para exibir a imagem -->
-      <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel">{{ getItemNome(imagemModalSrc) }}</h5>
-              <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <img :src="imagemModalSrc" alt="Imagem">
-            </div>
+    <div class="modal fade" id="imagemModal" tabindex="-1" role="dialog" aria-labelledby="imagemModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-imagem" role="document">
+        <div class="modal-content modal-content-imagem">
+          <div class="modal-header modal-header-imagem">
+            <h5 class="modal-title" v-if="imagemModalSrc" id="imagemModalLabel"><b>{{ imagemModalNome }}</b></h5>
+            <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body modal-body-imagem">
+            <img :src="imagemModalSrc" alt="Imagem">
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Modal Para Exibir Componentes -->
+    <div class="modal modal-l modal-componentes fade" id="componentesModal" tabindex="-1" role="dialog" aria-labelledby="componentesModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-componentes" role="document">
+        <div class="modal-content modal-content-componentes">
+          <div class="modal-header">
+            <h5 class="modal-title" id="componentesModalLabel"><b>{{ selectedMesaCabeceiraName }}</b></h5>
+            <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body modal-body-componentes">
+            <table class="table table-Componentes">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nome</th>
+                  <th>Dimensão</th>
+                  <th>Preço Fixo</th>
+                  <th>Imagem</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(componente, id) in selectedMesaCabeceiraComponents" :key="id">
+                  <td>{{ id + 1 }}</td>
+                  <td>{{ componente.nome }}</td>
+                  <td>{{ componente.dimensao }}</td>
+                  <td>{{ componente.precofixo }}</td>
+                  <td class="ImagensComponentes">
+                    <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Ver Imagem Componente -->
+    <div class="modal fade" id="verImagemComponenteModal" tabindex="-1" role="dialog" aria-labelledby="verImagemComponenteModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="verImagemComponenteModalLabel"><b>{{ selectedComponenteName }}</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeImageModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body corpo-modal-imagem">
+            <img :src="imagemModalComponenteSrc" alt="Imagem">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <br/><br/>
   </div>
 </template>
@@ -117,13 +185,20 @@ export default {
       app_name: "Espaços Miranda",
       userId: null,
       imagemModalSrc: '',
+      selectedMesaCabeceiraName: '',
+      imagemModalNome: '',
       columnVisibility: {
         nome: true,
-        tipo: true,
         material: true,
+        dimensao: true,
         preco: true,
         imagem: true,
+        componentes: true,
       },
+      // componentes
+      selectedMesaCabeceiraComponents: [],
+      selectedComponenteName: '',
+      imagemModalComponenteSrc: '',
       // Imagens
       BannerMesasCabeceira: "/img/Catalogo/BannersCatalogo/BannerMesasCabeceira.jpg",
       // Dados na Tabela
@@ -152,6 +227,7 @@ export default {
   },
 
   methods: {
+    // ----------------------  Filtro ---------------------- 
     toggleDropdown() {
       const dropdown = document.getElementById('checkboxDropdown');
       if (dropdown.classList.contains('show')) {
@@ -174,19 +250,55 @@ export default {
         this.columnVisibility[key] = true;
       }
     },
+    
+    // ----------------------  Imagens ---------------------- 
 
     getItemNome(imagemSrc) {
       const item = this.items.find(item => `/img/catalogo/ImagensArtigos/${item.imagem}` === imagemSrc);
       return item ? item.nome : 'Imagem';
     },
 
-    verImagem(imagemSrc) {
+    verImagem(imagemSrc, nome) {
       this.imagemModalSrc = `/img/catalogo/ImagensArtigos/${imagemSrc}`;
+      this.imagemModalNome = nome;
       $('#imagemModal').modal('show');
     },
 
     closeModal() {
       $('#imagemModal').modal('hide');
+    },
+
+    // ---------------------- Componentes ---------------------- 
+
+    openComponenteModal(itemId) {
+      const selectedMesaCabeceira = this.items.find(item => item.id === itemId);
+      if (selectedMesaCabeceira) {
+        this.selectedMesaCabeceiraName = selectedMesaCabeceira.nome;
+
+        this.selectedMesaCabeceiraComponents = selectedMesaCabeceira.componentes;
+        $('#componentesModal').modal('show');
+      }
+    },
+
+    closeComponenteModal() {
+      $('#componentesModal').modal('hide');
+    },
+
+    // Imagem Componentes
+
+    getItemNome(imagemSrcComponente) {
+      const componente = this.selectedMesaCabeceiraComponents.find(comp => `/img/Catalogo/ImagensComponentes/${comp.imagem}` === imagemSrcComponente);
+      return componente ? componente.nome : 'Componente';
+    },
+
+    openImageModal(imagemSrc, componentName) {
+      this.imagemModalComponenteSrc = `/img/Catalogo/ImagensComponentes/${imagemSrc}`;
+      this.selectedComponenteName = componentName;
+      $('#verImagemComponenteModal').modal('show');
+    },
+
+    closeImageModal() {
+      $('#verImagemComponenteModal').modal('hide');
     },
   }
 }
@@ -215,7 +327,7 @@ export default {
 
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1285px;
+  margin-left: 1320px; /* Casa: 1235px / Escola: 1320px */
   margin-bottom: 3px;
 }
 
@@ -256,6 +368,16 @@ export default {
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+    text-align: center;
+}
+
+/* CamposSofas */
+.CamposSofas {
+    background-color: transparent;
+    border: none;
+    cursor: default;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 /* Cabeçalho da tabela */
@@ -270,22 +392,99 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
-/* CamposSofas */
+/* Modal Imagem */
 
-.CamposSofas {
-    background-color: transparent;
-    border: none;
-    cursor: default;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-/* Modal */
-
-.modal-body {
+.modal-body-imagem {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal-body img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
+}
+
+.modal-dialog-imagem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vh;
+  margin: 0 auto;
+}
+
+.modal-content-imagem {
+  width: auto;
+  max-width: 90%;
+  height: auto;
+}
+
+/* Modal Componentes */
+
+.modal-l .modal-dialog-componentes {
+  max-width: 90%;
+}
+
+.modal-body-componentes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog-componentes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  width: 100%;
+  margin: auto;
+}
+
+.modal-content-componentes {
+  width: 1270px; /* Muda a dimensao da tabela toda */
+  height: 100%;
+}
+
+/* Modal Componentes */
+
+.table-Componentes {
+  width: 1270px; /* Muda a dimensao da tabela toda */
+  margin: 0 auto; 
+  font-size: 18px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+}
+
+/* Cabeçalho da tabela */
+
+thead {
+    background-color: #333;
+    color: #fff;
+}
+
+th, td {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Imagem Componente */
+
+.corpo-modal-imagem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.corpo-modal-imagem img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
 }
 
 .modal-dialog {
@@ -297,17 +496,9 @@ th, td {
   margin: 0 auto;
 }
 
-.modal-body img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto; 
-}
-
 .modal-content {
   width: auto;
-  max-width: 90%; /* Ajuste a largura máxima conforme necessário */
+  max-width: 90%; 
   height: auto;
-  max-height: 90vh; /* Ajuste a altura máxima conforme necessário */
 }
 </style>

@@ -5,7 +5,7 @@
     <!-- BannerSofas -->
     <img class="BannerSofas" :src="BannerSofas" alt="Banner Sofás" />
     <br /><br />
-    <h1 class="tituloSofas">Sofás</h1>
+    <h1 class="titulo">Sofás</h1>
     <br />
 
     <!-- Dropdown-Filtro -->
@@ -52,7 +52,7 @@
       <thead>
         <tr>
           <th>
-            <label>Id</label>
+            <label>#</label>
           </th>
           <th scope="col" v-if="columnVisibility.nome">
             <label class="CamposSofas">Nome</label>
@@ -114,7 +114,7 @@
       <div class="modal-dialog modal-dialog-componentes" role="document">
         <div class="modal-content modal-content-componentes">
           <div class="modal-header">
-            <h5 class="modal-title" id="componentesModalLabel"><b>Componentes - {{ selectedSofaName }}</b></h5>
+            <h5 class="modal-title" id="componentesModalLabel"><b>{{ selectedSofaName }}</b></h5>
             <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -313,7 +313,7 @@ export default {
     margin: 0 auto;
 }
 
-.tituloSofas {
+.titulo {
   color: white;
   text-align: center;
   margin-bottom: 30px;
@@ -325,7 +325,7 @@ export default {
 /* DropDown-Filtro */
 
 .btn-MostrarTudo {
-  margin-right: 8px; /* Adiciona margem à direita para separar os botões */
+  margin-right: 8px;
   margin-left: 1320px; /* Casa: 1235px / Escola: 1320px */
   margin-bottom: 3px;
 }

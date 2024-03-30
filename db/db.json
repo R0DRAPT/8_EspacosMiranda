@@ -215,7 +215,15 @@
       "preco": 231,
       "imagem": "Banner1.jpg",
       "id": 1,
-      "componentes": []
+      "componentes": [
+        {
+          "id": 1,
+          "nome": "aa3",
+          "dimensao": "aa",
+          "precofixo": 11,
+          "imagem": "Banner1.jpg"
+        }
+      ]
     }
   ],
   "Camas": [
