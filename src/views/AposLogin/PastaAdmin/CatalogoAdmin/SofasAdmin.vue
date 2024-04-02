@@ -15,15 +15,15 @@
           Mostrar Campos
         </button>
 
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="checkboxDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown">
-          Filtrar Campos
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown" style="margin-right: 8px; margin-top: 8px;">
+            Filtrar Campos
         </button>
 
         <button class="btn btn-primary btn-add" @click="openAddModal">
           <font-awesome-icon :icon="['fas', 'plus']" />
         </button>
 
-        <!-- Modal ADD Sofá -->eeee
+        <!-- Modal ADD Sofá -->
         <div class="modal modal-add" id="modalAdd" :class="{ 'show': showAddModal }" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 10px;">
@@ -237,39 +237,60 @@
           <div class="modal-content modal-content-componentes">
             <div class="modal-header">
               <h5 class="modal-title" id="componentesModalLabel"><b>{{ selectedSofaName }}</b></h5>
-
-              <!-- Botão Abrir Modal Add Componente -->
-              <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 955px;"> <!-- Escola: 955px // Casa:  -->
-                <font-awesome-icon :icon="['fas', 'plus']" />
-              </button>
-
               <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <!-- btn filtrar e add -->
+            <div class="text-right">
+              <button class="btn btn-secondary btn-sm" @click="mostrarTodosCamposComponentes" style="margin-right: 8px; margin-top: 8px;">
+                Mostrar Campos
+              </button>
+
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle-dropdown aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes" style="margin-right: 8px; margin-top: 8px;">
+                  Filtrar Campos
+              </button>
+
+              <!-- Botão Abrir Modal Add Componente -->
+              <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 8px;">
+                <font-awesome-icon :icon="['fas', 'plus']" />
               </button>
             </div>
             <div class="modal-body modal-body-componentes">
               <table class="table table-Componentes">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Nome</th>
-                    <th>Dimensão</th>
-                    <th>Preço Fixo</th>
-                    <th>Imagem</th>
-                    <th>Ações</th>
+                    <th>
+                      <label>#</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.nomeComponentes">
+                      <label>Nome</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.dimensaoComponentes">
+                      <label>Dimensão</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.precofixoComponentes">
+                      <label>Preço Fixo</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.imagemComponentes">
+                      <label>Imagem</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.acoesComponentes">
+                      <label>Ações</label>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(componente, id) in selectedSofaComponents" :key="id">
                     <td>{{ id + 1 }}</td>
-                    <td>{{ componente.nome }}</td>
-                    <td>{{ componente.dimensao }}</td>
-                    <td>{{ componente.precofixo }}</td>
-                    <td class="ImagensComponentes">
+                    <td v-if="columnVisibilityComponentes.nomeComponentes">{{ componente.nome }}</td>
+                    <td v-if="columnVisibilityComponentes.dimensaoComponentes">{{ componente.dimensao }}</td>
+                    <td v-if="columnVisibilityComponentes.precofixoComponentes">{{ componente.precofixo }}</td>
+                    <td class="ImagensComponentes" v-if="columnVisibilityComponentes.imagemComponentes">
                       <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
                     </td>
                     <!-- Botões Ações Componentes -->
-                    <td class="TextAcoes">
+                    <td class="TextAcoes" v-if="columnVisibilityComponentes.acoesComponentes">
                       <!-- Botão Editar Componente -->
                       <button class="btn btn-primary btn-sm" @click="openEditModalComponente(componente.id)" title="Editar Componente">
                         <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
@@ -285,6 +306,30 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- DropDown Filtro Componentes-->
+      <div class="dropdown-menu" aria-labelledby="checkboxDropdownComponentes">
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox" />
+          Nome
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibilityComponentes.dimensaoComponentes" class="custom-checkbox" />
+          Dimensão
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibilityComponentes.precofixoComponentes" class="custom-checkbox" />
+          Preço Fixo
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibilityComponentes.imagemComponentes" class="custom-checkbox" />
+          Imagem
+        </label>
+        <label class="dropdown-item" @click="handleItemClick">
+          <input type="checkbox" v-model="columnVisibilityComponentes.acoesComponentes" class="custom-checkbox" />
+          Ações
+        </label>
       </div>
 
       <!-- Modal Ver Imagem Componente -->
@@ -452,6 +497,14 @@ export default {
         dimensao: '',
         precofixo: '',
         imagem: ''
+      },
+      columnVisibilityComponentes: {
+        nomeComponentes: true,
+        materialComponentes: true,
+        dimensaoComponentes: true,
+        precofixoComponentes: true,
+        imagemComponentes: true,
+        acoesComponentes: true,
       },
       // Imagens
       BannerSofas: "/img/Catalogo/BannersCatalogo/BannerSofas.jpg",
@@ -1130,6 +1183,31 @@ export default {
         });
       }
     },
+
+    // ---------------------- Filtro Componentes ---------------------- 
+        
+    toggleDropdownComponentes() {
+        const dropdown = document.getElementById('checkboxDropdownComponentes');
+        if (dropdown.classList.contains('show')) {
+            dropdown.classList.remove('show');
+        } else {
+            dropdown.classList.add('show');
+        }
+    },
+
+    toggleFilter(key, event) {
+        this.filterKey = this.filterKey === key ? null : key;
+    },
+
+    handleItemClick(event) {
+        event.stopPropagation();
+    },
+
+    mostrarTodosCamposComponentes() {
+        for (const key in this.columnVisibilityComponentes) {
+            this.columnVisibilityComponentes[key] = true;
+        }
+    },
   },
 }
 </script>
@@ -1162,10 +1240,6 @@ export default {
 
 /* Btn-FiltrarCampos */
 
-.dropdown-toggle { 
-  margin-bottom: 3px;
-}
-
 .custom-checkbox {
   margin-right: 8px;
   vertical-align: middle;
@@ -1175,7 +1249,7 @@ export default {
   background-color: #333;
 }
 
-
+ 
 .dropdown-item {
   color: white;
   display: flex;
