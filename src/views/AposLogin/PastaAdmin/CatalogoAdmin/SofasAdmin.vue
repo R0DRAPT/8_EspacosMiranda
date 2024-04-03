@@ -15,7 +15,7 @@
           Mostrar Campos
         </button>
 
-        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown" style="margin-right: 8px; margin-top: 8px;">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="checkboxDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown" style="margin-bottom: 3px; ">
             Filtrar Campos
         </button>
 
@@ -241,18 +241,18 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <!-- btn filtrar e add -->
+            <!-- btn filtrar e add  ----------------------------------------------------------------------------------------------- -->
             <div class="text-right">
-              <button class="btn btn-secondary btn-sm" @click="mostrarTodosCamposComponentes" style="margin-right: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" @click="mostrarTodosCamposComponentes" style="margin-right: 8px; margin-top: 14px;">
                 Mostrar Campos
               </button>
 
-              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle-dropdown aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes" style="margin-right: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes" style="margin-right: 8px; margin-top: 14px;">
                   Filtrar Campos
               </button>
 
               <!-- Botão Abrir Modal Add Componente -->
-              <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 8px;">
+              <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 14px;">
                 <font-awesome-icon :icon="['fas', 'plus']" />
               </button>
             </div>
@@ -309,7 +309,7 @@
       </div>
 
       <!-- DropDown Filtro Componentes-->
-      <div class="dropdown-menu" aria-labelledby="checkboxDropdownComponentes">
+      <div class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="checkboxDropdownComponentes">
         <label class="dropdown-item" @click="handleItemClick">
           <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox" />
           Nome
@@ -462,18 +462,22 @@ export default {
       logo_src: "/img/logo.png",
       app_name: "Espaços Miranda",
       userId: null,
+      // imagem
       imagemModalSrc: '',
       imagemModalComponenteSrc: '',
       imagemModalNome: '',
+      // Modais
       showEditModal: false,
       showAddModal: false,
       showComponenteAddModal: false,
+      // Sofas / Componentes
       selectedSofaName: '',
       selectedComponenteName: '',
-      selectedSofaComponents: [],
+
       currentSofaId: null,
       editedSofa: {},
       editedComponente: {},
+      // filtros
       columnVisibility: {
         nome: true,
         material: true,
@@ -482,6 +486,14 @@ export default {
         imagem: true,
         componentes: true,
         acoes: true,
+      },
+      columnVisibilityComponentes: {
+        nomeComponentes: true,
+        materialComponentes: true,
+        dimensaoComponentes: true,
+        precofixoComponentes: true,
+        imagemComponentes: true,
+        acoesComponentes: true,
       },
       // Adicionar
       novoSofa: {
@@ -498,18 +510,11 @@ export default {
         precofixo: '',
         imagem: ''
       },
-      columnVisibilityComponentes: {
-        nomeComponentes: true,
-        materialComponentes: true,
-        dimensaoComponentes: true,
-        precofixoComponentes: true,
-        imagemComponentes: true,
-        acoesComponentes: true,
-      },
-      // Imagens
+      // Banner
       BannerSofas: "/img/Catalogo/BannersCatalogo/BannerSofas.jpg",
-      // Dados na Tabela
+      // Dados nas Tabelas
       items: [],
+      selectedSofaComponents: [],
     }
   },
 
@@ -1187,20 +1192,12 @@ export default {
     // ---------------------- Filtro Componentes ---------------------- 
         
     toggleDropdownComponentes() {
-        const dropdown = document.getElementById('checkboxDropdownComponentes');
-        if (dropdown.classList.contains('show')) {
-            dropdown.classList.remove('show');
-        } else {
-            dropdown.classList.add('show');
-        }
+      console.log("aassdd")
+        this.dropdownOpen = !this.dropdownOpen;
     },
 
     toggleFilter(key, event) {
         this.filterKey = this.filterKey === key ? null : key;
-    },
-
-    handleItemClick(event) {
-        event.stopPropagation();
     },
 
     mostrarTodosCamposComponentes() {
