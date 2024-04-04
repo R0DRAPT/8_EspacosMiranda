@@ -247,9 +247,32 @@
                 Mostrar Campos
               </button>
 
-              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes" style="margin-right: 8px; margin-top: 14px;">
-                  Filtrar Campos
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes"  style="margin-right: 8px; margin-top: 14px;">
+                Filtrar Campos
               </button>
+
+              <div class="dropdown-menu" aria-labelledby="checkboxDropdownComponentes" v-if="showDropdownComponentes">
+                <label class="dropdown-item">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'nomeComponentes')" />
+                  Nome
+                </label>
+                <label class="dropdown-item">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.dimensaoComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'dimensaoComponentes')" />
+                  Dimensão
+                </label>
+                <label class="dropdown-item">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.precofixoComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'precofixoComponentes')" />
+                  Preço Fixo
+                </label>
+                <label class="dropdown-item">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.imagemComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'imagemComponentes')" />
+                  Imagem
+                </label>
+                <label class="dropdown-item">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.acoesComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'acoesComponentes')" />
+                  Ações
+                </label>
+              </div>
 
               <!-- Botão Abrir Modal Add Componente -->
               <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 14px;">
@@ -306,30 +329,6 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- DropDown Filtro Componentes-->
-      <div class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="checkboxDropdownComponentes">
-        <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox" />
-          Nome
-        </label>
-        <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibilityComponentes.dimensaoComponentes" class="custom-checkbox" />
-          Dimensão
-        </label>
-        <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibilityComponentes.precofixoComponentes" class="custom-checkbox" />
-          Preço Fixo
-        </label>
-        <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibilityComponentes.imagemComponentes" class="custom-checkbox" />
-          Imagem
-        </label>
-        <label class="dropdown-item" @click="handleItemClick">
-          <input type="checkbox" v-model="columnVisibilityComponentes.acoesComponentes" class="custom-checkbox" />
-          Ações
-        </label>
       </div>
 
       <!-- Modal Ver Imagem Componente -->
@@ -473,7 +472,6 @@ export default {
       // Sofas / Componentes
       selectedSofaName: '',
       selectedComponenteName: '',
-
       currentSofaId: null,
       editedSofa: {},
       editedComponente: {},
@@ -487,6 +485,7 @@ export default {
         componentes: true,
         acoes: true,
       },
+      showDropdownComponentes: false,
       columnVisibilityComponentes: {
         nomeComponentes: true,
         materialComponentes: true,
@@ -937,7 +936,6 @@ export default {
       return componente ? componente.nome : 'Componente';
     },
 
-
     openImageModal(imagemSrcComponente, componentName) {
       const componente = this.selectedSofaComponents.find(comp => {
         const lastIndexOfSlash = comp.imagem.lastIndexOf('/');
@@ -968,7 +966,6 @@ export default {
         });
       }
     },
-
 
     closeImageModal() {
       $('#verImagemComponenteModal').modal('hide');
@@ -1192,8 +1189,11 @@ export default {
     // ---------------------- Filtro Componentes ---------------------- 
         
     toggleDropdownComponentes() {
-      console.log("aassdd")
-        this.dropdownOpen = !this.dropdownOpen;
+      this.showDropdownComponentes = !this.showDropdownComponentes;
+    },
+
+    handleItemClickComponentes(event) {
+      event.stopPropagation();
     },
 
     toggleFilter(key, event) {
