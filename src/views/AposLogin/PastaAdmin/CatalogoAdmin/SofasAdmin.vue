@@ -247,32 +247,35 @@
                 Mostrar Campos
               </button>
 
-              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes"  style="margin-right: 8px; margin-top: 14px;">
-                Filtrar Campos
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes" style="margin-right: 8px; margin-top: 14px;">
+                  Filtrar Campos
               </button>
 
-              <div class="dropdown-menu" aria-labelledby="checkboxDropdownComponentes" v-if="showDropdownComponentes">
-                <label class="dropdown-item">
-                  <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'nomeComponentes')" />
+
+              <!-- DropDown Filtro Componentes -->
+              <div class="dropdown-menu" aria-labelledby="checkboxDropdownComponentes" v-show="showDropdownComponentes">
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox"/>
                   Nome
                 </label>
-                <label class="dropdown-item">
-                  <input type="checkbox" v-model="columnVisibilityComponentes.dimensaoComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'dimensaoComponentes')" />
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.dimensaoComponentes" class="custom-checkbox"/>
                   Dimensão
                 </label>
-                <label class="dropdown-item">
-                  <input type="checkbox" v-model="columnVisibilityComponentes.precofixoComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'precofixoComponentes')" />
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.precofixoComponentes" class="custom-checkbox"/>
                   Preço Fixo
                 </label>
-                <label class="dropdown-item">
-                  <input type="checkbox" v-model="columnVisibilityComponentes.imagemComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'imagemComponentes')" />
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.imagemComponentes" class="custom-checkbox">
                   Imagem
                 </label>
-                <label class="dropdown-item">
-                  <input type="checkbox" v-model="columnVisibilityComponentes.acoesComponentes" class="custom-checkbox" @click="handleItemClickComponentes($event, 'acoesComponentes')" />
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.acoesComponentes" class="custom-checkbox"/>
                   Ações
                 </label>
               </div>
+
 
               <!-- Botão Abrir Modal Add Componente -->
               <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 14px;">
@@ -1189,14 +1192,10 @@ export default {
     // ---------------------- Filtro Componentes ---------------------- 
         
     toggleDropdownComponentes() {
-      this.showDropdownComponentes = !this.showDropdownComponentes;
+        this.showDropdownComponentes = !this.showDropdownComponentes;
     },
 
-    handleItemClickComponentes(event) {
-      event.stopPropagation();
-    },
-
-    toggleFilter(key, event) {
+    toggleFilter(key) {
         this.filterKey = this.filterKey === key ? null : key;
     },
 
