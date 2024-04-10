@@ -241,7 +241,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <!-- btn filtrar e add  ----------------------------------------------------------------------------------------------- -->
+            <!-- btn filtrar e add -->
             <div class="text-right">
               <button class="btn btn-secondary btn-sm" @click="mostrarTodosCamposComponentes" style="margin-right: 8px; margin-top: 14px;">
                 Mostrar Campos

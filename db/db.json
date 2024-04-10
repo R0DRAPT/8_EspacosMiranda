@@ -35,97 +35,40 @@
     {
       "nome": "Sofá A",
       "material": "Couro",
-      "dimensao": "1x1",
-      "preco": 13,
-      "imagem": "Banner1.jpg",
+      "dimensao": "400x100",
+      "preco": 1200,
+      "imagem": "sofaIdeal.jpg",
       "id": 1,
       "componentes": [
         {
-          "nome": "1teste",
-          "dimensao": "1x2",
-          "precofixo": 11,
-          "imagem": "sofacama.png",
+          "nome": "Estrutura",
+          "dimensao": "200x200",
+          "precofixo": 700,
+          "imagem": "estruturaSofa.jpg",
           "id": 1
         },
         {
-          "nome": "testeddsa",
-          "dimensao": "2",
-          "precofixo": 3233323,
-          "imagem": "Banner1.jpg",
+          "nome": "Pés",
+          "dimensao": "4x4",
+          "precofixo": 70,
+          "imagem": "pesSofa.jpg",
           "id": 2
         },
         {
-          "nome": "teste",
-          "dimensao": "11x33",
-          "precofixo": 123,
-          "imagem": "sofacama.png",
+          "nome": "Espuma",
+          "dimensao": "350x300",
+          "precofixo": 150,
+          "imagem": "espumaSofa.jpg",
           "id": 3
         },
         {
-          "id": 4,
-          "nome": "Rodrigo",
-          "dimensao": "teste",
-          "precofixo": 123,
-          "imagem": "Banner1.jpg"
+          "nome": "Braços",
+          "dimensao": "50x30",
+          "precofixo": 280,
+          "imagem": "bracosSofa.jpg",
+          "id": 4
         }
       ]
-    },
-    {
-      "id": 2,
-      "nome": "Sofá B",
-      "material": "Tecido",
-      "dimensao": "1x1",
-      "preco": "1",
-      "imagem": "sofacama.png",
-      "componentes": [
-        {
-          "nome": "1",
-          "dimensao": "1",
-          "precofixo": 1,
-          "imagem": "no-imagem.jpg"
-        }
-      ]
-    },
-    {
-      "nome": "Sofá C",
-      "material": "Veludo",
-      "dimensao": "1x1",
-      "preco": 1,
-      "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
-      "id": 3,
-      "componentes": [
-        {
-          "nome": "a",
-          "dimensao": "a",
-          "precofixo": 1,
-          "imagem": "1a",
-          "id": 1
-        },
-        {
-          "id": 2,
-          "nome": "b",
-          "dimensao": "bb",
-          "precofixo": 231,
-          "imagem": "banner1.jpg"
-        }
-      ]
-    },
-    {
-      "nome": "Sofá D",
-      "material": "Veludo",
-      "dimensao": "1x1",
-      "preco": 1,
-      "imagem": "Banner1.jpg",
-      "id": 4,
-      "componentes": []
-    },
-    {
-      "nome": "Sofá E",
-      "material": "Madeira",
-      "dimensao": "1x12",
-      "preco": 1389,
-      "imagem": "phillip-goldsberry-fZuleEfeA1Q-unsplash.jpg",
-      "id": 5
     }
   ],
   "Cadeiroes": [
@@ -133,15 +76,15 @@
       "nome": "Cadeirao A",
       "material": "Couro",
       "dimensao": "Confortável",
-      "preco": 463,
+      "preco": 450,
       "imagem": "sofacama.png",
       "id": 1,
       "componentes": [
         {
           "id": 1,
-          "nome": "44",
-          "dimensao": "sw",
-          "precofixo": 22,
+          "nome": "Pés",
+          "dimensao": "4x4",
+          "precofixo": 20,
           "imagem": "banner1.jpg"
         }
       ]
