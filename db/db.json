@@ -14,7 +14,7 @@
   "users": [
     {
       "email": "macedorodrigo63@gmail.com",
-      "username": "61",
+      "username": "6161",
       "password": "61",
       "id": 6
     },
@@ -29,6 +29,12 @@
       "username": "Rodrigo",
       "password": "123",
       "id": 12
+    },
+    {
+      "email": "aaa@aaa.gmail.com",
+      "username": "aaaaaa",
+      "password": "123",
+      "id": 13
     }
   ],
   "Sofas": [
@@ -41,7 +47,7 @@
       "id": 1,
       "componentes": [
         {
-          "nome": "Estrutura",
+          "nome": "Estrutura2",
           "dimensao": "200x200",
           "precofixo": 700,
           "imagem": "estruturaSofa.jpg",
@@ -60,13 +66,6 @@
           "precofixo": 150,
           "imagem": "espumaSofa.jpg",
           "id": 3
-        },
-        {
-          "nome": "Braços",
-          "dimensao": "50x30",
-          "precofixo": 280,
-          "imagem": "bracosSofa.jpg",
-          "id": 4
         }
       ]
     }

@@ -1244,7 +1244,6 @@ export default {
 .dropdown-menu {
   background-color: #333;
 }
-
  
 .dropdown-item {
   color: white;
