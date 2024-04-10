@@ -109,66 +109,66 @@
       </div>
     </div>
 
-<!-- Tabela Informação Sofas -->
-<table class="table table-striped table-hover">
-  <thead>
-    <tr>
-      <th>
-        <label>#</label>
-      </th>
-      <th scope="col" v-if="columnVisibility.nome">
-        <label class="CamposSofas">Nome</label>
-      </th>
-      <th scope="col" v-if="columnVisibility.material">
-        <label class="CamposSofas">Material</label>
-      </th>
-      <th scope="col" v-if="columnVisibility.dimensao">
-        <label class="CamposSofas">Dimensão</label>
-      </th>
-      <th scope="col" v-if="columnVisibility.preco">
-        <label class="CamposSofas">Preço</label>
-      </th>
-      <th scope="col" v-if="columnVisibility.imagem">
-        <label class="CamposSofas">Imagem</label>
-      </th>
-      <th scope="col" v-if="columnVisibility.componentes">
-        <label class="CamposSofas">Componentes</label>
-      </th>
-      <th scope="col" v-if="columnVisibility.acoes">
-        <label class="CamposSofas">Ações</label>
-      </th>
-    </tr>
-  </thead>
-  
-  <tbody>
-    <tr v-for="(item, index) in items" :key="index">
-      <th scope="row">{{ item.id }}</th>
-      <td v-if="columnVisibility.nome">{{ item.nome }}</td>
-      <td v-if="columnVisibility.material">{{ item.material }}</td>
-      <td v-if="columnVisibility.dimensao">{{ item.dimensao }}</td>
-      <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
-      <td v-if="columnVisibility.imagem">
-        <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
-      </td>
-      <!-- Btn Componentes -->
-      <td class="btnComponentes" v-if="columnVisibility.componentes">
-        <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
-      </td>
+    <!-- Tabela Informação Sofas -->
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>
+            <label>#</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.nome">
+            <label class="CamposSofas">Nome</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.material">
+            <label class="CamposSofas">Material</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.dimensao">
+            <label class="CamposSofas">Dimensão</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.preco">
+            <label class="CamposSofas">Preço</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.imagem">
+            <label class="CamposSofas">Imagem</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.componentes">
+            <label class="CamposSofas">Componentes</label>
+          </th>
+          <th scope="col" v-if="columnVisibility.acoes">
+            <label class="CamposSofas">Ações</label>
+          </th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr v-for="(item, index) in items" :key="index">
+          <th scope="row">{{ item.id }}</th>
+          <td v-if="columnVisibility.nome">{{ item.nome }}</td>
+          <td v-if="columnVisibility.material">{{ item.material }}</td>
+          <td v-if="columnVisibility.dimensao">{{ item.dimensao }}</td>
+          <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
+          <td v-if="columnVisibility.imagem">
+            <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
+          </td>
+          <!-- Btn Componentes -->
+          <td class="btnComponentes" v-if="columnVisibility.componentes">
+            <button class="btn btn-secondary" @click="openComponenteModal(item.id)">Ver Componentes</button>
+          </td>
 
-      <!-- Botões de edição e eliminar -->
-      <td class="TextAcoes" v-if="columnVisibility.acoes">
-        <!-- Botão Editar -->
-        <button class="btn btn-primary btn-sm" @click="openEditModal(item)" title="Editar Sofá">
-          <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
-        </button>
-        <!-- Botão Remover -->
-        <button class="btn btn-danger btn-sm" @click="confirmDeleteSofa(item.id)" title="Remover Sofá">
-          <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+          <!-- Botões de edição e eliminar -->
+          <td class="TextAcoes" v-if="columnVisibility.acoes">
+            <!-- Botão Editar -->
+            <button class="btn btn-primary btn-sm" @click="openEditModal(item)" title="Editar Sofá">
+              <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
+            </button>
+            <!-- Botão Remover -->
+            <button class="btn btn-danger btn-sm" @click="confirmDeleteSofa(item.id)" title="Remover Sofá">
+              <FontAwesomeIcon :icon="['fas', 'trash-alt']" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
       <!-- Modal para editar Sofá -->
       <div class="modal" :class="{ 'show': showEditModal }" tabindex="-1" role="dialog">
@@ -281,6 +281,7 @@
               <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 14px;">
                 <font-awesome-icon :icon="['fas', 'plus']" />
               </button>
+
             </div>
             <div class="modal-body modal-body-componentes">
               <table class="table table-Componentes">

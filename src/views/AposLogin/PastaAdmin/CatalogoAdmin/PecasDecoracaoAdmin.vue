@@ -278,7 +278,7 @@
               </div>
 
               <!-- Botão Abrir Modal Add Componente -->
-              <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 955px;"> <!-- Escola: 955px // Casa:  -->
+              <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 14px;">
                 <font-awesome-icon :icon="['fas', 'plus']" />
               </button>
             </div>
@@ -307,7 +307,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(componente, id) in selectedSofaComponents" :key="id">
+                  <tr v-for="(componente, id) in selectedPecaComponents" :key="id">
                     <td>{{ id + 1 }}</td>
                     <td v-if="columnVisibilityComponentes.nomeComponentes">{{ componente.nome }}</td>
                     <td v-if="columnVisibilityComponentes.dimensaoComponentes">{{ componente.dimensao }}</td>

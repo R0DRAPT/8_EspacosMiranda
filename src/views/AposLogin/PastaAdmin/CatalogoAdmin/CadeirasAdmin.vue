@@ -240,39 +240,87 @@
         <div class="modal-content modal-content-componentes">
           <div class="modal-header">
             <h5 class="modal-title" id="componentesModalLabel"><b>{{ selectedCadeiraName }}</b></h5>
-
-            <!-- Botão Abrir Modal Add Componente -->
-            <button class="btn btn-primary btn-sm" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-left: 955px;"> <!-- Escola: 955px // Casa:  -->
-              <font-awesome-icon :icon="['fas', 'plus']" />
-            </button>
-
             <button @click="closeComponenteModal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-              <span aria-hidden="true">&times;</span>
-            </button>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <!-- btn filtrar e add -->
+            <div class="text-right">
+              <button class="btn btn-secondary btn-sm" @click="mostrarTodosCamposComponentes" style="margin-right: 8px; margin-top: 14px;">
+                Mostrar Campos
+              </button>
+
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes" style="margin-right: 8px; margin-top: 14px;">
+                  Filtrar Campos
+              </button>
+
+
+              <!-- DropDown Filtro Componentes -->
+              <div class="dropdown-menu" aria-labelledby="checkboxDropdownComponentes" v-show="showDropdownComponentes">
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox"/>
+                  Nome
+                </label>
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.dimensaoComponentes" class="custom-checkbox"/>
+                  Dimensão
+                </label>
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.precofixoComponentes" class="custom-checkbox"/>
+                  Preço Fixo
+                </label>
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.imagemComponentes" class="custom-checkbox">
+                  Imagem
+                </label>
+                <label class="dropdown-item" @click="handleItemClick">
+                  <input type="checkbox" v-model="columnVisibilityComponentes.acoesComponentes" class="custom-checkbox"/>
+                  Ações
+                </label>
+              </div>
+
+
+              <!-- Botão Abrir Modal Add Componente -->
+              <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 14px;">
+                <font-awesome-icon :icon="['fas', 'plus']" />
+              </button>
+
           </div>
           <div class="modal-body modal-body-componentes">
             <table class="table table-Componentes">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Nome</th>
-                  <th>Dimensão</th>
-                  <th>Preço Fixo</th>
-                  <th>Imagem</th>
-                  <th>Ações</th>
-                </tr>
+                    <th>
+                      <label>#</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.nomeComponentes">
+                      <label>Nome</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.dimensaoComponentes">
+                      <label>Dimensão</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.precofixoComponentes">
+                      <label>Preço Fixo</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.imagemComponentes">
+                      <label>Imagem</label>
+                    </th>
+                    <th scope="col" v-if="columnVisibilityComponentes.acoesComponentes">
+                      <label>Ações</label>
+                    </th>
+                  </tr>
               </thead>
               <tbody>
                 <tr v-for="(componente, id) in selectedCadeiraComponents" :key="id">
                   <td>{{ id + 1 }}</td>
-                  <td>{{ componente.nome }}</td>
-                  <td>{{ componente.dimensao }}</td>
-                  <td>{{ componente.precofixo }}</td>
-                  <td class="ImagensComponentes">
-                    <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
-                  </td>
-                  <!-- Botões Ações Componentes -->
-                  <td class="TextAcoes">
+                  <td v-if="columnVisibilityComponentes.nomeComponentes">{{ componente.nome }}</td>
+                    <td v-if="columnVisibilityComponentes.dimensaoComponentes">{{ componente.dimensao }}</td>
+                    <td v-if="columnVisibilityComponentes.precofixoComponentes">{{ componente.precofixo }}</td>
+                    <td class="ImagensComponentes" v-if="columnVisibilityComponentes.imagemComponentes">
+                      <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
+                    </td>
+                    <!-- Botões Ações Componentes -->
+                    <td class="TextAcoes" v-if="columnVisibilityComponentes.acoesComponentes">
                     <!-- Botão Editar Componente -->
                     <button class="btn btn-primary btn-sm" @click="openEditModalComponente(componente.id)" title="Editar Componente">
                       <FontAwesomeIcon :icon="['fas', 'pencil-alt']" />
@@ -419,17 +467,21 @@ export default {
       logo_src: "/img/logo.png",
       app_name: "Espaços Miranda",
       userId: null,
-      imagemModalSrc: '',
+       // imagem
+       imagemModalSrc: '',
+      imagemModalComponenteSrc: '',
       imagemModalNome: '',
+      // Modais
       showEditModal: false,
       showAddModal: false,
       showComponenteAddModal: false,
+      // Sofas / Componentes
       selectedCadeiraName: '',
       selectedComponenteName: '',
-      selectedCadeiraComponents: [],
       currentCadeiraId: null,
       editedCadeira: {},
       editedComponente: {},
+      // filtros
       columnVisibility: {
         nome: true,
         material: true,
@@ -438,6 +490,15 @@ export default {
         imagem: true,
         componentes: true,
         acoes: true,
+      },
+      showDropdownComponentes: false,
+      columnVisibilityComponentes: {
+        nomeComponentes: true,
+        materialComponentes: true,
+        dimensaoComponentes: true,
+        precofixoComponentes: true,
+        imagemComponentes: true,
+        acoesComponentes: true,
       },
       // Adicionar
       novoCadeira: {
@@ -458,6 +519,7 @@ export default {
       BannerCadeiras: "/img/Catalogo/BannersCatalogo/BannerCadeiras.jpg",
       // Dados na Tabela
       items: [],
+      selectedCadeiraComponents: [],
     }
   },
 
@@ -1132,6 +1194,22 @@ export default {
         });
       }
     },
+    
+    // ---------------------- Filtro Componentes ---------------------- 
+    
+    toggleDropdownComponentes() {
+        this.showDropdownComponentes = !this.showDropdownComponentes;
+    },
+
+    toggleFilter(key) {
+        this.filterKey = this.filterKey === key ? null : key;
+    },
+
+    mostrarTodosCamposComponentes() {
+        for (const key in this.columnVisibilityComponentes) {
+            this.columnVisibilityComponentes[key] = true;
+        }
+    },
   }
 }
 </script>
@@ -1169,16 +1247,9 @@ export default {
   margin-bottom: 3px;
 }
 
-.custom-checkbox {
-  margin-right: 8px;
-  vertical-align: middle;
-  
-}
-
 .dropdown-menu {
   background-color: #333;
 }
-
 
 .dropdown-item {
   color: white;
