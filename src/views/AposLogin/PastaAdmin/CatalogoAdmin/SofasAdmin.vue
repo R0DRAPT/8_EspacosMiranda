@@ -276,7 +276,6 @@
                 </label>
               </div>
 
-
               <!-- Botão Abrir Modal Add Componente -->
               <button class="btn btn-primary btn-sm ml-auto" @click="openAddComponenteModal" title="Adicionar Componente" style="margin-right: 8px; margin-top: 14px;">
                 <font-awesome-icon :icon="['fas', 'plus']" />

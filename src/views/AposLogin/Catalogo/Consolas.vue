@@ -15,7 +15,7 @@
           Mostrar Campos
         </button>
 
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="checkboxDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="checkboxDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdown" style="margin-bottom: 3px;">
           Filtrar Campos
         </button>
 
@@ -119,24 +119,64 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          <!-- btn filtrar e add -->
+          <div class="text-right">
+            <button class="btn btn-secondary btn-sm" @click="mostrarTodosCamposComponentes" style="margin-right: 8px; margin-top: 14px;">
+              Mostrar Campos
+            </button>
+
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="checkboxDropdownComponentes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="toggleDropdownComponentes" style="margin-right: 8px; margin-top: 14px;">
+                Filtrar Campos
+            </button>
+
+            <!-- DropDown Filtro Componentes -->
+            <div class="dropdown-menu" aria-labelledby="checkboxDropdownComponentes" v-show="showDropdownComponentes">
+              <label class="dropdown-item" @click="handleItemClick">
+                <input type="checkbox" v-model="columnVisibilityComponentes.nomeComponentes" class="custom-checkbox"/>
+                Nome
+              </label>
+              <label class="dropdown-item" @click="handleItemClick">
+                <input type="checkbox" v-model="columnVisibilityComponentes.dimensaoComponentes" class="custom-checkbox"/>
+                Dimensão
+              </label>
+              <label class="dropdown-item" @click="handleItemClick">
+                <input type="checkbox" v-model="columnVisibilityComponentes.precofixoComponentes" class="custom-checkbox"/>
+                Preço Fixo
+              </label>
+              <label class="dropdown-item" @click="handleItemClick">
+                <input type="checkbox" v-model="columnVisibilityComponentes.imagemComponentes" class="custom-checkbox">
+                Imagem
+              </label>
+            </div>
+          </div>
           <div class="modal-body modal-body-componentes">
             <table class="table table-Componentes">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Nome</th>
-                  <th>Dimensão</th>
-                  <th>Preço Fixo</th>
-                  <th>Imagem</th>
+                  <th>
+                    <label>#</label>
+                  </th>
+                  <th scope="col" v-if="columnVisibilityComponentes.nomeComponentes">
+                    <label>Nome</label>
+                  </th>
+                  <th scope="col" v-if="columnVisibilityComponentes.dimensaoComponentes">
+                    <label>Dimensão</label>
+                  </th>
+                  <th scope="col" v-if="columnVisibilityComponentes.precofixoComponentes">
+                    <label>Preço Fixo</label>
+                  </th>
+                  <th scope="col" v-if="columnVisibilityComponentes.imagemComponentes">
+                    <label>Imagem</label>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(componente, id) in selectedConsolaComponents" :key="id">
                   <td>{{ id + 1 }}</td>
-                  <td>{{ componente.nome }}</td>
-                  <td>{{ componente.dimensao }}</td>
-                  <td>{{ componente.precofixo }}</td>
-                  <td class="ImagensComponentes">
+                  <td v-if="columnVisibilityComponentes.nomeComponentes">{{ componente.nome }}</td>
+                  <td v-if="columnVisibilityComponentes.dimensaoComponentes">{{ componente.dimensao }}</td>
+                  <td v-if="columnVisibilityComponentes.precofixoComponentes">{{ componente.precofixo }}</td>
+                  <td class="ImagensComponentes" v-if="columnVisibilityComponentes.imagemComponentes">
                     <button class="btn btn-secondary" @click="openImageModal(componente.imagem, componente.nome)">Ver Imagem</button>
                   </td>
                 </tr>
@@ -184,9 +224,12 @@ export default {
       logo_src: "/img/logo.png",
       app_name: "Espaços Miranda",
       userId: null,
+      // imagem
       imagemModalSrc: '',
+      // Sofas / Componentes
       selectedConsolaName: '',
       imagemModalNome: '',
+      // filtros
       columnVisibility: {
         nome: true,
         material: true,
@@ -194,6 +237,15 @@ export default {
         preco: true,
         imagem: true,
         componentes: true,
+      },
+      showDropdownComponentes: false,
+      columnVisibilityComponentes: {
+        nomeComponentes: true,
+        materialComponentes: true,
+        dimensaoComponentes: true,
+        precofixoComponentes: true,
+        imagemComponentes: true,
+        acoesComponentes: true,
       },
       // componentes
       selectedConsolaComponents: [],
@@ -299,7 +351,23 @@ export default {
 
     closeImageModal() {
       $('#verImagemComponenteModal').modal('hide');
-    },    
+    },   
+    
+    // ---------------------- Filtro Componentes ---------------------- 
+        
+    toggleDropdownComponentes() {
+        this.showDropdownComponentes = !this.showDropdownComponentes;
+    },
+
+    toggleFilter(key) {
+        this.filterKey = this.filterKey === key ? null : key;
+    },
+
+    mostrarTodosCamposComponentes() {
+        for (const key in this.columnVisibilityComponentes) {
+            this.columnVisibilityComponentes[key] = true;
+        }
+    },
   }
 }
 </script>
@@ -327,26 +395,20 @@ export default {
 
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1320px; /* Casa: 1235px / Escola: 1320px */
+  margin-left: 1368px; /* Casa: 1235px / Escola: 1368px */
   margin-bottom: 3px;
 }
 
 /* Btn-FiltrarCampos */
 
-.dropdown-toggle { 
-  margin-bottom: 3px;
-}
-
 .custom-checkbox {
   margin-right: 8px;
   vertical-align: middle;
-  
 }
 
 .dropdown-menu {
   background-color: #333;
 }
-
 
 .dropdown-item {
   color: white;
