@@ -49,7 +49,7 @@
                   <label for="dimensao">Dimensão:</label>
                   <input type="text" class="form-control" id="dimensao" v-model="novoSofa.dimensao" autocomplete="off">
                 </div>
-                <!-- Campo Preço -->
+                <!-- Campo Preço 
                 <div class="form-group">
                   <label for="preco">Preço:</label>
                     <div class="input-group">
@@ -58,7 +58,7 @@
                         </div>
                         <input type="number" class="form-control" id="preco" v-model="novoSofa.preco" autocomplete="off">
                     </div>
-                </div>
+                </div> -->
                 <!-- Campo Imagem -->
                 <div class="form-group">
                     <label for="imagem">Imagem:</label>
@@ -191,14 +191,14 @@
                 <div class="mb-3" style="font-family: Verdana;">
                   <input type="text" class="form-control" placeholder="Nova Dimensão" v-model="editedSofa.dimensao">
                 </div>
-                <div class="mb-3" style="font-family: Verdana;">
+                <!-- <div class="mb-3" style="font-family: Verdana;">
                   <div class="input-group">
                       <div class="input-group-prepend">
                           <span class="input-group-text">€</span>
                       </div>
                       <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedSofa.preco">
                   </div>
-                </div>
+                </div> -->
                 <div class="mb-3" style="font-family: Verdana;">
                   <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedSofa.imagem">
                 </div>
@@ -533,7 +533,9 @@ export default {
     axios
       .get('http://localhost:3000/Sofas')
       .then((response) => {
-        this.items = response.data;
+        this.items = response.data;  
+        // Calcular Orçamento
+        this.calcularPrecoTotalComIVA();
       })
       .catch((error) => {
         console.error('Erro ao obter dados de Sofas:', error);
@@ -1203,6 +1205,31 @@ export default {
         for (const key in this.columnVisibilityComponentes) {
             this.columnVisibilityComponentes[key] = true;
         }
+    },
+
+    // ---------------------- Orçamento Produto ---------------------- 
+
+    calcularPrecoTotalComIVA() {
+      console.log("Itens:", this.items);
+      for (const sofa of this.items) {
+        let precoTotal = 0;
+        if (sofa.componentes && sofa.componentes.length > 0) {
+          for (const componente of sofa.componentes) {
+            console.log("Preço fixo do componente:", componente.nome, componente.precofixo);
+            if (componente.precofixo) {
+              precoTotal += componente.precofixo;
+            }
+          }
+        }
+        // Calcula o preço total com IVA
+        const precoTotalComIVA = precoTotal * 1.23;
+        const precoTotalComIvaELucro = precoTotalComIVA * 1.50;
+        // arredondar
+        const precoTotalArredondado = precoTotalComIvaELucro.toFixed(2);
+        // Atualiza o campo de preço do sofá com o preço total com IVA
+        sofa.preco = precoTotalArredondado;
+        console.log("Preço total com IVA do sofá", sofa.nome, ":", precoTotalArredondado);
+      }
     },
   },
 }
