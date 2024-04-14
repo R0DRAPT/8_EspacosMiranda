@@ -501,8 +501,8 @@ export default {
       novoSofa: {
         nome: '',
         dimensao: '',
+        preco: 0.0,
         material: '',
-        preco: null,
         imagem: ''
       },
       // Componentes
@@ -600,13 +600,11 @@ export default {
     axios.get(`/img/catalogo/ImagensArtigos/${this.editedSofa.imagem}`)
       .then(() => {
         // Se a imagem existe, continua com a atualização do sofá
-        this.editedSofa.preco = parseFloat(this.editedSofa.preco.toString().replace('€', '').trim());
         const SofaIdToUpdate = this.editedSofa.id;
         const updatedData = {
           nome: this.editedSofa.nome,
           material: this.editedSofa.material,
           dimensao: this.editedSofa.dimensao,
-          preco: this.editedSofa.preco,
           imagem: this.editedSofa.imagem,
         };
 
@@ -717,8 +715,6 @@ export default {
     },
 
     addSofa() {
-      this.novoSofa.preco = parseFloat(this.novoSofa.preco.toString().replace('€', '').trim());
-
       // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
       axios.get(`/img/catalogo/ImagensArtigos/${this.novoSofa.imagem}`)
         .then(() => {
@@ -843,22 +839,24 @@ export default {
                 id: novoComponenteId,
                 nome: this.novoComponenteSofa.nome,
                 dimensao: this.novoComponenteSofa.dimensao,
-                precofixo: parseFloat(this.novoComponenteSofa.precofixo.toString().replace('€', '').trim()),
+                precofixo: this.novoComponenteSofa.precofixo,
                 imagem: this.novoComponenteSofa.imagem
               });
-
-              // Limpar os campos do formulário após adicionar o componente
-              this.novoComponenteSofa.nome = '';
-              this.novoComponenteSofa.dimensao = '';
-              this.novoComponenteSofa.precofixo = '';
-              this.novoComponenteSofa.imagem = '';
-
+            
               // Atualizar o sofá no servidor
               axios.put(`http://localhost:3000/Sofas/${selectedSofa.id}`, selectedSofa)
                 .then(response => {
                   console.log("Componente adicionado ao sofá com sucesso:", response.data);
+
+                  // Limpar os campos do formulário após adicionar o componente
+                  this.novoComponenteSofa.nome = '';
+                  this.novoComponenteSofa.dimensao = '';
+                  this.novoComponenteSofa.precofixo = '';
+                  this.novoComponenteSofa.imagem = '';
+
                   // Fechar o modal de adição de componente
                   this.closeAddComponenteModal();
+                  
                   // Toastr de sucesso
                   toastr.success("Componente adicionado ao sofá com sucesso.", "Sucesso", {
                     closeButton: true,
@@ -933,6 +931,7 @@ export default {
         });
       }
     },
+
 
     // Botão Ver Imagem Componentes
 
@@ -1209,6 +1208,7 @@ export default {
 
     // ---------------------- Orçamento Produto ---------------------- 
 
+    // Função para calcular o preço total com IVA e atualizar o objeto na memória
     calcularPrecoTotalComIVA() {
       console.log("Itens:", this.items);
       for (const sofa of this.items) {
@@ -1218,6 +1218,7 @@ export default {
             console.log("Preço fixo do componente:", componente.nome, componente.precofixo);
             if (componente.precofixo) {
               precoTotal += componente.precofixo;
+              console.log("preco total", precoTotal);
             }
           }
         }
@@ -1228,9 +1229,20 @@ export default {
         const precoTotalArredondado = precoTotalComIvaELucro.toFixed(2);
         // Atualiza o campo de preço do sofá com o preço total com IVA
         sofa.preco = precoTotalArredondado;
+        console.log("sofa.preco = ", sofa.preco );
+
+        // Simula a atualização na base de dados
+        const index = this.items.findIndex(item => item.id === sofa.id);
+        if (index !== -1) {
+          this.items[index].preco = precoTotalArredondado;
+          console.log("Objeto atualizado na base de dados:", this.items[index]);
+        } else {
+          console.log("Erro: Objeto não encontrado na base de dados com o ID:", sofa.id);
+        }
+
         console.log("Preço total com IVA do sofá", sofa.nome, ":", precoTotalArredondado);
       }
-    },
+    }
   },
 }
 </script>

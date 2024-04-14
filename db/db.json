@@ -42,30 +42,30 @@
       "nome": "Sofá A",
       "material": "Couro",
       "dimensao": "400x100",
-      "preco": 1200,
       "imagem": "sofaIdeal.jpg",
       "id": 1,
+      "preco": "44.28",
       "componentes": [
         {
-          "nome": "Estrutura2",
-          "dimensao": "200x200",
-          "precofixo": 700,
-          "imagem": "estruturaSofa.jpg",
-          "id": 1
+          "id": 1,
+          "nome": "a",
+          "dimensao": "a",
+          "precofixo": 22,
+          "imagem": "banner1.jpg"
         },
         {
-          "nome": "Pés",
-          "dimensao": "4x4",
-          "precofixo": 70,
-          "imagem": "pesSofa.jpg",
-          "id": 2
+          "id": 2,
+          "nome": "2",
+          "dimensao": "2",
+          "precofixo": 2,
+          "imagem": "banner1.jpg"
         },
         {
-          "nome": "Espuma",
-          "dimensao": "350x300",
-          "precofixo": 150,
-          "imagem": "espumaSofa.jpg",
-          "id": 3
+          "id": 3,
+          "nome": "2",
+          "dimensao": "2",
+          "precofixo": 2,
+          "imagem": "banner1.jpg"
         }
       ]
     }
