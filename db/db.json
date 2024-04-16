@@ -44,46 +44,13 @@
       "dimensao": "400x100",
       "imagem": "sofaIdeal.jpg",
       "id": 1,
-      "preco": "44.28",
+      "preco": 5.54,
       "componentes": [
-        {
-          "id": 1,
-          "nome": "a",
-          "dimensao": "a",
-          "precofixo": 22,
-          "imagem": "banner1.jpg"
-        },
-        {
-          "id": 2,
-          "nome": "2",
-          "dimensao": "2",
-          "precofixo": 2,
-          "imagem": "banner1.jpg"
-        },
         {
           "id": 3,
           "nome": "2",
           "dimensao": "2",
-          "precofixo": 2,
-          "imagem": "banner1.jpg"
-        }
-      ]
-    }
-  ],
-  "Cadeiroes": [
-    {
-      "nome": "Cadeirao A",
-      "material": "Couro",
-      "dimensao": "Confortável",
-      "preco": 450,
-      "imagem": "sofacama.png",
-      "id": 1,
-      "componentes": [
-        {
-          "id": 1,
-          "nome": "Pés",
-          "dimensao": "4x4",
-          "precofixo": 20,
+          "precofixo": 3,
           "imagem": "banner1.jpg"
         }
       ]
@@ -113,7 +80,7 @@
       "nome": "Peca A ",
       "material": "Gesso",
       "dimensao": "Folha",
-      "preco": 231,
+      "preco": 3.69,
       "imagem": "sofacama.png",
       "id": 1,
       "componentes": [
@@ -121,7 +88,7 @@
           "id": 1,
           "nome": "Rodrigo",
           "dimensao": "1x1",
-          "precofixo": 123123,
+          "precofixo": 2,
           "imagem": "banner1.jpg"
         }
       ]
@@ -154,7 +121,7 @@
       "nome": "Mesas de Cabeceira A ",
       "material": "Madeira",
       "dimensao": "Escuro",
-      "preco": 231,
+      "preco": 3.69,
       "imagem": "Banner1.jpg",
       "id": 1,
       "componentes": [
@@ -162,7 +129,7 @@
           "id": 1,
           "nome": "aa3",
           "dimensao": "aa",
-          "precofixo": 11,
+          "precofixo": 2,
           "imagem": "Banner1.jpg"
         }
       ]

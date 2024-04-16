@@ -50,7 +50,7 @@
                   <input type="text" class="form-control" id="dimensao" v-model="novoMesaCabeceira.dimensao" autocomplete="off">
                 </div>
                 <!-- Campo Preço -->
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="preco">Preço:</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -58,7 +58,7 @@
                         </div>
                         <input type="number" class="form-control" id="preco" v-model="novoMesaCabeceira.preco" autocomplete="off">
                     </div>
-                </div>
+                </div> -->
                 <!-- Campo Imagem -->
                 <div class="form-group">
                     <label for="imagem">Imagem:</label>
@@ -109,7 +109,7 @@
       </div>
     </div>
 
-    <!-- Tabela Informação Sofas -->
+    <!-- Tabela Informação Mesa Cabeceira -->
     <table class="table table-striped">
       <thead>
         <tr>
@@ -123,7 +123,7 @@
             <label class="CamposSofas">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.dimensao">
-            <label class="CamposSofas">Dimensão</label>
+            <label class="CamposSofas">Dimensão (cm)</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
             <label class="CamposSofas">Preço</label>
@@ -190,15 +190,14 @@
               <div class="mb-3" style="font-family: Verdana;">
                 <input type="text" class="form-control" placeholder="Novo Dimensao" v-model="editedMesaCabeceira.dimensao">
               </div>
-              <div class="mb-3" style="font-family: Verdana;">
+              <!-- <div class="mb-3" style="font-family: Verdana;">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">€</span>
                     </div>
                     <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedMesaCabeceira.preco">
                 </div>
-              </div>
-              
+              </div> -->
               <div class="mb-3" style="font-family: Verdana;">
                 <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedMesaCabeceira.imagem">
               </div>
@@ -469,7 +468,7 @@ export default {
       showEditModal: false,
       showAddModal: false,
       showComponenteAddModal: false,
-      // Sofas / Componentes
+      // Mesa Cabeceira / Componentes
       selectedMesaCabeceiraName: '',
       selectedComponenteName: '',
       currentMesaCabeceiraId: null,
@@ -531,6 +530,8 @@ export default {
       .get('http://localhost:3000/MesasCabeceira')
       .then((response) => {
         this.items = response.data;
+        // Calcular Orçamento
+        this.calcularPrecoTotalComIVA();
       })
       .catch((error) => {
         console.error('Erro ao obter dados de Consolas:', error);
@@ -1200,6 +1201,45 @@ export default {
         for (const key in this.columnVisibilityComponentes) {
             this.columnVisibilityComponentes[key] = true;
         }
+    },
+
+    // ---------------------- Calcular Preço Total ---------------------- 
+
+    calcularPrecoTotalComIVA() {
+      // Iterar sobre cada sofá na lista
+      this.items.forEach(mesaCabeceira => {
+        // Inicializar o preço total com zero
+        let precoTotalComIVA = 0;
+        let precoTotalComIVAeLucro = 0;
+
+        // Verificar se o sofá possui componentes
+        if (mesaCabeceira.componentes && mesaCabeceira.componentes.length > 0) {
+          // Iterar sobre cada componente do sofá
+          mesaCabeceira.componentes.forEach(componente => {
+            // Adicionar o preço do componente ao preço total com IVA
+            precoTotalComIVA += componente.precofixo * 1.23; // 23% de IVA
+            precoTotalComIVAeLucro += precoTotalComIVA * 1.50; // 50€ de lucro
+            
+
+            // Arredondar o preço total com IVA para duas casas decimais
+            precoTotalComIVAeLucro = parseFloat(precoTotalComIVAeLucro.toFixed(2));
+          });
+
+          // Atualizar o campo 'preco' do sofá com o novo preço total com IVA
+          mesaCabeceira.preco = precoTotalComIVAeLucro;
+
+          // Fazer uma requisição PUT para atualizar o sofá no servidor
+          axios.put(`http://localhost:3000/MesasCabeceira/${mesaCabeceira.id}`, mesaCabeceira)
+            .then(response => {
+              console.log("Preço total com IVA atualizado com sucesso para o sofá:", response.data);
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar o preço total com IVA para o sofá:", error);
+            });
+        } else {
+          console.warn("O sofá", mesaCabeceira.nome, "não possui componentes.");
+        }
+      });
     },
   }
 }

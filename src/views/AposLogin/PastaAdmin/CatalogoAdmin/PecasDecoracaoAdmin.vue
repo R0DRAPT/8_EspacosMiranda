@@ -5,7 +5,7 @@
     <!-- Banner -->
     <img class="Banner" :src="BannerPecasDecor" alt="Banner" />
     <br /><br />
-    <h1 class="titulo">Pecas De Decoracao</h1>
+    <h1 class="titulo">Peças De Decoração</h1>
     <br />
 
     <!-- Dropdown-Filtro -->
@@ -50,7 +50,7 @@
                   <input type="text" class="form-control" id="dimensao" v-model="novoPeca.dimensao" autocomplete="off">
                 </div>
                 <!-- Campo Preço -->
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="preco">Preço:</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -58,7 +58,7 @@
                         </div>
                         <input type="number" class="form-control" id="preco" v-model="novoPeca.preco" autocomplete="off">
                     </div>
-                </div>
+                </div> -->
                 <!-- Campo Imagem -->
                 <div class="form-group">
                     <label for="imagem">Imagem:</label>
@@ -124,7 +124,7 @@
             <label class="CamposSofas">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.dimensao">
-            <label class="CamposSofas">Dimensão</label>
+            <label class="CamposSofas">Dimensão (cm)</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
             <label class="CamposSofas">Preço</label>
@@ -191,15 +191,14 @@
               <div class="mb-3" style="font-family: Verdana;">
                 <input type="text" class="form-control" placeholder="Novo Dimensao" v-model="editedPeca.dimensao">
               </div>
-              <div class="mb-3" style="font-family: Verdana;">
+              <!-- <div class="mb-3" style="font-family: Verdana;">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">€</span>
                     </div>
                     <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedPeca.preco">
                 </div>
-              </div>
-              
+              </div> -->
               <div class="mb-3" style="font-family: Verdana;">
                 <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedPeca.imagem">
               </div>
@@ -465,13 +464,14 @@ export default {
       userId: null,
       // imagem
       imagemModalSrc: '',
+      imagemModalComponenteSrc: '',
       imagemModalNome: '',
-      showEditModal: false,
       // Modais
+      showEditModal: false,
       showAddModal: false,
       showComponenteAddModal: false,
+      // Peças / Componentes
       selectedPecaName: '',
-      // Sofas / Componentes
       selectedComponenteName: '',
       currentPecaId: null,
       editedPeca: {},
@@ -532,6 +532,8 @@ export default {
       .get('http://localhost:3000/PecasDecor')
       .then((response) => {
         this.items = response.data;
+        // Calcular Orçamento
+        this.calcularPrecoTotalComIVA();
       })
       .catch((error) => {
         console.error('Erro ao obter dados da Peça:', error);
@@ -1201,6 +1203,45 @@ export default {
         for (const key in this.columnVisibilityComponentes) {
             this.columnVisibilityComponentes[key] = true;
         }
+    },
+
+    // ---------------------- Calcular Preço Total ---------------------- 
+
+    calcularPrecoTotalComIVA() {
+      // Iterar sobre cada peça na lista
+      this.items.forEach(peca => {
+        // Inicializar o preço total com zero
+        let precoTotalComIVA = 0;
+        let precoTotalComIVAeLucro = 0;
+
+        // Verificar se o peça possui componentes
+        if (peca.componentes && peca.componentes.length > 0) {
+          // Iterar sobre cada componente do peça
+          peca.componentes.forEach(componente => {
+            // Adicionar o preço do componente ao preço total com IVA
+            precoTotalComIVA += componente.precofixo * 1.23; // 23% de IVA
+            precoTotalComIVAeLucro += precoTotalComIVA * 1.50; // 50€ de lucro
+            
+
+            // Arredondar o preço total com IVA para duas casas decimais
+            precoTotalComIVAeLucro = parseFloat(precoTotalComIVAeLucro.toFixed(2));
+          });
+
+          // Atualizar o campo 'preco' do peça com o novo preço total com IVA
+          peca.preco = precoTotalComIVAeLucro;
+
+          // Fazer uma requisição PUT para atualizar o peça no servidor
+          axios.put(`http://localhost:3000/PecasDecor/${peca.id}`, peca)
+            .then(response => {
+              console.log("Preço total com IVA atualizado com sucesso para a peça:", response.data);
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar o preço total com IVA para a peça:", error);
+            });
+        } else {
+          console.warn("A peça", peca.nome, "não possui componentes.");
+        }
+      });
     },
   }
 }

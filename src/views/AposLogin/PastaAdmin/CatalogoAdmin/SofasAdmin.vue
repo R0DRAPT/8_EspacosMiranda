@@ -49,8 +49,8 @@
                   <label for="dimensao">Dimensão:</label>
                   <input type="text" class="form-control" id="dimensao" v-model="novoSofa.dimensao" autocomplete="off">
                 </div>
-                <!-- Campo Preço 
-                <div class="form-group">
+                <!-- Campo Preço -->
+                <!-- <div class="form-group">
                   <label for="preco">Preço:</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -123,7 +123,7 @@
             <label class="CamposSofas">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.dimensao">
-            <label class="CamposSofas">Dimensão</label>
+            <label class="CamposSofas">Dimensão (cm)</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
             <label class="CamposSofas">Preço</label>
@@ -501,8 +501,8 @@ export default {
       novoSofa: {
         nome: '',
         dimensao: '',
-        preco: 0.0,
         material: '',
+        preco: null,
         imagem: ''
       },
       // Componentes
@@ -533,7 +533,7 @@ export default {
     axios
       .get('http://localhost:3000/Sofas')
       .then((response) => {
-        this.items = response.data;  
+        this.items = response.data;
         // Calcular Orçamento
         this.calcularPrecoTotalComIVA();
       })
@@ -600,11 +600,13 @@ export default {
     axios.get(`/img/catalogo/ImagensArtigos/${this.editedSofa.imagem}`)
       .then(() => {
         // Se a imagem existe, continua com a atualização do sofá
+        this.editedSofa.preco = parseFloat(this.editedSofa.preco.toString().replace('€', '').trim());
         const SofaIdToUpdate = this.editedSofa.id;
         const updatedData = {
           nome: this.editedSofa.nome,
           material: this.editedSofa.material,
           dimensao: this.editedSofa.dimensao,
+          preco: this.editedSofa.preco,
           imagem: this.editedSofa.imagem,
         };
 
@@ -839,24 +841,22 @@ export default {
                 id: novoComponenteId,
                 nome: this.novoComponenteSofa.nome,
                 dimensao: this.novoComponenteSofa.dimensao,
-                precofixo: this.novoComponenteSofa.precofixo,
+                precofixo: parseFloat(this.novoComponenteSofa.precofixo.toString().replace('€', '').trim()),
                 imagem: this.novoComponenteSofa.imagem
               });
-            
+
+              // Limpar os campos do formulário após adicionar o componente
+              this.novoComponenteSofa.nome = '';
+              this.novoComponenteSofa.dimensao = '';
+              this.novoComponenteSofa.precofixo = '';
+              this.novoComponenteSofa.imagem = '';
+
               // Atualizar o sofá no servidor
               axios.put(`http://localhost:3000/Sofas/${selectedSofa.id}`, selectedSofa)
                 .then(response => {
                   console.log("Componente adicionado ao sofá com sucesso:", response.data);
-
-                  // Limpar os campos do formulário após adicionar o componente
-                  this.novoComponenteSofa.nome = '';
-                  this.novoComponenteSofa.dimensao = '';
-                  this.novoComponenteSofa.precofixo = '';
-                  this.novoComponenteSofa.imagem = '';
-
                   // Fechar o modal de adição de componente
                   this.closeAddComponenteModal();
-                  
                   // Toastr de sucesso
                   toastr.success("Componente adicionado ao sofá com sucesso.", "Sucesso", {
                     closeButton: true,
@@ -931,7 +931,6 @@ export default {
         });
       }
     },
-
 
     // Botão Ver Imagem Componentes
 
@@ -1206,43 +1205,44 @@ export default {
         }
     },
 
-    // ---------------------- Orçamento Produto ---------------------- 
+    // ---------------------- Calcular Preço Total ---------------------- 
 
-    // Função para calcular o preço total com IVA e atualizar o objeto na memória
     calcularPrecoTotalComIVA() {
-      console.log("Itens:", this.items);
-      for (const sofa of this.items) {
-        let precoTotal = 0;
+      // Iterar sobre cada sofá na lista
+      this.items.forEach(sofa => {
+        // Inicializar o preço total com zero
+        let precoTotalComIVA = 0;
+        let precoTotalComIVAeLucro = 0;
+
+        // Verificar se o sofá possui componentes
         if (sofa.componentes && sofa.componentes.length > 0) {
-          for (const componente of sofa.componentes) {
-            console.log("Preço fixo do componente:", componente.nome, componente.precofixo);
-            if (componente.precofixo) {
-              precoTotal += componente.precofixo;
-              console.log("preco total", precoTotal);
-            }
-          }
-        }
-        // Calcula o preço total com IVA
-        const precoTotalComIVA = precoTotal * 1.23;
-        const precoTotalComIvaELucro = precoTotalComIVA * 1.50;
-        // arredondar
-        const precoTotalArredondado = precoTotalComIvaELucro.toFixed(2);
-        // Atualiza o campo de preço do sofá com o preço total com IVA
-        sofa.preco = precoTotalArredondado;
-        console.log("sofa.preco = ", sofa.preco );
+          // Iterar sobre cada componente do sofá
+          sofa.componentes.forEach(componente => {
+            // Adicionar o preço do componente ao preço total com IVA
+            precoTotalComIVA += componente.precofixo * 1.23; // 23% de IVA
+            precoTotalComIVAeLucro += precoTotalComIVA * 1.50; // 50€ de lucro
+            
 
-        // Simula a atualização na base de dados
-        const index = this.items.findIndex(item => item.id === sofa.id);
-        if (index !== -1) {
-          this.items[index].preco = precoTotalArredondado;
-          console.log("Objeto atualizado na base de dados:", this.items[index]);
+            // Arredondar o preço total com IVA para duas casas decimais
+            precoTotalComIVAeLucro = parseFloat(precoTotalComIVAeLucro.toFixed(2));
+          });
+
+          // Atualizar o campo 'preco' do sofá com o novo preço total com IVA
+          sofa.preco = precoTotalComIVAeLucro;
+
+          // Fazer uma requisição PUT para atualizar o sofá no servidor
+          axios.put(`http://localhost:3000/Sofas/${sofa.id}`, sofa)
+            .then(response => {
+              console.log("Preço total com IVA atualizado com sucesso para o sofá:", response.data);
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar o preço total com IVA para o sofá:", error);
+            });
         } else {
-          console.log("Erro: Objeto não encontrado na base de dados com o ID:", sofa.id);
+          console.warn("O sofá", sofa.nome, "não possui componentes.");
         }
-
-        console.log("Preço total com IVA do sofá", sofa.nome, ":", precoTotalArredondado);
-      }
-    }
+      });
+    },
   },
 }
 </script>
