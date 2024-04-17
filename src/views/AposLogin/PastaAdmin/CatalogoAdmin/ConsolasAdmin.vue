@@ -50,7 +50,7 @@
                   <input type="text" class="form-control" id="dimensao" v-model="novoConsola.dimensao" autocomplete="off">
                 </div>
               <!-- Campo Preço -->
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="preco">Preço:</label>
                   <div class="input-group">
                       <div class="input-group-prepend">
@@ -58,7 +58,7 @@
                       </div>
                       <input type="number" class="form-control" id="preco" v-model="novoConsola.preco" autocomplete="off">
                   </div>
-              </div>
+              </div> -->
               <!-- Campo Imagem -->
               <div class="form-group">
                   <label for="imagem">Imagem:</label>
@@ -117,25 +117,25 @@
             <label>#</label>
           </th>
           <th scope="col" v-if="columnVisibility.nome">
-            <label class="CamposSofas">Nome</label>
+            <label class="CamposConsolas">Nome</label>
           </th>
           <th scope="col" v-if="columnVisibility.material">
-            <label class="CamposSofas">Material</label>
+            <label class="CamposConsolas">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.dimensao">
-            <label class="CamposSofas">Dimensão</label>
+            <label class="CamposConsolas">Dimensão (cm)</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
-            <label class="CamposSofas">Preço</label>
+            <label class="CamposConsolas">Preço</label>
           </th>
           <th scope="col" v-if="columnVisibility.imagem">
-            <label class="CamposSofas">Imagem</label>
+            <label class="CamposConsolas">Imagem</label>
           </th>
           <th scope="col" v-if="columnVisibility.componentes">
-            <label class="CamposSofas">Componentes</label>
+            <label class="CamposConsolas">Componentes</label>
           </th>
           <th scope="col" v-if="columnVisibility.acoes">
-            <label class="CamposSofas">Ações</label>
+            <label class="CamposConsolas">Ações</label>
           </th>
         </tr>
       </thead>
@@ -191,14 +191,14 @@
               <div class="mb-3" style="font-family: Verdana;">
                 <input type="text" class="form-control" placeholder="Nova Dimensão" v-model="editedConsola.dimensao">
               </div>
-              <div class="mb-3" style="font-family: Verdana;">
+              <!-- <div class="mb-3" style="font-family: Verdana;">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">€</span>
                     </div>
                     <input type="number" class="form-control" placeholder="Novo Preço" v-model="editedConsola.preco">
                 </div>
-              </div>
+              </div> -->
               
               <div class="mb-3" style="font-family: Verdana;">
                 <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedConsola.imagem">
@@ -473,7 +473,7 @@ export default {
       showEditModal: false,
       showAddModal: false,
       showComponenteAddModal: false,
-      // Sofas / Componentes
+      // Consolas / Componentes
       selectedConsolaName: '',
       selectedComponenteName: '',
       currentConsolaId: null,
@@ -535,6 +535,8 @@ export default {
       .get('http://localhost:3000/Consolas')
       .then((response) => {
         this.items = response.data;
+        // Calcular Orçamento
+        this.calcularPrecoTotalComIVA();
       })
       .catch((error) => {
         console.error('Erro ao obter dados de Consolas:', error);
@@ -717,8 +719,6 @@ export default {
     },
 
     addConsola() {
-      this.novoConsola.preco = parseFloat(this.novoConsola.preco.toString().replace('€', '').trim());
-
       // Verifica se a imagem inserida existe na pasta /public/img/catalogo/ImagensArtigos/
       axios.get(`/img/catalogo/ImagensArtigos/${this.novoConsola.imagem}`)
         .then(() => {
@@ -1208,6 +1208,45 @@ export default {
         for (const key in this.columnVisibilityComponentes) {
             this.columnVisibilityComponentes[key] = true;
         }
+    },
+
+    // ---------------------- Calcular Preço Total ---------------------- 
+
+    calcularPrecoTotalComIVA() {
+      // Iterar sobre cada sofá na lista
+      this.items.forEach(consola => {
+        // Inicializar o preço total com zero
+        let precoTotalComIVA = 0;
+        let precoTotalComIVAeLucro = 0;
+
+        // Verificar se o sofá possui componentes
+        if (consola.componentes && consola.componentes.length > 0) {
+          // Iterar sobre cada componente do sofá
+          consola.componentes.forEach(componente => {
+            // Adicionar o preço do componente ao preço total com IVA
+            precoTotalComIVA += componente.precofixo * 1.23; // 23% de IVA
+            precoTotalComIVAeLucro += precoTotalComIVA * 1.50; // 50€ de lucro
+            
+
+            // Arredondar o preço total com IVA para duas casas decimais
+            precoTotalComIVAeLucro = parseFloat(precoTotalComIVAeLucro.toFixed(2));
+          });
+
+          // Atualizar o campo 'preco' do sofá com o novo preço total com IVA
+          consola.preco = precoTotalComIVAeLucro;
+
+          // Fazer uma requisição PUT para atualizar o sofá no servidor
+          axios.put(`http://localhost:3000/Consolas/${consola.id}`, consola)
+            .then(response => {
+              console.log("Preço total com IVA atualizado com sucesso para o sofá:", response.data);
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar o preço total com IVA para o sofá:", error);
+            });
+        } else {
+          console.warn("O sofá", consola.nome, "não possui componentes.");
+        }
+      });
     },
   }
 }

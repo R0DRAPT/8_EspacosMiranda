@@ -118,25 +118,25 @@
             <label>#</label>
           </th>
           <th scope="col" v-if="columnVisibility.nome">
-            <label class="CamposSofas">Nome</label>
+            <label class="CamposPecas">Nome</label>
           </th>
           <th scope="col" v-if="columnVisibility.material">
-            <label class="CamposSofas">Material</label>
+            <label class="CamposPecas">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.dimensao">
-            <label class="CamposSofas">Dimensão (cm)</label>
+            <label class="CamposPecas">Dimensão (cm)</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
-            <label class="CamposSofas">Preço</label>
+            <label class="CamposPecas">Preço</label>
           </th>
           <th scope="col" v-if="columnVisibility.imagem">
-            <label class="CamposSofas">Imagem</label>
+            <label class="CamposPecas">Imagem</label>
           </th>
           <th scope="col" v-if="columnVisibility.componentes">
-            <label class="CamposSofas">Componentes</label>
+            <label class="CamposPecas">Componentes</label>
           </th>
           <th scope="col" v-if="columnVisibility.acoes">
-            <label class="CamposSofas">Ações</label>
+            <label class="CamposPecas">Ações</label>
           </th>
         </tr>
       </thead>
@@ -1312,8 +1312,8 @@ export default {
   text-align: center;
 }
 
-/* CamposSofas */
-.CamposSofas {
+/* CamposPecas */
+.CamposPecas {
     background-color: transparent;
     border: none;
     cursor: default;

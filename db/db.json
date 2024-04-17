@@ -56,6 +56,25 @@
       ]
     }
   ],
+  "Cadeiroes": [
+    {
+      "nome": "Cadeirao A",
+      "material": "Couro",
+      "dimensao": "Confortável",
+      "preco": 3.69,
+      "imagem": "sofacama.png",
+      "id": 1,
+      "componentes": [
+        {
+          "id": 1,
+          "nome": "Pés",
+          "dimensao": "4x4",
+          "precofixo": 2,
+          "imagem": "banner1.jpg"
+        }
+      ]
+    }
+  ],
   "Consolas": [
     {
       "nome": "Consola A",
@@ -114,6 +133,23 @@
       "imagem": "sofacama.png",
       "id": 1,
       "componentes": []
+    },
+    {
+      "nome": "aa",
+      "dimensao": "aa",
+      "material": "aa",
+      "preco": 5.54,
+      "imagem": "banner1.jpg",
+      "id": 2,
+      "componentes": [
+        {
+          "id": 1,
+          "nome": "aa",
+          "dimensao": "aa",
+          "precofixo": 3,
+          "imagem": "banner1.jpg"
+        }
+      ]
     }
   ],
   "MesasCabeceira": [
@@ -140,10 +176,18 @@
       "nome": "Cama A ",
       "material": "Madeira",
       "dimensao": "Escuro",
-      "preco": 123,
+      "preco": 3.69,
       "imagem": "Banner1.jpg",
       "id": 1,
-      "componentes": []
+      "componentes": [
+        {
+          "id": 1,
+          "nome": "aa",
+          "dimensao": "aa",
+          "precofixo": 2,
+          "imagem": "banner1.jpg"
+        }
+      ]
     }
   ],
   "Mesas": [
@@ -155,14 +199,6 @@
       "imagem": "sofacama.png",
       "id": 1,
       "componentes": []
-    },
-    {
-      "nome": "testes",
-      "material": "as",
-      "dimensao": "a",
-      "preco": 13,
-      "imagem": "Banner1.jpg",
-      "id": 2
     }
   ]
 }

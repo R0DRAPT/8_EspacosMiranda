@@ -61,7 +61,7 @@
             <label class="CamposSofas">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.dimensao">
-            <label class="CamposSofas">Dimensão</label>
+            <label class="CamposSofas">Dimensão (cm)</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
             <label class="CamposSofas">Preço</label>
@@ -80,7 +80,7 @@
           <td v-if="columnVisibility.nome">{{ item.nome }}</td>
           <td v-if="columnVisibility.material">{{ item.material }}</td>
           <td v-if="columnVisibility.dimensao">{{ item.dimensao }}</td>
-          <td v-if="columnVisibility.preco">{{ item.preco }}</td>
+          <td v-if="columnVisibility.preco">{{ item.preco }}€</td>
           <td v-if="columnVisibility.imagem">
             <button class="btn btn-secondary" @click="verImagem(item.imagem, item.nome)">Ver Imagem</button>
           </td>

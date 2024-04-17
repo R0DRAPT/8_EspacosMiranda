@@ -117,25 +117,25 @@
             <label>#</label>
           </th>
           <th scope="col" v-if="columnVisibility.nome">
-            <label class="CamposSofas">Nome</label>
+            <label class="CamposMesasCabeceira">Nome</label>
           </th>
           <th scope="col" v-if="columnVisibility.material">
-            <label class="CamposSofas">Material</label>
+            <label class="CamposMesasCabeceira">Material</label>
           </th>
           <th scope="col" v-if="columnVisibility.dimensao">
-            <label class="CamposSofas">Dimensão (cm)</label>
+            <label class="CamposMesasCabeceira">Dimensão (cm)</label>
           </th>
           <th scope="col" v-if="columnVisibility.preco">
-            <label class="CamposSofas">Preço</label>
+            <label class="CamposMesasCabeceira">Preço</label>
           </th>
           <th scope="col" v-if="columnVisibility.imagem">
-            <label class="CamposSofas">Imagem</label>
+            <label class="CamposMesasCabeceira">Imagem</label>
           </th>
           <th scope="col" v-if="columnVisibility.componentes">
-            <label class="CamposSofas">Componentes</label>
+            <label class="CamposMesasCabeceira">Componentes</label>
           </th>
           <th scope="col" v-if="columnVisibility.acoes">
-            <label class="CamposSofas">Ações</label>
+            <label class="CamposMesasCabeceira">Ações</label>
           </th>
         </tr>
       </thead>
@@ -1306,8 +1306,8 @@ export default {
   text-align: center;
 }
 
-/* CamposSofas */
-.CamposSofas {
+/* CamposMesasCabeceira */
+.CamposMesasCabeceira {
     background-color: transparent;
     border: none;
     cursor: default;
