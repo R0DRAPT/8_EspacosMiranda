@@ -43,7 +43,7 @@
               <!-- Chave -->
               <div class="mb-3" style="font-family: Verdana;">
                   <input type="text" class="form-control" id="chave" placeholder="Chave" v-model="editedData.chave" autocomplete="off" :readonly="!isEditing">
-              </div>>
+              </div>
 
             </form>
           </div>
@@ -690,7 +690,7 @@ th, td {
 
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 826px;
+  margin-left: 804px; /*  Escola - 826px / casa F11 - 804px */
   margin-bottom: 3px;
 }
 

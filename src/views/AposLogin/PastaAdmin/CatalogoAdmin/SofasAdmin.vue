@@ -430,7 +430,7 @@
                   <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedComponente.imagem">
                 </div>
                 <div class="mb-3 corpo-modal-imagem" v-if="editedComponente.imagem">
-                  <img :src="`/img/catalogo/ImagensArtigos/${editedComponente.imagem}`" alt="Imagem">
+                  <img :src="`/img/catalogo/ImagensComponentes/${editedComponente.imagem}`" alt="Imagem">
                 </div>
               </form>
             </div>
@@ -1269,7 +1269,7 @@ export default {
 /* Botão que mexe com os outros */
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1320px; /* Casa: 1235px / Escola: 1320px */
+  margin-left: 1270px; /* Casa: 1235px / Casa f11: 1270px / Escola: 1320px */
   margin-bottom: 3px;
 }
 

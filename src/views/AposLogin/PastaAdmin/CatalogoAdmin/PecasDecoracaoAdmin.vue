@@ -429,7 +429,7 @@
                   <input type="text" class="form-control" placeholder="Nova imagem" v-model="editedComponente.imagem">
                 </div>
                 <div class="mb-3 corpo-modal-imagem" v-if="editedComponente.imagem">
-                  <img :src="`/img/catalogo/ImagensArtigos/${editedComponente.imagem}`" alt="Imagem">
+                  <img :src="`/img/catalogo/ImagensComponentes/${editedComponente.imagem}`" alt="Imagem">
                 </div>
               </form>
             </div>

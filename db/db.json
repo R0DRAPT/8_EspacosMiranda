@@ -13,28 +13,10 @@
   ],
   "users": [
     {
-      "email": "macedorodrigo63@gmail.com",
-      "username": "6161",
-      "password": "61",
-      "id": 6
-    },
-    {
-      "email": "macedorodrigo63@gmail.com",
-      "username": "1",
-      "password": "1",
-      "id": 10
-    },
-    {
-      "email": "macedorodrigo63@gmail.com",
-      "username": "Rodrigo",
-      "password": "123",
-      "id": 12
-    },
-    {
-      "email": "aaa@aaa.gmail.com",
-      "username": "aaaaaa",
-      "password": "123",
-      "id": 13
+      "email": "teste@gmail.com",
+      "username": "teste",
+      "password": "teste",
+      "id": 14
     }
   ],
   "Sofas": [
@@ -44,14 +26,35 @@
       "dimensao": "400x100",
       "imagem": "sofaIdeal.jpg",
       "id": 1,
-      "preco": 5.54,
+      "preco": 7011,
       "componentes": [
         {
           "id": 3,
-          "nome": "2",
-          "dimensao": "2",
-          "precofixo": 3,
-          "imagem": "banner1.jpg"
+          "nome": "Braços",
+          "dimensao": "3x2",
+          "precofixo": 10,
+          "imagem": "bracosSofa.jpg"
+        },
+        {
+          "id": 2,
+          "nome": "Espuma",
+          "dimensao": "250x100",
+          "precofixo": 250,
+          "imagem": "espumaSofa.jpg"
+        },
+        {
+          "id": 3,
+          "nome": "Estrutura",
+          "dimensao": "300x200x50",
+          "precofixo": 1500,
+          "imagem": "estruturaSofa.jpg"
+        },
+        {
+          "id": 4,
+          "nome": "Pes",
+          "dimensao": "2x4",
+          "precofixo": 10,
+          "imagem": "pesSofa.jpg"
         }
       ]
     }
