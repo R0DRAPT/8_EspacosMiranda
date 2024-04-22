@@ -61,11 +61,11 @@
   ],
   "Cadeiroes": [
     {
-      "nome": "Cadeirao A",
-      "material": "Couro",
-      "dimensao": "Confortável",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
       "preco": 3.69,
-      "imagem": "sofacama.png",
+      "imagem": "noImage.jpg",
       "id": 1,
       "componentes": [
         {
@@ -80,128 +80,126 @@
   ],
   "Consolas": [
     {
-      "nome": "Consola A",
-      "material": "Couro",
-      "dimensao": "Confortável",
-      "preco": 23123,
-      "imagem": "sofacama.png",
-      "id": 1,
-      "componentes": []
-    },
-    {
-      "nome": "Teste3",
-      "material": "1233",
-      "dimensao": "1233",
-      "preco": 1233,
-      "imagem": "Banner1.jpg",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
+      "preco": 3.69,
+      "imagem": "noImage.jpg",
       "id": 2
     }
   ],
   "PecasDecor": [
     {
-      "nome": "Peca A ",
-      "material": "Gesso",
-      "dimensao": "Folha",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
       "preco": 3.69,
-      "imagem": "sofacama.png",
+      "imagem": "noImage.jpg",
       "id": 1,
       "componentes": [
         {
           "id": 1,
-          "nome": "Rodrigo",
-          "dimensao": "1x1",
+          "nome": "teste",
+          "dimensao": "teste",
           "precofixo": 2,
-          "imagem": "banner1.jpg"
+          "imagem": "noImage.jpg"
         }
       ]
     }
   ],
   "Cadeiras": [
     {
-      "nome": "Cadeira A ",
-      "material": "Madeira",
-      "dimensao": "Pequena",
-      "preco": 213133,
-      "imagem": "sofacama.png",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
+      "preco": 3.69,
+      "imagem": "noImage.jpg",
       "id": 1,
-      "componentes": []
+      "componentes": [
+        {
+          "id": 1,
+          "nome": "teste",
+          "dimensao": "teste",
+          "precofixo": 2,
+          "imagem": "noImage.jpg"
+        }
+      ]
     }
   ],
   "Banquetas": [
     {
-      "nome": "Banqueta A ",
-      "material": "Pelo",
-      "dimensao": "Grande",
-      "preco": 31,
-      "imagem": "sofacama.png",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
+      "preco": 3.69,
+      "imagem": "noImage.jpg",
       "id": 1,
-      "componentes": []
-    },
-    {
-      "nome": "aa",
-      "dimensao": "aa",
-      "material": "aa",
-      "preco": 5.54,
-      "imagem": "banner1.jpg",
-      "id": 2,
       "componentes": [
         {
           "id": 1,
-          "nome": "aa",
-          "dimensao": "aa",
-          "precofixo": 3,
-          "imagem": "banner1.jpg"
+          "nome": "teste",
+          "dimensao": "teste",
+          "precofixo": 2,
+          "imagem": "noImage.jpg"
         }
       ]
     }
   ],
   "MesasCabeceira": [
     {
-      "nome": "Mesas de Cabeceira A ",
-      "material": "Madeira",
-      "dimensao": "Escuro",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
       "preco": 3.69,
-      "imagem": "Banner1.jpg",
+      "imagem": "noImage.jpg",
       "id": 1,
       "componentes": [
         {
           "id": 1,
-          "nome": "aa3",
-          "dimensao": "aa",
+          "nome": "teste",
+          "dimensao": "teste",
           "precofixo": 2,
-          "imagem": "Banner1.jpg"
+          "imagem": "noImage.jpg"
         }
       ]
     }
   ],
   "Camas": [
     {
-      "nome": "Cama A ",
-      "material": "Madeira",
-      "dimensao": "Escuro",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
       "preco": 3.69,
-      "imagem": "Banner1.jpg",
+      "imagem": "noImage.jpg",
       "id": 1,
       "componentes": [
         {
           "id": 1,
-          "nome": "aa",
-          "dimensao": "aa",
+          "nome": "teste",
+          "dimensao": "teste",
           "precofixo": 2,
-          "imagem": "banner1.jpg"
+          "imagem": "noImage.jpg"
         }
       ]
     }
   ],
   "Mesas": [
     {
-      "nome": "Mesas A ",
-      "material": "Madeira",
-      "dimensao": "Escuro",
-      "preco": 32133,
-      "imagem": "sofacama.png",
+      "nome": "teste",
+      "material": "teste",
+      "dimensao": "teste",
+      "preco": 3.69,
+      "imagem": "noImage.jpg",
       "id": 1,
-      "componentes": []
+      "componentes": [
+        {
+          "id": 1,
+          "nome": "teste",
+          "dimensao": "teste",
+          "precofixo": 2,
+          "imagem": "noImage.jpg"
+        }
+      ]
     }
   ]
 }
