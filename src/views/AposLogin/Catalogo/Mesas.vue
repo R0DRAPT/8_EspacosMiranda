@@ -396,7 +396,7 @@ export default {
 
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1318px; /* Casa: 1284px / Casa F11: 1318px / Escola: 1368px */
+  margin-left: 1230px; /* Casa: 1284px / Casa F11: 1318px / Escola: 1368px / Escola F11: 1230px*/
   margin-bottom: 3px;
 }
 

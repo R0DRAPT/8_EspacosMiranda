@@ -672,7 +672,7 @@ export default {
       if (confirmDelete) {
         axios.delete(`http://localhost:3000/Cadeiras/${cadeiraId}`)
           .then(response => {
-            console.log("Cadeira eliminado com sucesso:", response.data);
+            console.log("Cadeira eliminada com sucesso:", response.data);
             // Toastr de sucesso
             toastr.success("Cadeira eliminada com sucesso. (Reiniciando a página em 5 segundos)", "Sucesso", {
                 closeButton: true,
@@ -1276,7 +1276,7 @@ export default {
 /* Botão que mexe com os outros */
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1270px; /* Casa: 1235px / Casa f11: 1270px / Escola: 1320px */
+  margin-left: 1180px; /* Casa: 1235px / Casa f11: 1270px / Escola: 1320px / Escola F11: 1180px*/
   margin-bottom: 3px;
 }
 

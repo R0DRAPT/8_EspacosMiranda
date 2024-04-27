@@ -690,7 +690,7 @@ th, td {
 
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 804px; /*  Escola - 826px / casa F11 - 804px */
+  margin-left: 744px; /*  Escola - 826px / Escola F11 - 744px / casa F11 - 804px */
   margin-bottom: 3px;
 }
 

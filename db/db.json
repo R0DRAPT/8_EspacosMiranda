@@ -70,10 +70,10 @@
       "componentes": [
         {
           "id": 1,
-          "nome": "Pés",
-          "dimensao": "4x4",
+          "nome": "teste",
+          "dimensao": "teste",
           "precofixo": 2,
-          "imagem": "banner1.jpg"
+          "imagem": "noImage.jpg"
         }
       ]
     }

@@ -1275,7 +1275,7 @@ export default {
 /* Botão que mexe com os outros */
 .btn-MostrarTudo {
   margin-right: 8px;
-  margin-left: 1270px; /* Casa: 1235px / Casa f11: 1270px / Escola: 1320px */
+  margin-left: 1180px; /* Casa: 1235px / Casa f11: 1270px / Escola: 1320px / Escola F11: 1180px*/
   margin-bottom: 3px;
 }
 
